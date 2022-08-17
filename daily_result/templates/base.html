@@ -1,0 +1,38 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}{% endblock title %}</title>
+        <link type="text/css" rel="stylesheet" href="{% static 'css/style.css' %}">
+        {% block head %}{% endblock head %}
+    </head>
+    <body>
+        <!-- ヘッダー -->
+        <nav class="nav-main">
+            <div class="container-header">
+                <ul class="header-list">
+                    <li class="header-inner-li"><a class="text-white">MENU1</a></li>
+                    <li class="header-inner-li"><a class="text-white">MENU2</a></li>
+                    <li class="header-inner-li"><a class="text-white">MENU3</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        {% block header %}{% endblock header %}
+
+        {% block contents %}{% endblock contents %}
+
+        <!-- フッター -->
+        <footer>
+            <div class="container-footer">
+                <p class="text-white block center-v text-footer">thanks</p>
+            </div>
+        </footer>
+
+        <!-- js読み込み -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+        <script src="{% static 'js/main.js' %}"></script>
+    </body>
+</html>

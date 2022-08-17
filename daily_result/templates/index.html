@@ -1,10 +1,13 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    <h1>こんにちわ</h1>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}湯けむり競艇開発部専用ページ{% endblock title %}
+
+{% block contents %}
+<div class="container-contents-outer">
+    <div class="container-contents-inner">
+        <h1 class="main-text">湯けむり開発部専用ページ</h1>
+    </div>
+</div>
+{% endblock contents %}

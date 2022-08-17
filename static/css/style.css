@@ -1,0 +1,75 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+/* 共通 */
+
+.text-white {
+    color: aliceblue;
+}
+
+.block {
+    display: block;
+}
+
+.center-v {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%);
+    transform: translateX(-50%);
+}
+
+/* ヘッダー */
+
+.nav-main {
+    background-color: black;
+    height: 60px;
+}
+
+.container-header {
+    height: 100%;
+    position: relative;
+}
+
+.header-list {
+    display: flex;
+    list-style: none;       /* リストの「・」を消す  */
+    justify-content: flex-end;
+    align-items: center;
+    position: absolute;
+    top: 20px;
+    left: 950px;
+}
+
+.header-inner-li {
+    margin-left: 2.75vw;   /* リストの横の空白 */
+    letter-spacing: 0.25em;  /* 文字間隔　 */
+}
+
+/* 見出し */
+
+.container-contents-outer {
+    display: block;
+    text-align: center;
+    height: 80%;
+}
+
+.container-contents-inner {
+    position: relative;
+    top: 50px;
+}
+
+.main-text {
+    display: block;
+    top: 50px;
+}
+
+/* フッター */
+
+.container-footer {
+    background-color: black;
+    height: 60px;
+    width: 100%;
+}
