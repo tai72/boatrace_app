@@ -6,6 +6,7 @@
         <meta charset="UTF-8">
         <title>{% block title %}{% endblock title %}</title>
         <link type="text/css" rel="stylesheet" href="{% static 'css/style.css' %}">
+        <link type="text/css" rel="stylesheet" href="{% static 'css/daily_result.css' %}">
         {% block head %}{% endblock head %}
     </head>
     <body>
@@ -13,9 +14,10 @@
         <nav class="nav-main">
             <div class="container-header">
                 <ul class="header-list">
-                    <li class="header-inner-li"><a class="text-white">MENU1</a></li>
+                    <li class="header-inner-li"><a class="text-white" href="{% url 'daily_result:daily_result_form' %}">MENU1</a></li>
                     <li class="header-inner-li"><a class="text-white">MENU2</a></li>
                     <li class="header-inner-li"><a class="text-white">MENU3</a></li>
+                    <li class="header-inner-li"><a class="text-white" href="{% url 'daily_result:index' %}">TOP</a></li>
                 </ul>
             </div>
         </nav>

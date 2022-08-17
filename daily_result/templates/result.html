@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Daily Result{% endblock title %}
+
+{% block contents %}
+<div class="container-contents-outer">
+    <div class="container-contents-inner">
+        <h1 class="main-text">Daily Result</h1>
+    </div>
+    <div class="container-result">
+        <h3>benefit : {{ benefit }}</h3>
+    </div>
+</div>
+{% endblock contents %}
