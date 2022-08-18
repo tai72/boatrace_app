@@ -1,0 +1,94 @@
+.contact {
+    position: relative;
+}
+
+.h1-contact {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+form {
+    padding: 100px 500px;
+}
+
+dl {
+    width: 100%;
+}
+
+dd {
+    margin-left: 100px;
+}
+
+form dl dt {
+    width: 100px;
+    float: left;
+    clear: both;
+    padding: 25px 0;
+}
+
+form dl dd {
+    padding: 25px 0;
+}
+
+.field-common {
+    /* background-color: #dfd8d0; */
+    height: 28px;
+    width: 20em;
+    font-size: 1rem;
+    border-bottom: 1px solid #201f1d4f;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-radius: 0.2em;
+    transition: all .6s ease;
+}
+
+.field-common:focus {
+    outline: none;
+    animation-name: underLineAnime;
+    animation-fill-mode: forwards;
+    animation-duration: 0.8s;
+}
+
+@keyframes underLineAnime {
+    0% {
+        border-bottom: 1px solid #201f1d4f;
+    }
+
+    100% {
+        border-bottom: 3px solid #a1410a4f;
+    }
+}
+
+.textarea_ {
+    width: 30em;
+    height: 200px;
+    resize: none;
+}
+
+button {
+    position: absolute;
+    font-size: 15px;
+    margin-top: 75px;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 40px;
+    width: 100px;
+    border-radius: 5px;
+    background-color: rgb(116, 114, 111);
+    color: rgb(239, 236, 232);
+    font-family: 'Quicksand', sans-serif;
+}
+
+button:hover {
+    opacity: 0.75;
+    box-shadow: 3px 3px 5px rgb(29, 22, 1);
+}
+
+/* 結果表示画面 */
+
+.container-result {
+    position: relative;
+    top: 100px;
+}
