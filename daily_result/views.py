@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.views import generic
 
+from . import models
+
 
 class IndexView(generic.TemplateView):
     template_name = "index.html"
@@ -17,10 +19,11 @@ class DailyResultFormView(generic.TemplateView):
             'race_no': request.POST['race_no'],
         }
 
-        params = {
-            "benefit": "もうちょいまってねん",
-        }
-        return render(request, 'result.html', params)
+        # models.pyからオブジェクト作成
+        result = models.GetResult()
+        info = result.get_daily_betting_result(context)
+
+        return render(request, 'result.html', info)
 
 class DailyResultView(generic.TemplateView):
     """フォーム情報を受け取り、表示する"""
