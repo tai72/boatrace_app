@@ -12,7 +12,6 @@ class DailyResultFormView(generic.TemplateView):
     template_name = "form.html"
 
     def post(self, request):
-        message = 'メッセージ受け取りしました！'
         context = {
             'race_date': request.POST['race_date'],
             'place_id': request.POST['place_id'],
@@ -28,3 +27,27 @@ class DailyResultFormView(generic.TemplateView):
 class DailyResultView(generic.TemplateView):
     """フォーム情報を受け取り、表示する"""
     template_name = "result.html"
+
+class ProbFormView(generic.TemplateView):
+    """予測確率を表示"""
+    template_name = "prob_form.html"
+
+    def post(self, request):
+        context = {
+            'race_date': request.POST['race_date'],
+            'place_id': request.POST['place_id'],
+            'race_no': request.POST['race_no'],
+        }
+
+        # models.py の　Probget_prob()から各買い目の確率を取得.
+        prob = models.Prob()
+        info = prob.get_prob(context)
+        info = {
+            "abc": 999
+        }
+
+        return render(request, 'prob.html', info)
+
+class ProbView(generic.TemplateView):
+    """確率出力"""
+    template_name = "prob.html"

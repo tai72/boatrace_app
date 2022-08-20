@@ -25,3 +25,19 @@ class GetResult:
         }
 
         return info
+
+class Prob:
+    def __init__(self):
+        self.bucket = gcs_ex.GCSBucket('boat_race_ai', 'boat_race_ai')
+    
+    def get_prob(self, param):
+        # キー
+        race_date = param['race_date']
+        place_id = param['place_id']
+        race_no = param['race_no']
+
+        prob = {
+            "123": 999,
+        }
+
+        return prob
