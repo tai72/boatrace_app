@@ -42,9 +42,6 @@ class ProbFormView(generic.TemplateView):
         # models.py の　Probget_prob()から各買い目の確率を取得.
         prob = models.Prob()
         info = prob.get_prob(context)
-        info = {
-            "abc": 999
-        }
 
         return render(request, 'prob.html', info)
 

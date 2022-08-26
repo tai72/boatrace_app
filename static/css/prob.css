@@ -8,4 +8,30 @@
 
 table {
     margin: auto;
+    border-collapse: collapse;
+    border: 1px solid black;
+}
+
+.is-boatColor1 {
+    background: #ebebeb;
+}
+
+.is-boatColor2 {
+    background: #505050;
+}
+
+.is-boatColor3 {
+    background: #f04141;
+}
+
+.is-boatColor4 {
+    background: #4184d0;
+}
+
+.is-boatColor5 {
+    background: #ece962;
+}
+
+.is-boatColor6 {
+    background: #54b74d;
 }

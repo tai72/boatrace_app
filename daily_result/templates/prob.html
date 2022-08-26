@@ -4,13 +4,16 @@
 
 {% block title %}Daily Result{% endblock title %}
 
+{% block head %}<link type="text/css" rel="stylesheet" href="{% static 'css/prob.css' %}">{% endblock head %}
+
 {% block contents %}
 <div class="container-contents-outer">
     <div class="container-contents-inner">
         <h1 class="main-text">Prob</h1>
+        <h3>{{ error }}</h3>
     </div>
     <div class="container-prob">
-        <table>
+        <table border="1">
             <colgroup span="1" style="width: 27px;"></colgroup>
             <colgroup span="1" style="width: 27px;"></colgroup>
             <colgroup span="1" style="width: 116px;"></colgroup>
@@ -33,17 +36,17 @@
             <thead class="is-p15-7 is-fs14">
                 <tr>
                     <th class="is-boatColor1">1</th>
-                    <th class="is-boatColor1 is-borderLeftNone" colspan="2">大石　　真央</th>
+                    <th class="is-boatColor1 is-borderLeftNone" colspan="2">{{ player_1 }}</th>
                     <th class="is-boatColor2">2</th>
-                    <th class="is-boatColor2 is-borderLeftNone" colspan="2">新出　　浩司</th>
+                    <th class="is-boatColor2 is-borderLeftNone" colspan="2">{{ player_2 }}</th>
                     <th class="is-boatColor3">3</th>
-                    <th class="is-boatColor3 is-borderLeftNone" colspan="2">関口　　智久</th>
+                    <th class="is-boatColor3 is-borderLeftNone" colspan="2">{{ player_3 }}</th>
                     <th class="is-boatColor4">4</th>
-                    <th class="is-boatColor4 is-borderLeftNone" colspan="2">渡辺　　真至</th>
+                    <th class="is-boatColor4 is-borderLeftNone" colspan="2">{{ player_4 }}</th>
                     <th class="is-boatColor5">5</th>
-                    <th class="is-boatColor5 is-borderLeftNone" colspan="2">寺本　　重宣</th>
+                    <th class="is-boatColor5 is-borderLeftNone" colspan="2">{{ player_5 }}</th>
                     <th class="is-boatColor6">6</th>
-                    <th class="is-boatColor6 is-borderLeftNone" colspan="2">中野　　次郎</th>
+                    <th class="is-boatColor6 is-borderLeftNone" colspan="2">{{ player_6 }}</th>
                 </tr>
             </thead>
 
@@ -54,309 +57,309 @@
                     <td class="oddsPoint ">{{ abc }}</td>
                     <td class="is-fs14 is-boatColor1" rowspan="4">1</td>
                     <td class="is-boatColor1">3</td>
-                    <td class="oddsPoint ">162.5</td>
+                    <td class="oddsPoint ">{{ bac }}</td>
                     <td class="is-fs14 is-boatColor1" rowspan="4">1</td>
                     <td class="is-boatColor1">2</td>
-                    <td class="oddsPoint ">191.2</td>
+                    <td class="oddsPoint ">{{ cab }}</td>
                     <td class="is-fs14 is-boatColor1" rowspan="4">1</td>
                     <td class="is-boatColor1">2</td>
-                    <td class="oddsPoint ">378.8</td>
+                    <td class="oddsPoint ">{{ dab }}</td>
                     <td class="is-fs14 is-boatColor1" rowspan="4">1</td>
                     <td class="is-boatColor1">2</td>
-                    <td class="oddsPoint ">651.8</td>
+                    <td class="oddsPoint ">{{ eab }}</td>
                     <td class="is-fs14 is-boatColor1" rowspan="4">1</td>
                     <td class="is-boatColor1">2</td>
-                    <td class="oddsPoint ">327.5</td>
+                    <td class="oddsPoint ">{{ fab }}</td>
                 </tr>
                 <tr>
                     <td class="is-boatColor2">4</td>
-                    <td class="oddsPoint ">115.3</td>
+                    <td class="oddsPoint ">{{ abd }}</td>
                     <td class="is-boatColor1">4</td>
-                    <td class="oddsPoint ">183.5</td>
+                    <td class="oddsPoint ">{{ bad }}</td>
                     <td class="is-boatColor1">4</td>
-                    <td class="oddsPoint ">158.5</td>
+                    <td class="oddsPoint ">{{ cad }}</td>
                     <td class="is-boatColor1">3</td>
-                    <td class="oddsPoint ">361.7</td>
+                    <td class="oddsPoint ">{{ dac }}</td>
                     <td class="is-boatColor1">3</td>
-                    <td class="oddsPoint ">505.7</td>
+                    <td class="oddsPoint ">{{ eac }}</td>
                     <td class="is-boatColor1">3</td>
-                    <td class="oddsPoint ">269.1</td>
+                    <td class="oddsPoint ">{{ fac }}</td>
                 </tr>
                 <tr>
                     <td class="is-boatColor2">5</td>
-                    <td class="oddsPoint ">130.2</td>
+                    <td class="oddsPoint ">{{ abe }}</td>
                     <td class="is-boatColor1">5</td>
-                    <td class="oddsPoint ">203.0</td>
+                    <td class="oddsPoint ">{{ bae }}</td>
                     <td class="is-boatColor1">5</td>
-                    <td class="oddsPoint ">158.3</td>
+                    <td class="oddsPoint ">{{ cae }}</td>
                     <td class="is-boatColor1">5</td>
-                    <td class="oddsPoint ">309.3</td>
+                    <td class="oddsPoint ">{{ dae }}</td>
                     <td class="is-boatColor1">4</td>
-                    <td class="oddsPoint ">641.4</td>
+                    <td class="oddsPoint ">{{ ead }}</td>
                     <td class="is-boatColor1">4</td>
-                    <td class="oddsPoint ">309.3</td>
+                    <td class="oddsPoint ">{{ fad }}</td>
                 </tr>
                 <tr>
                     <td class="is-boatColor2">6</td>
-                    <td class="oddsPoint ">77.8</td>
+                    <td class="oddsPoint ">{{ abf }}</td>
                     <td class="is-boatColor1">6</td>
-                    <td class="oddsPoint ">142.2</td>
+                    <td class="oddsPoint ">{{ baf }}</td>
                     <td class="is-boatColor1">6</td>
-                    <td class="oddsPoint ">104.5</td>
+                    <td class="oddsPoint ">{{ caf }}</td>
                     <td class="is-boatColor1">6</td>
-                    <td class="oddsPoint ">204.0</td>
+                    <td class="oddsPoint ">{{ daf }}</td>
                     <td class="is-boatColor1">6</td>
-                    <td class="oddsPoint ">314.7</td>
+                    <td class="oddsPoint ">{{ eaf }}</td>
                     <td class="is-boatColor1">5</td>
-                    <td class="oddsPoint ">327.5</td>
+                    <td class="oddsPoint ">{{ fae }}</td>
                 </tr>
                 <tr>
                     <td class="is-fs14 is-boatColor3 is-borderLeftNone" rowspan="4">3</td>
                     <td class="is-boatColor3">2</td>
-                    <td class="oddsPoint ">92.3</td>
+                    <td class="oddsPoint ">{{ acb }}</td>
                     <td class="is-fs14 is-boatColor3" rowspan="4">3</td>
                     <td class="is-boatColor3">1</td>
-                    <td class="oddsPoint ">108.7</td>
+                    <td class="oddsPoint ">{{ bca }}</td>
                     <td class="is-fs14 is-boatColor2" rowspan="4">2</td>
                     <td class="is-boatColor2">1</td>
-                    <td class="oddsPoint ">139.4</td>
+                    <td class="oddsPoint ">{{ cba }}</td>
                     <td class="is-fs14 is-boatColor2" rowspan="4">2</td>
                     <td class="is-boatColor2">1</td>
-                    <td class="oddsPoint ">332.4</td>
+                    <td class="oddsPoint ">{{ dba }}</td>
                     <td class="is-fs14 is-boatColor2" rowspan="4">2</td>
                     <td class="is-boatColor2">1</td>
-                    <td class="oddsPoint ">699.5</td>
+                    <td class="oddsPoint ">{{ eba }}</td>
                     <td class="is-fs14 is-boatColor2" rowspan="4">2</td>
                     <td class="is-boatColor2">1</td>
-                    <td class="oddsPoint ">313.7</td>
+                    <td class="oddsPoint ">{{ fba }}</td>
                 </tr>
                 <tr>
                     <td class="is-boatColor3">4</td>
-                    <td class="oddsPoint ">83.8</td>
+                    <td class="oddsPoint ">{{ acd }}</td>
                     <td class="is-boatColor3">4</td>
-                    <td class="oddsPoint ">30.1</td>
+                    <td class="oddsPoint ">{{ bcd }}</td>
                     <td class="is-boatColor2">4</td>
-                    <td class="oddsPoint ">36.9</td>
+                    <td class="oddsPoint ">{{ cbd }}</td>
                     <td class="is-boatColor2">3</td>
-                    <td class="oddsPoint ">129.6</td>
+                    <td class="oddsPoint ">{{ dbc }}</td>
                     <td class="is-boatColor2">3</td>
-                    <td class="oddsPoint ">262.4</td>
+                    <td class="oddsPoint ">{{ ebc }}</td>
                     <td class="is-boatColor2">3</td>
-                    <td class="oddsPoint ">149.7</td>
+                    <td class="oddsPoint ">{{ fbc }}</td>
                 </tr>
                 <tr>
                     <td class="is-boatColor3">5</td>
-                    <td class="oddsPoint ">90.8</td>
+                    <td class="oddsPoint ">{{ ace }}</td>
                     <td class="is-boatColor3">5</td>
-                    <td class="oddsPoint ">32.8</td>
+                    <td class="oddsPoint ">{{ bce }}</td>
                     <td class="is-boatColor2">5</td>
-                    <td class="oddsPoint ">42.8</td>
+                    <td class="oddsPoint ">{{ cbe }}</td>
                     <td class="is-boatColor2">5</td>
-                    <td class="oddsPoint ">135.3</td>
+                    <td class="oddsPoint ">{{ dbe }}</td>
                     <td class="is-boatColor2">4</td>
-                    <td class="oddsPoint ">314.2</td>
+                    <td class="oddsPoint ">{{ ebd }}</td>
                     <td class="is-boatColor2">4</td>
-                    <td class="oddsPoint ">161.5</td>
+                    <td class="oddsPoint ">{{ fbd }}</td>
                 </tr>
                 <tr>
                     <td class="is-boatColor3">6</td>
-                    <td class="oddsPoint ">54.3</td>
+                    <td class="oddsPoint ">{{ acf }}</td>
                     <td class="is-boatColor3">6</td>
-                    <td class="oddsPoint ">22.2</td>
+                    <td class="oddsPoint ">{{ bcf }}</td>
                     <td class="is-boatColor2">6</td>
-                    <td class="oddsPoint ">25.0</td>
+                    <td class="oddsPoint ">{{ cbf }}</td>
                     <td class="is-boatColor2">6</td>
-                    <td class="oddsPoint ">76.1</td>
+                    <td class="oddsPoint ">{{ dbf }}</td>
                     <td class="is-boatColor2">6</td>
-                    <td class="oddsPoint ">180.8</td>
+                    <td class="oddsPoint ">{{ ebf }}</td>
                     <td class="is-boatColor2">5</td>
-                    <td class="oddsPoint ">212.6</td>
+                    <td class="oddsPoint ">{{ fbe }}</td>
                 </tr>
                 <tr>
                     <td class="is-fs14 is-boatColor4 is-borderLeftNone" rowspan="4">4</td>
                     <td class="is-boatColor4">2</td>
-                    <td class="oddsPoint ">156.1</td>
+                    <td class="oddsPoint ">{{ adb }}</td>
                     <td class="is-fs14 is-boatColor4" rowspan="4">4</td>
                     <td class="is-boatColor4">1</td>
-                    <td class="oddsPoint ">171.6</td>
+                    <td class="oddsPoint ">{{ bda }}</td>
                     <td class="is-fs14 is-boatColor4" rowspan="4">4</td>
                     <td class="is-boatColor4">1</td>
-                    <td class="oddsPoint ">138.0</td>
+                    <td class="oddsPoint ">{{ cda }}</td>
                     <td class="is-fs14 is-boatColor3" rowspan="4">3</td>
                     <td class="is-boatColor3">1</td>
-                    <td class="oddsPoint ">272.7</td>
+                    <td class="oddsPoint ">{{ dca }}</td>
                     <td class="is-fs14 is-boatColor3" rowspan="4">3</td>
                     <td class="is-boatColor3">1</td>
-                    <td class="oddsPoint ">551.5</td>
+                    <td class="oddsPoint ">{{ eca }}</td>
                     <td class="is-fs14 is-boatColor3" rowspan="4">3</td>
                     <td class="is-boatColor3">1</td>
-                    <td class="oddsPoint ">176.5</td>
+                    <td class="oddsPoint ">{{ fca }}</td>
                 </tr>
                 <tr>
                     <td class="is-boatColor4">3</td>
-                    <td class="oddsPoint ">129.2</td>
+                    <td class="oddsPoint ">{{ adc }}</td>
                     <td class="is-boatColor4">3</td>
-                    <td class="oddsPoint ">47.0</td>
+                    <td class="oddsPoint ">{{ bdc }}</td>
                     <td class="is-boatColor4">2</td>
-                    <td class="oddsPoint ">51.3</td>
+                    <td class="oddsPoint ">{{ cdb }}</td>
                     <td class="is-boatColor3">2</td>
-                    <td class="oddsPoint ">133.3</td>
+                    <td class="oddsPoint ">{{ dcb }}</td>
                     <td class="is-boatColor3">2</td>
-                    <td class="oddsPoint ">301.0</td>
+                    <td class="oddsPoint ">{{ ecb }}</td>
                     <td class="is-boatColor3">2</td>
-                    <td class="oddsPoint ">111.1</td>
+                    <td class="oddsPoint ">{{ fcb }}</td>
                 </tr>
                 <tr>
                     <td class="is-boatColor4">5</td>
-                    <td class="oddsPoint ">133.4</td>
+                    <td class="oddsPoint ">{{ ade }}</td>
                     <td class="is-boatColor4">5</td>
-                    <td class="oddsPoint ">55.2</td>
+                    <td class="oddsPoint ">{{ bde }}</td>
                     <td class="is-boatColor4">5</td>
-                    <td class="oddsPoint ">38.6</td>
+                    <td class="oddsPoint ">{{ cde }}</td>
                     <td class="is-boatColor3">5</td>
-                    <td class="oddsPoint ">100.3</td>
+                    <td class="oddsPoint ">{{ dce }}</td>
                     <td class="is-boatColor3">4</td>
-                    <td class="oddsPoint ">239.0</td>
+                    <td class="oddsPoint ">{{ ecd }}</td>
                     <td class="is-boatColor3">4</td>
-                    <td class="oddsPoint ">55.4</td>
+                    <td class="oddsPoint ">{{ fcd }}</td>
                 </tr>
                 <tr>
                     <td class="is-boatColor4">6</td>
-                    <td class="oddsPoint ">74.8</td>
+                    <td class="oddsPoint ">{{ adf }}</td>
                     <td class="is-boatColor4">6</td>
-                    <td class="oddsPoint ">38.3</td>
+                    <td class="oddsPoint ">{{ bdf }}</td>
                     <td class="is-boatColor4">6</td>
-                    <td class="oddsPoint ">19.2</td>
+                    <td class="oddsPoint ">{{ cdf }}</td>
                     <td class="is-boatColor3">6</td>
-                    <td class="oddsPoint ">52.8</td>
+                    <td class="oddsPoint ">{{ dcf }}</td>
                     <td class="is-boatColor3">6</td>
-                    <td class="oddsPoint ">113.5</td>
+                    <td class="oddsPoint ">{{ ecf }}</td>
                     <td class="is-boatColor3">5</td>
-                    <td class="oddsPoint ">68.7</td>
+                    <td class="oddsPoint ">{{ fcd }}</td>
                 </tr>
                 <tr>
                     <td class="is-fs14 is-boatColor5 is-borderLeftNone" rowspan="4">5</td>
                     <td class="is-boatColor5">2</td>
-                    <td class="oddsPoint ">260.4</td>
+                    <td class="oddsPoint ">{{ aeb }}</td>
                     <td class="is-fs14 is-boatColor5" rowspan="4">5</td>
                     <td class="is-boatColor5">1</td>
-                    <td class="oddsPoint ">232.9</td>
+                    <td class="oddsPoint ">{{ bea }}</td>
                     <td class="is-fs14 is-boatColor5" rowspan="4">5</td>
                     <td class="is-boatColor5">1</td>
-                    <td class="oddsPoint ">173.3</td>
+                    <td class="oddsPoint ">{{ cea }}</td>
                     <td class="is-fs14 is-boatColor5" rowspan="4">5</td>
                     <td class="is-boatColor5">1</td>
-                    <td class="oddsPoint ">277.3</td>
+                    <td class="oddsPoint ">{{ dea }}</td>
                     <td class="is-fs14 is-boatColor4" rowspan="4">4</td>
                     <td class="is-boatColor4">1</td>
-                    <td class="oddsPoint ">554.6</td>
+                    <td class="oddsPoint ">{{ eda }}</td>
                     <td class="is-fs14 is-boatColor4" rowspan="4">4</td>
                     <td class="is-boatColor4">1</td>
-                    <td class="oddsPoint ">244.2</td>
+                    <td class="oddsPoint ">{{ fda }}</td>
                 </tr>
                 <tr>
                     <td class="is-boatColor5">3</td>
-                    <td class="oddsPoint ">194.7</td>
+                    <td class="oddsPoint ">{{ aec }}</td>
                     <td class="is-boatColor5">3</td>
-                    <td class="oddsPoint ">83.5</td>
+                    <td class="oddsPoint ">{{ bec }}</td>
                     <td class="is-boatColor5">2</td>
-                    <td class="oddsPoint ">82.5</td>
+                    <td class="oddsPoint ">{{ ceb }}</td>
                     <td class="is-boatColor5">2</td>
-                    <td class="oddsPoint ">163.1</td>
+                    <td class="oddsPoint ">{{ deb }}</td>
                     <td class="is-boatColor4">2</td>
-                    <td class="oddsPoint ">302.8</td>
+                    <td class="oddsPoint ">{{ edb }}</td>
                     <td class="is-boatColor4">2</td>
-                    <td class="oddsPoint ">137.3</td>
+                    <td class="oddsPoint ">{{ fdb }}</td>
                 </tr>
                 <tr>
                     <td class="is-boatColor5">4</td>
-                    <td class="oddsPoint ">199.1</td>
+                    <td class="oddsPoint ">{{ aed }}</td>
                     <td class="is-boatColor5">4</td>
-                    <td class="oddsPoint ">107.5</td>
+                    <td class="oddsPoint ">{{ bed }}</td>
                     <td class="is-boatColor5">4</td>
-                    <td class="oddsPoint ">66.2</td>
+                    <td class="oddsPoint ">{{ ced }}</td>
                     <td class="is-boatColor5">3</td>
-                    <td class="oddsPoint ">137.6</td>
+                    <td class="oddsPoint ">{{ dec }}</td>
                     <td class="is-boatColor4">3</td>
-                    <td class="oddsPoint ">246.0</td>
+                    <td class="oddsPoint ">{{ edc }}</td>
                     <td class="is-boatColor4">3</td>
-                    <td class="oddsPoint ">88.4</td>
+                    <td class="oddsPoint ">{{ fdc }}</td>
                 </tr>
                 <tr>
                     <td class="is-boatColor5">6</td>
-                    <td class="oddsPoint ">104.7</td>
+                    <td class="oddsPoint ">{{ aef }}</td>
                     <td class="is-boatColor5">6</td>
-                    <td class="oddsPoint ">65.1</td>
+                    <td class="oddsPoint ">{{ bef }}</td>
                     <td class="is-boatColor5">6</td>
-                    <td class="oddsPoint ">28.5</td>
+                    <td class="oddsPoint ">{{ cef }}</td>
                     <td class="is-boatColor5">6</td>
-                    <td class="oddsPoint ">52.2</td>
+                    <td class="oddsPoint ">{{ def }}</td>
                     <td class="is-boatColor4">6</td>
-                    <td class="oddsPoint ">93.8</td>
+                    <td class="oddsPoint ">{{ edf }}</td>
                     <td class="is-boatColor4">5</td>
-                    <td class="oddsPoint ">79.7</td>
+                    <td class="oddsPoint ">{{ fde }}</td>
                 </tr>
                 <tr>
                     <td class="is-fs14 is-boatColor6 is-borderLeftNone" rowspan="4">6</td>
                     <td class="is-boatColor6">2</td>
-                    <td class="oddsPoint ">134.4</td>
+                    <td class="oddsPoint ">{{ afb }}</td>
                     <td class="is-fs14 is-boatColor6" rowspan="4">6</td>
                     <td class="is-boatColor6">1</td>
-                    <td class="oddsPoint ">170.4</td>
+                    <td class="oddsPoint ">{{ bfa }}</td>
                     <td class="is-fs14 is-boatColor6" rowspan="4">6</td>
                     <td class="is-boatColor6">1</td>
-                    <td class="oddsPoint ">80.8</td>
+                    <td class="oddsPoint ">{{ cfa }}</td>
                     <td class="is-fs14 is-boatColor6" rowspan="4">6</td>
                     <td class="is-boatColor6">1</td>
-                    <td class="oddsPoint ">174.2</td>
+                    <td class="oddsPoint ">{{ dfa }}</td>
                     <td class="is-fs14 is-boatColor6" rowspan="4">6</td>
                     <td class="is-boatColor6">1</td>
-                    <td class="oddsPoint ">315.1</td>
+                    <td class="oddsPoint ">{{ efa }}</td>
                     <td class="is-fs14 is-boatColor5" rowspan="4">5</td>
                     <td class="is-boatColor5">1</td>
-                    <td class="oddsPoint ">345.5</td>
+                    <td class="oddsPoint ">{{ fea }}</td>
                 </tr>
                 <tr>
                     <td class="is-boatColor6">3</td>
-                    <td class="oddsPoint ">97.8</td>
+                    <td class="oddsPoint ">{{ afc }}</td>
                     <td class="is-boatColor6">3</td>
-                    <td class="oddsPoint ">48.4</td>
+                    <td class="oddsPoint ">{{ bfc }}</td>
                     <td class="is-boatColor6">2</td>
-                    <td class="oddsPoint ">35.6</td>
+                    <td class="oddsPoint ">{{ cfb }}</td>
                     <td class="is-boatColor6">2</td>
-                    <td class="oddsPoint ">84.8</td>
+                    <td class="oddsPoint ">{{ dfb }}</td>
                     <td class="is-boatColor6">2</td>
-                    <td class="oddsPoint ">152.9</td>
+                    <td class="oddsPoint ">{{ efb }}</td>
                     <td class="is-boatColor5">2</td>
-                    <td class="oddsPoint ">215.6</td>
+                    <td class="oddsPoint ">{{ feb }}</td>
                 </tr>
                 <tr>
                     <td class="is-boatColor6">4</td>
-                    <td class="oddsPoint ">98.1</td>
+                    <td class="oddsPoint ">{{ afd }}</td>
                     <td class="is-boatColor6">4</td>
-                    <td class="oddsPoint ">60.6</td>
+                    <td class="oddsPoint ">{{ bfd }}</td>
                     <td class="is-boatColor6">4</td>
-                    <td class="oddsPoint ">21.4</td>
+                    <td class="oddsPoint ">{{ cfd }}</td>
                     <td class="is-boatColor6">3</td>
-                    <td class="oddsPoint ">60.4</td>
+                    <td class="oddsPoint ">{{ dfc }}</td>
                     <td class="is-boatColor6">3</td>
-                    <td class="oddsPoint ">112.0</td>
+                    <td class="oddsPoint ">{{ efc }}</td>
                     <td class="is-boatColor5">3</td>
-                    <td class="oddsPoint ">117.3</td>
+                    <td class="oddsPoint ">{{ fec }}</td>
                 </tr>
                 <tr>
                     <td class="is-boatColor6">5</td>
-                    <td class="oddsPoint ">101.8</td>
+                    <td class="oddsPoint ">{{ afe }}</td>
                     <td class="is-boatColor6">5</td>
-                    <td class="oddsPoint ">71.7</td>
+                    <td class="oddsPoint ">{{ bfe }}</td>
                     <td class="is-boatColor6">5</td>
-                    <td class="oddsPoint ">24.4</td>
+                    <td class="oddsPoint ">{{ cfe }}</td>
                     <td class="is-boatColor6">5</td>
-                    <td class="oddsPoint ">49.2</td>
+                    <td class="oddsPoint ">{{ dfe }}</td>
                     <td class="is-boatColor6">4</td>
-                    <td class="oddsPoint ">88.2</td>
+                    <td class="oddsPoint ">{{ efd }}</td>
                     <td class="is-boatColor5">4</td>
-                    <td class="oddsPoint ">88.8</td>
+                    <td class="oddsPoint ">{{ fed }}</td>
                 </tr>
             </tbody>
 
