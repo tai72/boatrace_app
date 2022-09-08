@@ -10,4 +10,5 @@ urlpatterns = [
     path('daily-result', views.DailyResultView.as_view(), name="daily_result"),
     path('prob-form', views.ProbFormView.as_view(), name="prob_form"),
     path('prob', views.ProbView.as_view(), name="prob"),
+    path('race-result-select/', views.RaceResultSelectView.as_view(), name="race_result_select"), 
 ]

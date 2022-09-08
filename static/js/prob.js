@@ -1,8 +1,17 @@
-const elm_body = document.querySelector('body');
-const tag_h1 = document.createElement('h1');
-tag_h1.classList.add('h1-sample');
+// タブに対してイベントを付与
+const tabs = document.getElementsByClassName('tab');
+for (let i=0;i<tabs.length;i++) {
+    tabs[i].addEventListener('click', tabSwitch, false);
+}
 
-elm_body.append(tag_h1.cloneNode());
-
-const elm_h1 = document.querySelector('.h1-sample');
-elm_h1.innerHTML = '{{ abc }}';
+function tabSwitch() {
+    // タブのclass値を変更
+    document.getElementsByClassName('is-active')[0].classList.remove('is-active');
+    this.classList.add('is-active');
+    // コンテンツのclass値を変更
+    document.getElementsByClassName('is-show')[0].classList.remove('is-show');
+    const arrayTabs = Array.prototype.slice.call(tabs);
+    // クリックしタブのインデックスを取得
+    const index = arrayTabs.indexOf(this);
+    document.getElementsByClassName('panel')[index].classList.add('is-show');
+}

@@ -48,3 +48,7 @@ class ProbFormView(generic.TemplateView):
 class ProbView(generic.TemplateView):
     """確率出力"""
     template_name = "prob.html"
+
+class RaceResultSelectView(generic.TemplateView):
+    """見たいレース結果を選択するページ"""
+    template_name = "race_result_select.html"

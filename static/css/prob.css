@@ -1,4 +1,58 @@
+td {
+    border: solid 1px rgb(55, 52, 52);
+}
+
+/* タブの部分 */
+
+.tab-container {
+    position: relative;
+    top: 80px;
+}
+
+.tab-group {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    margin-left: 1.5vw;
+    letter-spacing: 0.25em;
+}
+
+.tab {
+    flex-grow: 1;
+    padding: 5px;
+    list-style: none;
+    border: solid 1px #CCC;
+    text-align: center;
+    cursor: pointer;
+}
+
+.panel-group {
+    height: 100px;
+    /* border: solid 1px #CCC; */
+    border-top: none;
+    /* background: #eee; */
+}
+
+.panel {
+    display: none;
+}
+
+.tab.is-active {
+    background: rgb(71, 49, 49);
+    color: #FFF;
+    transition: all 0.2s ease-out;
+}
+
+.panel.is-show {
+    display: block;
+}
+
+.panel-E.is-show {
+    display: flex;
+}
+
 /* 結果 */
+/* 3連単 */
 
 .container-prob {
     position: relative;
@@ -8,6 +62,7 @@
 
 table {
     margin: auto;
+    margin-top: 20px;
     border-collapse: collapse;
     border: 1px solid black;
 }
@@ -34,4 +89,54 @@ table {
 
 .is-boatColor6 {
     background: #54b74d;
+}
+
+/* 単勝・複勝 */
+
+.panel-E {
+    justify-content: center;
+}
+
+.unit-E {
+    width: 300px;
+    margin: 30px;
+}
+
+.td-tansyo, .tr-tansyo, .th-tansyo {
+    border: 1px #070707 solid;
+}
+
+.th-tansyo {
+    color: rgb(249, 245, 245);
+    background-color: #3681e9;
+    width: 300px;
+    height: 40px;
+}
+
+.td-tansyo {
+    text-align: center;
+}
+
+.tr-tansyo {
+    height: 40px;
+}
+
+.table-tansyo {
+    border-collapse: collapse;
+    border: 1px #070707 solid;
+}
+
+.table-hukusyo {
+    border-collapse: collapse;
+    border: 1px #070707 solid;
+}
+
+.explain {
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+.bracket-no {
+    width: 50px;
 }
