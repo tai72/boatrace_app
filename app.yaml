@@ -1,0 +1,13 @@
+# インストールされているバージョンによって
+runtime: python38
+
+handlers:
+- url: /static
+  static_dir: static/
+
+- url: /.*
+  script: auto
+  # SSLで常時接続させる場合はコメントアウトを外す
+  # secure: alwayss
+
+entrypoint: gunicorn -b :$PORT boatrace.wsgi:application
