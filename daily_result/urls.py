@@ -11,4 +11,5 @@ urlpatterns = [
     path('prob-form', views.ProbFormView.as_view(), name="prob_form"),
     path('prob', views.ProbView.as_view(), name="prob"),
     path('race-result-select/', views.RaceResultSelectView.as_view(), name="race_result_select"), 
+    path('race-result/<str:race_date>/<str:place_id>/<str:race_no>/', views.RaceResultView.as_view(), name="race_result"), 
 ]

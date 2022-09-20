@@ -21,6 +21,16 @@
     transform: translateX(-50%);
 }
 
+.main-header {
+    font-size: 30px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.align-center {
+    text-align: center;
+}
+
 /* ヘッダー */
 
 .nav-main {
@@ -28,19 +38,23 @@
     height: 60px;
 }
 
+.decorate-none {
+    text-decoration: none;
+}
+
 .container-header {
     height: 100%;
     position: relative;
 }
 
-.header-list {
+.ul-header {
     display: flex;
     list-style: none;       /* リストの「・」を消す  */
     justify-content: flex-end;
     align-items: center;
     position: absolute;
     top: 20px;
-    left: 950px;
+    right: 50px;
 }
 
 .header-inner-li {
@@ -50,21 +64,6 @@
 
 /* 見出し */
 
-.container-contents-outer {
-    display: block;
-    text-align: center;
-    height: 80%;
-}
-
-.container-contents-inner {
-    position: relative;
-    top: 50px;
-}
-
-.main-text {
-    display: block;
-    top: 50px;
-}
 
 /* フッター */
 

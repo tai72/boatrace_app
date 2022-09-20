@@ -1,0 +1,211 @@
+/* 場、レースNo */
+
+.align-center {
+    text-align: center;
+}
+
+.wrapper-place-name {
+    text-align: left;
+}
+
+.wrapper-race-info-inner {
+    width: 20%;
+    position: relative;
+    text-align: center;
+}
+
+.place-name {
+    position: relative;
+    line-height: 1.4;
+    padding:0.25em 1em;
+    display: inline-block;
+    top:0;
+}
+
+.place-name:before, .place-name:after { 
+    position: absolute;
+    top: 0;
+    content:'';
+    width: 8px;
+    height: 100%;
+    display: inline-block;
+}
+.place-name:before {
+    border-left: solid 1px black;
+    border-top: solid 1px black;
+    border-bottom: solid 1px black;
+    left: 0;
+}
+.place-name:after {
+    content: '';
+    border-top: solid 1px black;
+    border-right: solid 1px black;
+    border-bottom: solid 1px black;
+    right: 0;
+}
+
+/* 予測結果 */
+
+.prob-card {
+    display: flex;
+    justify-content: center;
+    /* background-color: brown; */
+}
+
+.trifecta {
+    /* background-color: rgb(30, 235, 167); */
+}
+
+.wrapper-card {
+    display: flex;
+    border: 2px solid;
+    width: 600px;
+    margin-top: 30px;
+}
+
+@media screen and (max-width: 800px) {
+    .wrapper-card {
+        width: 80%;
+    }
+}
+
+.wrapper-promise-name {
+    /* background-color: blueviolet; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    width: 15%;
+}
+
+.wrapper-promise-name-inner {
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    border: 1px solid;
+    margin: 10px;
+}
+
+.promise-name {
+    padding: 5px;
+    display: block;
+}
+
+.wrapper-promise-comb {
+    /* background-color: beige; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 85%;
+}
+
+.wrapper-promise-comb-inner {
+    /* background-color: rgb(226, 43, 192); */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    height: 50px;
+    width: 80%;
+}
+
+@media screen and (max-width: 800px) {
+    .wrapper-promise-comb-inner {
+        width: 90%;
+        margin: 1px;
+    }
+}
+
+.square {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    width: 40px;
+    border: 1px solid;
+    margin: 5px;
+}
+
+@media screen and (max-width: 800px) {
+    .square {
+        height: 25px;
+        width: 25px;
+    }
+}
+
+.promise-num {
+    display: inline-block;
+}
+
+.arrow {
+    margin: 5px;
+}
+
+.prob {
+    margin: 5px;
+}
+
+.expectation-value {
+    display: inline-block;
+    margin: 5px;
+}
+
+/* 結果 */
+
+.race-result {
+    background-color: #fffaf0;
+    margin-top: 100px;
+    display: flex;
+    justify-content: center;
+}
+
+.wrapper-result-content {
+    width: 80%;
+    height: 75%;
+}
+
+.wrapper-table {
+    width: 100%;
+    height: 75%;
+    display: flex;
+    justify-content: center;
+}
+
+table, td, th {
+    border: 1px #000000 solid;
+    border-collapse: collapse;
+}
+
+table {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+tr {
+    height: 30px;
+}
+
+th {
+    height: 45px;
+    width: 100px;
+}
+
+td {
+    /* height: 30px; */
+    text-align: center;
+}
+
+.wrapper-result {
+    width: 100%;
+    height: 25%;
+}
+
+/* 共通 */
+
+.display-none {
+    display: none;
+}

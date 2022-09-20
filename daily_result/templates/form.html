@@ -4,25 +4,22 @@
 
 {% block title %}Daily Result{% endblock title %}
 
+{% block head %}
+<link type="text/css" rel="stylesheet" href="{% static 'css/form_common.css' %}">
+{% endblock head %}
+
 {% block contents %}
-<div class="container-contents-outer">
-    <div class="container-contents-inner">
-        <h1 class="main-text">Daily Result</h1>
-    </div>
-    <div class="container-form">
-        <form action="#" method="post">
-            {% csrf_token %}
-            <dl>
-                <dt>race_date : </dt>
-                <dd><input id="race_date" type="text" name="race_date" placeholder="19970106" class="field-common"></dd>
-                <dt>place_id : </dt>
-                <dd><input id="place_id" type="text" name="place_id" placeholder="1~24" class="field-common"></dd>
-                <dt>race_no : </dt>
-                <dd><input id="race_no" type="text" name="race_no" placeholder="1, 2, 3..." class="field-common"></textarea></dd>
-            </dl>
-            <button>SEARCH</button>
-            <h4>{{ race_date }}</h4>
-        </form>
-    </div>
-</div>
+
+<section class="section-form">
+    <h1 class="inline-center main-header">Daily Result</h1>
+    <form action="#" method="post" class="wrapper-form">
+        {% csrf_token %}
+        <div class="wrapper-content">
+            <label for="race_date">Race date</label>
+            <input id="race_date" type="text" name="race_date" class="cool">
+        </div>
+        <button>SEARCH</button>
+    </form>
+</section>
+
 {% endblock contents %}
