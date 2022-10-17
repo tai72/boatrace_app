@@ -4,6 +4,16 @@ main {
     margin-top: 50px;
 }
 
+/* 共通 */
+
+.text-align-center {
+    text-align: center;
+}
+
+.container-contents-inner {
+    margin-top: 30px;
+}
+
 .wrapper-race-select {
     position: relative;
     padding-top: 20px;

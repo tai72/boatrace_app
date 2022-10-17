@@ -234,15 +234,18 @@ class RaceResultSelect:
         """本日の各場のレース数をkeiba-aiバケットから取得する."""
 
         # csv読み込み
-        df = self.bucket_keiba.read_csv('meta_data/todays_race_count_each_place.csv', encoding='utf-8')
-
         race_count_list = []
-        for idx in df.index:
-            race_count_list.append({
-                "place_name": str(df.loc[idx, "place_name"]), 
-                "place_id": DICT_PLACE[str(df.loc[idx, "place_name"])], 
-                "race_count": str(df.loc[idx, "race_count"]), 
-            })
+        try:
+            df = self.bucket_keiba.read_csv('meta_data/todays_race_count_each_place.csv', encoding='utf-8')
+            for idx in df.index:
+                race_count_list.append({
+                    "place_name": str(df.loc[idx, "place_name"]), 
+                    "place_id": DICT_PLACE[str(df.loc[idx, "place_name"])], 
+                    "race_count": str(df.loc[idx, "race_count"]), 
+                })
+        except:
+            print('failed to get "todays_race_count_each_place.csv" from GCS.')
+            print(traceback.format_exc())
         
         return race_count_list
 
@@ -285,10 +288,36 @@ class RaceResult:
                     'ex_val': ex_val
                 })
             dct['trifecta'] = trifecta_list
+
+            # 3連複
+            triple_list = []
+            for idx in df.loc[df['bet_type'] == 6].index:
+                # 着順に対する枠番
+                bracket_no = df.loc[idx, 'bracket_no']
+                first = bracket_no.split('-')[0]
+                second = bracket_no.split('-')[1]
+                third = bracket_no.split('-')[2]
+                
+                # 確率
+                prob = str(df.loc[idx, 'probability'] * 100 // 0.01 / 100) + '%'
+                
+                # 期待値
+                ex_val = str(df.loc[idx, 'ex_value'] * 100 // 1 * 0.01)
+                if len(str(ex_val).split('.')[1]) > 2:
+                    ex_val = str(ex_val.split('.')[0]) + '.' +  str(ex_val.split('.')[1][0:2])
+                
+                triple_list.append({
+                    'first': first, 
+                    'second': second, 
+                    'third': third, 
+                    'prob': prob, 
+                    'ex_val': ex_val
+                })
+            dct['triple'] = triple_list
             
             # 2連単
             exacta_list = []
-            for idx in df.loc[df['bet_type'] == 4].index:
+            for idx in df.loc[df['bet_type'] == 5].index:
                 # 着順に対する枠番
                 bracket_no = df.loc[idx, 'bracket_no']
                 first = bracket_no.split('-')[0]
@@ -310,10 +339,49 @@ class RaceResult:
                 })
             dct['exacta'] = exacta_list
 
+            # 2連複
+            quinella_list = []
+            for idx in df.loc[df['bet_type'] == 4].index:
+                # 着順に対する枠番
+                bracket_no = df.loc[idx, 'bracket_no']
+                first = bracket_no.split('-')[0]
+                second = bracket_no.split('-')[1]
+                
+                # 確率
+                prob = str(df.loc[idx, 'probability'] * 100 // 0.01 / 100) + '%'
+                
+                # 期待値
+                ex_val = str(df.loc[idx, 'ex_value'] * 100 // 1 * 0.01)
+                if len(str(ex_val).split('.')[1]) > 2:
+                    ex_val = str(ex_val.split('.')[0]) + '.' +  str(ex_val.split('.')[1][0:2])
+                
+                quinella_list.append({
+                    'first': first, 
+                    'second': second, 
+                    'prob': prob, 
+                    'ex_val': ex_val
+                })
+            dct['quinella'] = quinella_list
+
+            # 「当たり」か「はずれ」の判定
+            if df['return'].sum() > 0:
+                dct['is_hit'] = 'hit.png'
+            else:
+                dct['is_hit'] = 'not_hit.png'
+            
+            # 収支
+            buy = int(df['amount'].sum() * 100)
+            dividend = int(df['return'].sum())
+            benefit = dividend - buy
+            dct['buy'] = buy
+            dct['dividend'] = dividend
+            dct['benefit'] = benefit
+
             dct['is_finished'] = True
         except:
             dct['is_finished'] = False
         
+        print('betting_results')
         print(dct)
 
         return dct
@@ -342,14 +410,14 @@ class RaceResult:
             for k in range(len(payout)):
                 if payout[k].get_text() != '\xa0':
                     payout_list.append(payout[k].get_text())
-            dct['payout'] = payout_list
+            dct["payout"] = payout_list
             
             wrapper_row = tbody[i].find_all('div', {'class': 'numberSet1_row'})
             for j in range(len(wrapper_row)):
                 wrapper_number = wrapper_row[j].find_all('span', {'class': 'numberSet1_number'})
                 txt = '-'.join([wrapper_number[k].get_text() for k in range(len(wrapper_number))])
                 lst.append(txt)
-            dct['comb'] = lst
+            dct["comb"] = lst
             container_dct[DICT_BET_TYPE.get(bet_type)] = dct
 
         # GCS（boatrace）から、レース結果に対する予測結果を取得する。
@@ -357,19 +425,18 @@ class RaceResult:
         df = self.bucket_boat.read_csv(path)
 
         for bet_type in container_dct.keys():
-            print(bet_type)
             if bet_type not in DICT_BET_NUM.keys():
                 continue
             
             bet_type_num = DICT_BET_NUM[bet_type]
-            print(bet_type_num)
             prob_list = []
             for i in range(len(container_dct[bet_type]['comb'])):
-                prob = df.loc[(df['bet_type'] == bet_type_num) & (df['bracket_no'] == container_dct[bet_type]['comb'][i]), 'probability'].iloc[-1]
+                prob = df.loc[(df["bet_type"] == bet_type_num) & (df["bracket_no"] == container_dct[bet_type]["comb"][i]), 'probability'].iloc[-1]
                 prob = str(prob * 100 // 0.01 / 100) + '%'
                 prob_list.append(prob)
-            container_dct[bet_type]['prob'] = prob_list
+            container_dct[bet_type]["prob"] = prob_list
         
+        print('レース結果をスクレイピングしたやつ')
         print(container_dct)
         
         return container_dct

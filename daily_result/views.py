@@ -133,6 +133,20 @@ class RaceResultView(generic.TemplateView):
         # レース結果のスクレイピング結果（実際のレース結果）
         context['race_result'] = result.get_race_result(race_date, place_id, race_no)    # {'trifecta': ['1-2-3'], 'triple': ['1-2-3'], 'exacta': ['1-2'], ...}
 
+        # レース結果のアイコン表示用
+        if len(context['race_result']['trifecta']) != 0:
+            bracket_first = context['race_result']['trifecta']['comb'][0][0]
+            bracket_second = context['race_result']['trifecta']['comb'][0][2]
+            bracket_thrid = context['race_result']['trifecta']['comb'][0][4]
+
+            context['bracketFirst'] = '{}.png'.format(bracket_first)
+            context['bracketSecond'] = '{}.png'.format(bracket_second)
+            context['bracketThird'] = '{}.png'.format(bracket_thrid)
+
+            # context['first_img_path'] = "{% static 'assets/bracket_{bracket_no}.png' %}".format(bracket_no=bracket_first)
+            # context['second_img_path'] = "{% static 'assets/bracket_{bracket_no}.png' %}".format(bracket_no=bracket_second)
+            # context['third_img_path'] = "{% static 'assets/bracket_{bracket_no}.png' %}".format(bracket_no=bracket_thrid)
+
         # レース情報
         context['place_name'] = DICT_PLACE[place_id]
 
@@ -141,6 +155,7 @@ class RaceResultView(generic.TemplateView):
         context['place_id'] = place_id
         context['race_no'] = race_no
 
+        print('views')
         print(context)
 
         return self.render_to_response(context)

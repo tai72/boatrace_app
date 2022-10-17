@@ -1,3 +1,7 @@
+html {
+    background-color: #fcd575;
+}
+
 /* 場、レースNo */
 
 .align-center {
@@ -31,16 +35,16 @@
     display: inline-block;
 }
 .place-name:before {
-    border-left: solid 1px black;
-    border-top: solid 1px black;
-    border-bottom: solid 1px black;
+    border-left: solid 1px #2b2b2b;
+    border-top: solid 1px #2b2b2b;
+    border-bottom: solid 1px #2b2b2b;
     left: 0;
 }
 .place-name:after {
     content: '';
-    border-top: solid 1px black;
-    border-right: solid 1px black;
-    border-bottom: solid 1px black;
+    border-top: solid 1px #2b2b2b;
+    border-right: solid 1px #2b2b2b;
+    border-bottom: solid 1px #2b2b2b;
     right: 0;
 }
 
@@ -49,7 +53,6 @@
 .prob-card {
     display: flex;
     justify-content: center;
-    /* background-color: brown; */
 }
 
 .trifecta {
@@ -61,6 +64,9 @@
     border: 2px solid;
     width: 600px;
     margin-top: 30px;
+    background-color: rgb(202, 239, 227);
+    background-image: radial-gradient(#fffffc, 30%, transparent 30%);
+    background-size: 5px 5px;
 }
 
 @media screen and (max-width: 800px) {
@@ -157,10 +163,38 @@
 /* 結果 */
 
 .race-result {
-    background-color: #fffaf0;
     margin-top: 100px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
+}
+
+.wrapper-raceResult-title {
+    margin: 30px auto 0 auto;
+}
+
+.wrapper-orderOfArriveIcon {    /* 着順によるアイコン */
+    margin-top: 20px;
+}
+
+.bracketIcon {
+    width: 100px;
+    height: 100px;
+    margin: 0 30px;
+    opacity: 0;
+}
+
+.wrapper-hitIcon {
+    margin: 20px;
+    width: 100px;
+    height: 100px;
+}
+
+.wrapper-hitIcon-img {    /* 当たりか否かのアイコン */
+    width: 100px;
+    height: 100px;
+    opacity: 0;
 }
 
 .wrapper-result-content {
@@ -202,6 +236,53 @@ td {
 .wrapper-result {
     width: 100%;
     height: 25%;
+}
+
+/* 収支 */
+
+.incomeAndOutgo {
+    margin-top: 50px;
+}
+
+.wrapper-incomeAndOutgo-title {
+    margin-bottom: 60px;
+}
+
+.wrapper-incomeAndOutgo-content {
+    margin: 0 auto;
+    width: fit-content;
+}
+
+.incomeAndOutgo-content {
+    display: flex;
+    flex-direction: row;
+    vertical-align: middle;
+    margin: 15px;
+}
+
+.incomeAndOutgo-header {
+    margin-right: 10px;
+    width: 85px;
+    text-align: center;
+    background-color: #2b2b2b;
+    border-radius: 5px;
+    color: #fffffc;
+}
+
+.incomeAndOutgo-val {
+    vertical-align: middle;
+    height: fit-content;
+}
+
+.dividend-header {
+    background-color: coral;
+    color: #fffffc;
+    /* padding: 5px; */
+    border-radius: 5px;
+}
+
+.dividend-val {
+    /* color: #fffffc; */
 }
 
 /* 共通 */

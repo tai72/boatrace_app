@@ -25,6 +25,12 @@ body {
     width: 400px;
 }
 
+@media screen and (max-width: 768px) {
+    .wrapper-form {
+        width: 300px;
+    }
+}
+
 .wrapper-content {
     /* background-color: blueviolet; */
     width: 100%;

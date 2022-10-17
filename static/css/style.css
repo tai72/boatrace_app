@@ -3,10 +3,25 @@
     padding: 0px;
 }
 
+body {
+    position: relative;
+    margin: 0!important;
+}
+
 /* 共通 */
 
+:root {
+    --black: #2b2b2b;
+    --white: #fffffc;
+    --baseColor: #fcd575;
+}
+
+html {
+    background-color: var(--white);
+}
+
 .text-white {
-    color: aliceblue;
+    color: var(--white)!important;
 }
 
 .block {
@@ -31,10 +46,23 @@
     text-align: center;
 }
 
+.list-style-none {
+    list-style: none;
+}
+
+a:link, a:visited, a:hover, a:active {
+    color: inherit;
+    text-decoration: none;
+}
+
+.disp-none {
+    display: none!important;
+}
+
 /* ヘッダー */
 
 .nav-main {
-    background-color: black;
+    background-color: var(--black);
     height: 60px;
 }
 
@@ -62,13 +90,121 @@
     letter-spacing: 0.25em;  /* 文字間隔　 */
 }
 
-/* 見出し */
+@media screen and (max-width: 768px) {
+    .nav-main {
+        height: 0;
+        background-color: var(--white);
+    }
+}
 
+/* ヘッダー（ハンバーガーメニュー） */
+
+.nav-toggle {
+    display: block;
+    position: relative;
+    width: 26px;
+    height: 20px;
+    margin: 10px 5px 0 auto;
+    right: 5px;
+    top: 10px;
+    z-index: 10;
+}
+
+.nav-toggle i {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: var(--baseColor);
+    position: absolute;
+    transition: transform .5s, opacity .5s;    /* transformとopacityを.5秒かけて変化させる設定 */
+}
+
+.nav-toggle i:nth-child(1) {
+    top: 0;
+}
+
+.nav-toggle i:nth-child(2) {
+    top: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+.nav-toggle i:nth-child(3) {
+    bottom: 0;
+}
+
+.nav-toggle.show i:nth-child(1) {
+    transform: translateY(10px) rotate(-45deg);
+}
+
+.nav-toggle.show i:nth-child(2) {
+    opacity: 0;
+}
+
+.nav-toggle.show i:nth-child(3) {
+    transform: translateY(-8px) rotate(45deg);
+}
+
+.nav-humburger {
+    display: none;
+    position: fixed;
+    text-align: center;
+    top: 0;
+}
+
+.nav-menu-ul {
+    position: relative;
+    top: 40%;
+    transform: translate(0, -50%);
+}
+
+.nav-humburger.show {
+    display: block;
+    width: calc(var(--vw, 1vw) * 100)!important;
+    height: calc(var(--vh, 1vh) * 100)!important;
+    background-color: var(--baseColor);
+    z-index: 5;
+}
+
+.nav-menu-ul li {
+    margin-top: 10px;
+    font-size: 20px;
+}
+
+/* index.html */
+
+.topPage-header {
+    font-size: 72px;
+    color: var(--white);
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    display: inline;
+    position: absolute;
+    top: calc(var(--vh, 1vh) * 30);
+    left: calc(var(--vw, 1vw) * 50);
+    transform: translate(-50%, -50%);
+}
+
+#container-top-img {
+    position: relative;
+    margin: 0;
+    top: 0;
+}
+
+#container-top-img img {
+    width: calc(var(--vw, 1vw) * 100);
+    height: calc((var(--vh, 1vh) * 100));
+}
+
+@media screen and (max-width: 768px) {
+    #container-top-img img {
+        height: calc(var(--vh, 1vh) * 100);
+    }
+}
 
 /* フッター */
 
 .container-footer {
-    background-color: black;
+    background-color: var(--baseColor);
     height: 60px;
     width: 100%;
 }
