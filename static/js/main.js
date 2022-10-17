@@ -21,6 +21,32 @@ document.documentElement.style.setProperty('--vw', `${vw}px`);
 
 const breakPoint = 768;
 
+// レスポンシブ、クラスの切り替え
+
+// ページ開いた時
+$(document).ready(function() {
+    var x = $(window).width();
+    var breakPoint = 768;
+    if (x <= breakPoint) {
+        $('.card-container').addClass('disp-none');
+    } else {
+        $('.card-container-responsive').addClass('disp-none');
+    }
+});
+
+// リサイズしてリロードしたとき
+$(window).on('resize orientationchange', function() {
+    var x = $(window).width();
+    var breakPoint = 768;
+    if (x <= breakPoint) {
+        $('.card-container').addClass('disp-none');
+        $('.card-container-responsive').removeClass('disp-none');
+    } else {
+        $('.card-container').removeClass('disp-none');
+        $('.card-container-responsive').addClass('disp-none');
+    }
+});
+
 /////////////
 // ヘッダー  //
 /////////////
@@ -29,6 +55,7 @@ const breakPoint = 768;
 
 $('.nav-toggle').on('click', function() {
     $('.nav-toggle, .nav-humburger').toggleClass('show');    // showというクラスを付与する.
+    $('.wrapper-appear-detailIcon').toggleClass('disp-none');
 });
 
 $(document).ready(function() {
@@ -63,4 +90,18 @@ const appearHumburgerAnimation = anime.timeline({
 $('.nav-toggle').on('click', function() {
     appearHumburgerAnimation.play();
     console.log('test');
+});
+
+/////////////
+// about   //
+/////////////
+
+// クリックしたら詳細表示
+
+$('.appear-detailIcon').on('click', function() {
+    var index = $('.appear-detailIcon').index($(this));
+    console.log(index);
+
+    $('.card-container-responsive .card .face.face2').eq(index).toggleClass('appear-about-detail');
+    $('.wrapper-appear-detailIcon').eq(index).toggleClass('rotate-90deg');
 });

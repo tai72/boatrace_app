@@ -72,5 +72,67 @@
             </div>
         </div>
     </div>
+
+    <!-- レスポンシブ時のabout -->
+
+    <div class="card-container-responsive">
+        <div class="card">
+            <div class="face face1">
+                <div class="card-content align-center">
+                    <img src="{% static 'assets/results.png' %}">
+                    <h3>１日の成績</h3>
+                </div>
+                <div class="wrapper-appear-detailIcon">
+                    <img src="{% static 'assets/arrow.png' %}" class="appear-detailIcon">
+                </div>
+            </div>
+            <div class="face face2">
+                <div class="card-content">
+                    <p>
+                        予測に基づいた買い目による、１日の収支結果を確認できます。
+                    </p>
+                    <a href="{% url 'daily_result:daily_result_form' %}">移動する</a>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="face face1">
+                <div class="card-content align-center">
+                    <img src="{% static 'assets/probability.png' %}">
+                    <h3>確率</h3>
+                </div>
+                <div class="wrapper-appear-detailIcon">
+                    <img src="{% static 'assets/arrow.png' %}" class="appear-detailIcon">
+                </div>
+            </div>
+            <div class="face face2">
+                <div class="card-content">
+                    <p>
+                        １レースごとの、各買い目に対するモデルの的中確率を確認できます。
+                    </p>
+                    <a href="{% url 'daily_result:prob_form' %}">移動する</a>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="face face1">
+                <div class="card-content align-center">
+                    <img src="{% static 'assets/tickets.png' %}">
+                    <h3>予測結果</h3>
+                </div>
+                <div class="wrapper-appear-detailIcon">
+                    <img src="{% static 'assets/arrow.png' %}" class="appear-detailIcon">
+                </div>
+            </div>
+            <div class="face face2">
+                <div class="card-content">
+                    <p>
+                        １レースごとの、モデルの算出した期待値に基づく買い目や、実際のレース結果を確認できます。
+                    </p>
+                    <a href="{% url 'daily_result:race_result_select' %}">移動する</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 {% endblock contents %}
