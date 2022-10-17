@@ -1,0 +1,311 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Race Result{% endblock title %}
+
+{% block head %}<link type="text/css" rel="stylesheet" href="{% static 'css/race_result.css' %}">{% endblock head %}
+
+{% block contents %}
+<div class="container-contents-outer">
+    <div class="container-contents-inner wrapper-title">
+        <h1 class="inline-center main-header align-center">Race Result</h1>
+        <div class="wrapper-race-info">
+            <div class="wrapper-race-info-inner">
+                <h2 class="place-name">{{ place_name }} #{{ place_id }}</h2>
+                <h3 class="race-no">{{ race_no }}R</h3>
+                <h3 class="align-center">{{ race_date }}</h3>
+            </div>
+        </div>
+        <h2 class="display-none" id="text-not-finished">まだレースが終了していません。</h2>
+
+        <div class="align-center">
+            <h2>モデル予測結果</h2>
+        </div>
+
+        <!-- 3連単 -->
+
+        {% if trifecta|length != 0 %}
+        <setion class="prob-card" id="container-trifecta">
+            <div class="wrapper-card trifecta">
+                <div class="wrapper-promise-name">
+                    <div class="wrapper-promise-name-inner">
+                        <h3 class="promise-name">3　　　連　　　単</h3>
+                    </div>
+                </div>
+                <div class="wrapper-promise-comb">
+                    {% for betting_result in trifecta %}
+                    <div class="wrapper-promise-comb-inner">
+                        <div class="square"><h3 class="promise-num"><strong>{{ betting_result.first }}</strong></h3></div>
+                        <div class="hyphen"><h3 class="promise-num"><strong> - </strong></h3></div>
+                        <div class="square"><h3 class="promise-num"><strong>{{ betting_result.second }}</strong></h3></div>
+                        <div class="hyphen"><h3 class="promise-num"><strong> - </strong></h3></div>
+                        <div class="square"><h3 class="promise-num"><strong>{{ betting_result.third }}</strong></h3></div>
+                        <div class="arrow"><h3 class="promise-num"><strong>>>></strong></h3></div>
+                        <div class="prob"><h3 class="promise-num"><strong> {{ betting_result.prob }} </strong></h3></div>
+                        <div class="expectation-value"><h3 class="promise-num"><strong> {{ betting_result.ex_val }} </strong></h3></div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </setion>
+        {% endif %}
+
+        <!-- 3連複 -->
+
+        {% if triple|length != 0 %}
+        <setion class="prob-card" id="container-triple">
+            <div class="wrapper-card triple">
+                <div class="wrapper-promise-name">
+                    <div class="wrapper-promise-name-inner">
+                        <h3 class="promise-name">3　　　連　　　複</h3>
+                    </div>
+                </div>
+                <div class="wrapper-promise-comb">
+                    {% for betting_result in triple %}
+                    <div class="wrapper-promise-comb-inner">
+                        <div class="square"><h3 class="promise-num"><strong>{{ betting_result.first }}</strong></h3></div>
+                        <div class="hyphen"><h3 class="promise-num"><strong> - </strong></h3></div>
+                        <div class="square"><h3 class="promise-num"><strong>{{ betting_result.second }}</strong></h3></div>
+                        <div class="hyphen"><h3 class="promise-num"><strong> - </strong></h3></div>
+                        <div class="square"><h3 class="promise-num"><strong>{{ betting_result.third }}</strong></h3></div>
+                        <div class="arrow"><h3 class="promise-num"><strong>>>></strong></h3></div>
+                        <div class="prob"><h3 class="promise-num"><strong> {{ betting_result.prob }} </strong></h3></div>
+                        <div class="expectation-value"><h3 class="promise-num"><strong> {{ betting_result.ex_val }} </strong></h3></div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </setion>
+        {% endif %}
+
+        <!-- 2連単 -->
+
+        {% if exacta|length != 0 %}
+        <setion class="prob-card" id="container-exacta">
+            <div class="wrapper-card exacta">
+                <div class="wrapper-promise-name">
+                    <div class="wrapper-promise-name-inner">
+                        <h3 class="promise-name">2　　　連　　　単</h3>
+                    </div>
+                </div>
+                <div class="wrapper-promise-comb">
+                    {% for betting_result in exacta %}
+                    <div class="wrapper-promise-comb-inner">
+                        <div class="square"><h3 class="promise-num"><strong>{{ betting_result.first }}</strong></h3></div>
+                        <div class="hyphen"><h3 class="promise-num"><strong> - </strong></h3></div>
+                        <div class="square"><h3 class="promise-num"><strong>{{ betting_result.second }}</strong></h3></div>
+                        <div class="arrow"><h3 class="promise-num"><strong>>>></strong></h3></div>
+                        <div class="prob"><h3 class="promise-num"><strong> {{ betting_result.prob }} </strong></h3></div>
+                        <div class="expectation-value"><h3 class="promise-num"><strong> {{ betting_result.ex_val }} </strong></h3></div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </setion>
+        {% endif %}
+
+        <!-- 2連複 -->
+
+        {% if quinella|length != 0 %}
+        <setion class="prob-card" id="container-quinella">
+            <div class="wrapper-card quinella">
+                <div class="wrapper-promise-name">
+                    <div class="wrapper-promise-name-inner">
+                        <h3 class="promise-name">2　　　連　　　複</h3>
+                    </div>
+                </div>
+                <div class="wrapper-promise-comb">
+                    {% for betting_result in quinella %}
+                    <div class="wrapper-promise-comb-inner">
+                        <div class="square"><h3 class="promise-num"><strong>{{ betting_result.first }}</strong></h3></div>
+                        <div class="hyphen"><h3 class="promise-num"><strong> - </strong></h3></div>
+                        <div class="square"><h3 class="promise-num"><strong>{{ betting_result.second }}</strong></h3></div>
+                        <div class="arrow"><h3 class="promise-num"><strong>>>></strong></h3></div>
+                        <div class="prob"><h3 class="promise-num"><strong> {{ betting_result.prob }} </strong></h3></div>
+                        <div class="expectation-value"><h3 class="promise-num"><strong> {{ betting_result.ex_val }} </strong></h3></div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </setion>
+        {% endif %}
+
+        <!-- 結果 -->
+
+        <section class="race-result">
+            <div class="align-center wrapper-raceResult-title">
+                <h2>レース結果</h2>
+            </div>
+            <div class="wrapper-orderOfArriveIcon">
+                <img src="{% static 'assets/bracket_'|add:bracketFirst %}" class="bracketIcon">
+                <img src="{% static 'assets/bracket_'|add:bracketSecond %}" class="bracketIcon">
+                <img src="{% static 'assets/bracket_'|add:bracketThird %}" class="bracketIcon">
+            </div>
+            <div class="wrapper-hitIcon">
+                <img src="{% static 'assets/'|add:is_hit %}" class="wrapper-hitIcon-img" width="150">
+            </div>
+            <div class="wrapper-result-content">
+                <div class="wrapper-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>勝式</th>
+                                <th>組番</th>
+                                <th>払戻金</th>
+                                <th>確率</th>
+                                <th>期待値</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>3連単</td>
+                                <td>{{ race_result.trifecta.comb.0 }}</td>
+                                <td>{{ race_result.trifecta.payout.0 }}</td>
+                                <td>{{ race_result.trifecta.prob.0 }}</td>
+                                <td>（仮）1.32</td>
+                            </tr>
+                            <tr>
+                                <td>3連複</td>
+                                <td>{{ race_result.triple.comb.0 }}</td>
+                                <td>{{ race_result.triple.payout.0 }}</td>
+                                <td>{{ race_result.triple.prob.0 }}</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>2連単</td>
+                                <td>{{ race_result.exacta.comb.0 }}</td>
+                                <td>{{ race_result.exacta.payout.0 }}</td>
+                                <td>{{ race_result.exacta.prob.0 }}</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>2連複</td>
+                                <td>{{ race_result.quinella.comb.0 }}</td>
+                                <td>{{ race_result.quinella.payout.0 }}</td>
+                                <td>{{ race_result.quinella.prob.0 }}</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td rowspan="3">拡連複</td>
+                                <td>{{ race_result.wide.comb.0 }}</td>
+                                <td>{{ race_result.wide.payout.0 }}</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>{{ race_result.wide.comb.1 }}</td>
+                                <td>{{ race_result.wide.payout.0 }}</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>{{ race_result.wide.comb.2 }}</td>
+                                <td>{{ race_result.wide.payout.0 }}</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>単勝</td>
+                                <td>{{ race_result.win.comb.0 }}</td>
+                                <td>{{ race_result.win.payout.0 }}</td>
+                                <td>{{ race_result.win.prob.0 }}</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2">複勝</td>
+                                <td>{{ race_result.wide.comb.0 }}</td>
+                                <td>{{ race_result.wide.payout.0 }}</td>
+                                <td>{{ race_result.wide.prob.0 }}</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="wrapper-result">
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 収支 -->
+
+        <section class="incomeAndOutgo">
+            <div class="align-center wrapper-incomeAndOutgo-title">
+                <h2>収支</h2>
+            </div>
+            <div class="wrapper-incomeAndOutgo-content">
+                <div class="incomeAndOutgo-content">
+                    <div class="incomeAndOutgo-header">購入金額</div>
+                    <div class="incomeAndOutgo-val"><p>{{ buy }}</p></div>
+                </div>
+                <div class="incomeAndOutgo-content">
+                    <div class="incomeAndOutgo-header">配当金</div>
+                    <div class="incomeAndOutgo-val"><p>{{ dividend }}</p></div>
+                </div>
+                <div class="incomeAndOutgo-content">
+                    <div class="incomeAndOutgo-header dividend-header">収支</div>
+                    <div class="incomeAndOutgo-val dividend-val"><p>{{ benefit }}</p></div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        const is_finished = '{{ is_finished }}';
+        if (is_finished == 'False') {
+            document.getElementById('text-not-finished').classList.remove('display-none');
+
+            // 全てのsectionにdisplay: none;にする.
+            let prob_cards = document.getElementsByClassName('prob-card');
+            Array.prototype.forEach.call(prob_cards, function(element) {
+                element.classList.add('display-none');
+            });
+        }
+        // } else {
+        //     // 各買い目が「[]」だと中身がない -> 表示する必要がない.
+        //     var trifecta = '{{ trifecta }}';
+        //     console.log(trifecta);
+        //     if (trifecta.length == 2) {
+        //         const container_trifecta = document.getElementById('container-trifecta');
+        //         container_trifecta.classList.add('display-none');
+        //     }
+
+        //     var exacta = '{{ exacta }}';
+        //     if (exacta.length == 2) {
+        //         const container_exacta = document.getElementById('container-exacta');
+        //         console.log(container_exacta);
+        //         console.log(container_exacta.classList);
+        //         container_exacta.classList.add('display-none');
+        //     }
+        // }
+
+        const race_result = '{{ race_result }}';
+
+        // レース結果アニメーション
+
+        const fragment = document.createDocumentFragment();
+        const raceResutTrifectaComb = "{% autoescape off %}{{ race_result.trifecta.comb }}{% endautoescape %}";    // レースの着順 ['1-2-3'] -> string
+        console.log(raceResutTrifectaComb);
+        console.log(typeof(raceResutTrifectaComb));
+
+        if (raceResutTrifectaComb.length == 9) {
+            const firstBracket = raceResutTrifectaComb[2];
+            const secondBracket = raceResutTrifectaComb[4];
+            const thirdBracket = raceResutTrifectaComb[6];
+
+            // <img src="{% static 'assets/bracket_1.png' %}">
+        }
+        
+    </script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="{% static 'js/anime.min.js' %}"></script>
+    <script src="{% static 'js/race_result.js' %}"></script>
+</div>
+{% endblock contents %}

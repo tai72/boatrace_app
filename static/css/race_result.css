@@ -1,0 +1,292 @@
+html {
+    background-color: #fcd575;
+}
+
+/* 場、レースNo */
+
+.align-center {
+    text-align: center;
+}
+
+.wrapper-place-name {
+    text-align: left;
+}
+
+.wrapper-race-info-inner {
+    width: 20%;
+    position: relative;
+    text-align: center;
+}
+
+.place-name {
+    position: relative;
+    line-height: 1.4;
+    padding:0.25em 1em;
+    display: inline-block;
+    top:0;
+}
+
+.place-name:before, .place-name:after { 
+    position: absolute;
+    top: 0;
+    content:'';
+    width: 8px;
+    height: 100%;
+    display: inline-block;
+}
+.place-name:before {
+    border-left: solid 1px #2b2b2b;
+    border-top: solid 1px #2b2b2b;
+    border-bottom: solid 1px #2b2b2b;
+    left: 0;
+}
+.place-name:after {
+    content: '';
+    border-top: solid 1px #2b2b2b;
+    border-right: solid 1px #2b2b2b;
+    border-bottom: solid 1px #2b2b2b;
+    right: 0;
+}
+
+/* 予測結果 */
+
+.prob-card {
+    display: flex;
+    justify-content: center;
+}
+
+.trifecta {
+    /* background-color: rgb(30, 235, 167); */
+}
+
+.wrapper-card {
+    display: flex;
+    border: 2px solid;
+    width: 600px;
+    margin-top: 30px;
+    background-color: rgb(202, 239, 227);
+    background-image: radial-gradient(#fffffc, 30%, transparent 30%);
+    background-size: 5px 5px;
+}
+
+@media screen and (max-width: 800px) {
+    .wrapper-card {
+        width: 80%;
+    }
+}
+
+.wrapper-promise-name {
+    /* background-color: blueviolet; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    width: 15%;
+}
+
+.wrapper-promise-name-inner {
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    border: 1px solid;
+    margin: 10px;
+}
+
+.promise-name {
+    padding: 5px;
+    display: block;
+}
+
+.wrapper-promise-comb {
+    /* background-color: beige; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 85%;
+}
+
+.wrapper-promise-comb-inner {
+    /* background-color: rgb(226, 43, 192); */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    height: 50px;
+    width: 80%;
+}
+
+@media screen and (max-width: 800px) {
+    .wrapper-promise-comb-inner {
+        width: 90%;
+        margin: 1px;
+    }
+}
+
+.square {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    width: 40px;
+    border: 1px solid;
+    margin: 5px;
+}
+
+@media screen and (max-width: 800px) {
+    .square {
+        height: 25px;
+        width: 25px;
+    }
+}
+
+.promise-num {
+    display: inline-block;
+}
+
+.arrow {
+    margin: 5px;
+}
+
+.prob {
+    margin: 5px;
+}
+
+.expectation-value {
+    display: inline-block;
+    margin: 5px;
+}
+
+/* 結果 */
+
+.race-result {
+    margin-top: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.wrapper-raceResult-title {
+    margin: 30px auto 0 auto;
+}
+
+.wrapper-orderOfArriveIcon {    /* 着順によるアイコン */
+    margin-top: 20px;
+}
+
+.bracketIcon {
+    width: 100px;
+    height: 100px;
+    margin: 0 30px;
+    opacity: 0;
+}
+
+.wrapper-hitIcon {
+    margin: 20px;
+    width: 100px;
+    height: 100px;
+}
+
+.wrapper-hitIcon-img {    /* 当たりか否かのアイコン */
+    width: 100px;
+    height: 100px;
+    opacity: 0;
+}
+
+.wrapper-result-content {
+    width: 80%;
+    height: 75%;
+}
+
+.wrapper-table {
+    width: 100%;
+    height: 75%;
+    display: flex;
+    justify-content: center;
+}
+
+table, td, th {
+    border: 1px #000000 solid;
+    border-collapse: collapse;
+}
+
+table {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+tr {
+    height: 30px;
+}
+
+th {
+    height: 45px;
+    width: 100px;
+}
+
+td {
+    /* height: 30px; */
+    text-align: center;
+}
+
+.wrapper-result {
+    width: 100%;
+    height: 25%;
+}
+
+/* 収支 */
+
+.incomeAndOutgo {
+    margin-top: 50px;
+}
+
+.wrapper-incomeAndOutgo-title {
+    margin-bottom: 60px;
+}
+
+.wrapper-incomeAndOutgo-content {
+    margin: 0 auto;
+    width: fit-content;
+}
+
+.incomeAndOutgo-content {
+    display: flex;
+    flex-direction: row;
+    vertical-align: middle;
+    margin: 15px;
+}
+
+.incomeAndOutgo-header {
+    margin-right: 10px;
+    width: 85px;
+    text-align: center;
+    background-color: #2b2b2b;
+    border-radius: 5px;
+    color: #fffffc;
+}
+
+.incomeAndOutgo-val {
+    vertical-align: middle;
+    height: fit-content;
+}
+
+.dividend-header {
+    background-color: coral;
+    color: #fffffc;
+    /* padding: 5px; */
+    border-radius: 5px;
+}
+
+.dividend-val {
+    /* color: #fffffc; */
+}
+
+/* 共通 */
+
+.display-none {
+    display: none;
+}

@@ -4,37 +4,63 @@
 <html lang="ja">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{% block title %}{% endblock title %}</title>
-        <link type="text/css" rel="stylesheet" href="{% static 'css/style.css' %}">
+        
         <link type="text/css" rel="stylesheet" href="{% static 'css/daily_result.css' %}">
+        <link type="text/css" rel="stylesheet" href="{% static 'css/style.css' %}">
+        <link type="text/css" rel="stylesheet" href="{% static 'css/race_result_select.css' %}">
+
+        <!-- pyscript -->
+        <!-- <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+        <script defer src="https://pyscript.net/alpha/pyscript.js"></script> -->
         {% block head %}{% endblock head %}
     </head>
     <body>
         <!-- ヘッダー -->
         <nav class="nav-main">
             <div class="container-header">
-                <ul class="header-list">
-                    <li class="header-inner-li"><a class="text-white" href="{% url 'daily_result:daily_result_form' %}">MENU1</a></li>
-                    <li class="header-inner-li"><a class="text-white">MENU2</a></li>
-                    <li class="header-inner-li"><a class="text-white">MENU3</a></li>
-                    <li class="header-inner-li"><a class="text-white" href="{% url 'daily_result:index' %}">TOP</a></li>
+                <ul class="ul-header">
+                    <li class="header-inner-li"><a class="text-white decorate-none" href="{% url 'daily_result:daily_result_form' %}">今日の成績</a></li>
+                    <li class="header-inner-li"><a class="text-white decorate-none" href="{% url 'daily_result:prob_form' %}">確率</a></li>
+                    <li class="header-inner-li"><a class="text-white decorate-none" href="{% url 'daily_result:race_result_select' %}">予測結果</a></li>
+                    <li class="header-inner-li"><a class="text-white decorate-none" href="{% url 'daily_result:index' %}">TOP</a></li>
                 </ul>
+
+                <span class="nav-toggle">
+                    <i></i>
+                    <i></i>
+                    <i></i>
+                </span>
+
+                <div class="nav-humburger">
+                    <ul class="nav-menu-ul list-style-none">
+                        <li class="nav-menu-li"><a href="{% url 'daily_result:index' %}">TOP</a></li>
+                        <li class="nav-menu-li"><a href="{% url 'daily_result:daily_result_form' %}">１日の成績</a></li>
+                        <li class="nav-menu-li"><a href="{% url 'daily_result:prob_form' %}">確率</a></li>
+                        <li class="nav-menu-li"><a href="{% url 'daily_result:race_result_select' %}">予測結果</a></li>
+                    </ul>
+                </div>
             </div>
         </nav>
+
+
 
         {% block header %}{% endblock header %}
 
         {% block contents %}{% endblock contents %}
 
         <!-- フッター -->
-        <footer>
+        <!-- <footer>
             <div class="container-footer">
                 <p class="text-white block center-v text-footer">thanks</p>
             </div>
-        </footer>
+        </footer> -->
 
         <!-- js読み込み -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+        <script src="{% static 'js/anime.min.js' %}"></script>
         <script src="{% static 'js/main.js' %}"></script>
+        <script src="{% static 'js/form_common.js' %}"></script>
     </body>
 </html>

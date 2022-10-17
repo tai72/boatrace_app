@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Daily Result{% endblock title %}
+
+{% block head %}<link type="text/css" rel="stylesheet" href="{% static 'css/race_result_select.css' %}">{% endblock head %}
+
+{% block contents %}
+<div class="container-contents-outer text-align-center">
+    <div class="container-contents-inner wrapper-title">
+        <h1 class="main-text">Select Race</h1>
+    </div>
+    <main>
+        {% if todays_race_count|length != 0 %}
+        {% for race in todays_race_count %}
+        <section class="wrapper-race-select">
+            <div class="place"><div class="place-inner"><h4 class="header-2">{{ race.place_name }}</h4><div></div>
+            <div class="wrapper-raceNo">
+                <ul class="li-raceNo">
+                    {% with ''|center:race.race_count as range %}
+                    {% for _ in range %}
+                    <li class="li-content">
+                        <a class="raceNo" href="{% url 'daily_result:race_result' now_date race.place_id forloop.counter %}">{{ forloop.counter }}R</a>
+                        <hr>
+                        <p class="time">00:00</p>
+                    </li>
+                    {% endfor %}
+                    {% endwith %}
+                </ul>
+            </div>
+        </section>
+        {% endfor %}
+        {% else %}
+        <div>
+            <h2>読み込み失敗</h2>
+        </div>
+        {% endif %}
+    </main>
+</div>
+{% endblock contents %}
