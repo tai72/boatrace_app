@@ -14,8 +14,10 @@ html {
 
 .wrapper-race-info-inner {
     width: 20%;
+    min-width: 155px;
     position: relative;
     text-align: center;
+    margin-left: 15px;
 }
 
 .place-name {
@@ -53,10 +55,6 @@ html {
 .prob-card {
     display: flex;
     justify-content: center;
-}
-
-.trifecta {
-    /* background-color: rgb(30, 235, 167); */
 }
 
 .wrapper-card {
@@ -238,6 +236,18 @@ td {
     height: 25%;
 }
 
+@media screen and (max-width: 800px) {
+    .bracketIcon {
+        width: 75px;
+        height: 75px;
+        margin: 0 15px;
+    }
+
+    .wrapper-result-content {
+        width: 95%;
+    }
+}
+
 /* 収支 */
 
 .incomeAndOutgo {
@@ -279,10 +289,6 @@ td {
     color: #fffffc;
     /* padding: 5px; */
     border-radius: 5px;
-}
-
-.dividend-val {
-    /* color: #fffffc; */
 }
 
 /* 共通 */

@@ -1,7 +1,5 @@
 main {
-    /* background-color: #ea5550; */
-    height: 300px;
-    margin-top: 50px;
+    margin-top: 130px;
 }
 
 /* 共通 */
@@ -10,8 +8,19 @@ main {
     text-align: center;
 }
 
+/* メイン */
+
+.wrapper-title {
+    position: relative;
+    top: 100px;
+}
+
 .container-contents-inner {
     margin-top: 30px;
+}
+
+.container-contents-inner p {
+    margin-top: 10px;
 }
 
 .wrapper-race-select {
@@ -24,7 +33,6 @@ main {
 
 .place {
     position: relative;
-    /* background-color: #ceed46; */
 }
 
 .place-inner {
@@ -41,7 +49,6 @@ main {
 }
 
 .li-raceNo {
-    /* background-color: rgb(95, 95, 193); */
     list-style: none;
     display: flex;
     flex-wrap: wrap;

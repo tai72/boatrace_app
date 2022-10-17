@@ -38,8 +38,8 @@ td {
 }
 
 .tab.is-active {
-    background: rgb(71, 49, 49);
-    color: #FFF;
+    background: #fcd575;
+    /* color: #FFF; */
     transition: all 0.2s ease-out;
 }
 
@@ -52,6 +52,13 @@ td {
 }
 
 /* 結果 */
+
+.prob-title {
+    position: relative;
+    top: 75px;
+    text-align: center;
+}
+
 /* 3連単 */
 
 .container-prob {
