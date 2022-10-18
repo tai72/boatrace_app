@@ -92,15 +92,47 @@ $('.nav-toggle').on('click', function() {
     console.log('test');
 });
 
+///////////////////
+// ローディング部分  //
+///////////////////
+
+window.onload = function() {
+    document.getElementById('loading-display').classList.add('disp-none');
+}
+
 /////////////
 // about   //
 /////////////
+
+// 順に表示
+
+const appearAboutContent = anime.timeline({
+    targets: '.card', 
+    easing: 'easeInOutSine', 
+    delay: anime.stagger(200)
+})
+.add({
+    opacity: [0, 1], 
+    delay: anime.stagger(100), 
+    duration: 500, 
+});
+
+let appearAboutContentSignal = false;
+$(document).scroll(function() {
+    var scroll = $(window).scrollTop();
+    var elmPos = $('.card-container').offset().top;
+    var windowHeight = $(window).height();
+
+    if (scroll+windowHeight >= elmPos+200 && appearAboutContentSignal == false) {
+        appearAboutContent.play();
+        appearAboutContentSignal = true;
+    }
+});
 
 // クリックしたら詳細表示
 
 $('.appear-detailIcon').on('click', function() {
     var index = $('.appear-detailIcon').index($(this));
-    console.log(index);
 
     $('.card-container-responsive .card .face.face2').eq(index).toggleClass('appear-about-detail');
     $('.wrapper-appear-detailIcon').eq(index).toggleClass('rotate-90deg');
