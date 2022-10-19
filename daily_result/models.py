@@ -59,9 +59,18 @@ class GetResult:
     
     def get_daily_betting_result(self, param):
         # キー
-        race_date = param['race_date']
-        # place_id = param['place_id']
-        # race_no = param['race_no']
+        year = param['year']
+        month = param['month']
+        day = param['day']
+
+        # race_date を作成
+        month = str(month)
+        if len(month) != 2:
+            month = '0' + month
+        day = str(day)
+        if len(day) != 2:
+            day = '0' + day
+        race_date = str(year) + str(month) + str(day)
 
         try:
             df = self.bucket.read_csv('daily_betting_results/{}/bettings.csv'.format(race_date))
@@ -94,9 +103,20 @@ class Prob:
     
     def get_prob(self, param):
         # キー
-        race_date = param['race_date']
+        year = param['year']
+        month = param['month']
+        day = param['day']
         place_id = param['place_id']
         race_no = param['race_no']
+
+        # race_date を作成
+        month = str(month)
+        if len(month) != 2:
+            month = '0' + month
+        day = str(day)
+        if len(day) != 2:
+            day = '0' + day
+        race_date = str(year) + str(month) + str(day)
 
         # place_id を str　にする
         place_id = str(place_id)

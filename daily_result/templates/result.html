@@ -4,8 +4,12 @@
 
 {% block title %}Daily Result{% endblock title %}
 
+{% block head %}
+<link type="text/css" rel="stylesheet" href="{% static 'css/daily_result.css' %}">
+{% endblock head %}
+
 {% block contents %}
-<div class="container-contents-outer">
+<section class="container-contents-outer" id="section-daily-result">
     <div class="container-contents-inner align-center">
         <h1 class="main-header">Daily Result</h1>
     </div>
@@ -14,5 +18,5 @@
         <h3>配当金 : {{ return_sum }}</h3>
         <h3>収支 : {{ benefit }}</h3>
     </div>
-</div>
+</section>
 {% endblock contents %}

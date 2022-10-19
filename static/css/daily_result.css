@@ -16,6 +16,11 @@
 
 /* 結果表示画面 */
 
+#section-daily-result {
+    position: relative;
+    top: 100px;
+}
+
 .container-result {
     position: relative;
     top: 100px;

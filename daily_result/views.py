@@ -46,9 +46,9 @@ class DailyResultFormView(generic.TemplateView):
 
     def post(self, request):
         context = {
-            'race_date': request.POST['race_date'],
-            # 'place_id': request.POST['place_id'],
-            # 'race_no': request.POST['race_no'],
+            'year': request.POST['year'], 
+            'month': request.POST['month'], 
+            'day': request.POST['day'], 
         }
 
         # models.pyからオブジェクト作成
@@ -71,9 +71,11 @@ class ProbFormView(generic.TemplateView):
 
     def post(self, request):
         context = {
-            'race_date': request.POST['race_date'],
-            'place_id': request.POST['place_id'],
-            'race_no': request.POST['race_no'],
+            'year': request.POST['year'], 
+            'month': request.POST['month'], 
+            'day': request.POST['day'], 
+            'place_id': request.POST['place_id'], 
+            'race_no': request.POST['race_no'], 
         }
 
         # models.py の　Probget_prob()から各買い目の確率を取得.

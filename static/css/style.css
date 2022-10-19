@@ -6,6 +6,12 @@
 body {
     position: relative;
     margin: 0!important;
+    font-family: "Helvetica Neue",
+    Arial,
+    "Hiragino Kaku Gothic ProN",
+    "Hiragino Sans",
+    Meiryo,
+    sans-serif;
 }
 
 /* 共通 */
@@ -57,6 +63,30 @@ a:link, a:visited, a:hover, a:active {
 
 .disp-none {
     display: none!important;
+}
+
+.disp-flex-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.disp-flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.header {
+    font-weight: 100;
+    font-size: 36px;
+    border-bottom: #fcd575 3px solid;
+    width: fit-content;
+    margin: 0 auto;
+}
+
+@media screen and (max-width: 768px) {
+    .sub-header {
+        font-size: 12px;
+    }
 }
 
 /* ヘッダー */
@@ -144,7 +174,7 @@ a:link, a:visited, a:hover, a:active {
     display: block;
     width: 100%;
     height: 2px;
-    background-color: var(--white);
+    background-color: var(--baseColor);
     position: absolute;
     transition: transform .5s, opacity .5s;    /* transformとopacityを.5秒かけて変化させる設定 */
 }
@@ -192,13 +222,14 @@ a:link, a:visited, a:hover, a:active {
     display: block;
     width: calc(var(--vw, 1vw) * 100)!important;
     height: calc(var(--vh, 1vh) * 100)!important;
-    background-color: var(--baseColor);
+    background-color: var(--black);
     z-index: 6!important;
 }
 
 .nav-menu-ul li {
     margin-top: 10px;
     font-size: 20px;
+    color: var(--white);
 }
 
 /* ローディング画面 */
@@ -251,6 +282,32 @@ a:link, a:visited, a:hover, a:active {
 .about {
     width: calc(var(--vw, 1vw) * 100);
     height: calc((var(--vh, 1vh) * 100));
+}
+
+.wrapper-header {
+    margin-top: 100px;
+}
+
+.wrapper-header p {
+    font-weight: 100;
+}
+
+.about-explain {
+    width: fit-content;
+    margin: 30px auto;
+}
+
+@media screen and (max-width: 768px) {
+    .about-explain {
+        width: 70%;
+    }
+}
+
+/* index.html_service */
+
+.service {
+    width: calc(var(--vw, 1vw) * 100);
+    height: calc((var(--vh, 1vh) * 100));
     margin: 0;
     top: 0;
 }
@@ -262,6 +319,11 @@ a:link, a:visited, a:hover, a:active {
 
 .wrapper-aboutHeader h2 {
     margin-bottom: 30px;
+    font-size: 36px;
+    font-weight: 100;
+    border-bottom: #fcd575 3px solid;
+    width: fit-content;
+    margin: 0 auto;
 }
 
 @media screen and (max-width: 768px) {
@@ -385,96 +447,101 @@ a:link, a:visited, a:hover, a:active {
     top: 180px;
 }
 
-.card-container-responsive .card {
-    width: 270px;
-    display: flex;
-    flex-direction: row;
-    overflow: hidden;
-    position: relative;
+.card-container-header {
     margin-bottom: 30px;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
 }
 
-.card-container-responsive .card .face.face1 {
+.card-container-header h3 {
+    padding-bottom: 0;
+}
+
+.card-container-header p {
     position: relative;
-    width: 270px;
-    height: 180px;
-    background: var(--black);
+    display: inline-block;
+    font-size: 10px;
+    margin-top: 3px;
 }
 
-.card-container-responsive .card .face.face2 {
-    position: absolute;
-    width: 270px;
-    height: 180px;
-    background-color: var(--baseColor);
-    box-sizing: border-box;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
-    transform: translateX(-100%);
-    transition: .5s;
-    padding: 20px;
-}
-
-.appear-about-detail {
-    transform: translateX(0)!important;
-}
-
-.card-container-responsive .card .face.face1 .card-content {
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-.card-container-responsive .card .face.face1 .card-content img {
-    margin-bottom: 10px;
-}
-
-.card-container-responsive .card .face.face2 .card-content {
-
-}
-
-.wrapper-appear-detailIcon {
-    position: absolute;
+.card-responsive {
+    height: 320px;
+    width: 250px;
     background-color: var(--white);
-    width: 20px;
-    height: 20px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    margin-bottom: 25px;
+}
+
+.wrapper-card-header {
+    height: 75px;
+    width: 100%;
+    background-color: var(--black);
+    align-items: center;
+    align-content: center!important;
+}
+
+.wrapper-card-header div {
+    position: relative;
+    height: fit-content;
+    top: 3px;
+    color: var(--white);
+}
+
+.wrapper-card-header h2 {
+    font-size: 32px;
+    font-weight: 300;
+}
+
+.wrapper-card-header p {
+    font-size: 12px;
+}
+
+.wrapper-card-content {
+    height: 245px;
+    width: 100%;
+    background-color: var(--white);
+    padding: 10px 15px;
+    box-sizing: border-box;
+}
+
+.wrapper-card-content img {
+    margin-top: 15px;
+    width: 70px;
+    height: 70px;
+}
+
+.wrapper-card-content p {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 14px
+}
+
+.card-line {
+    width: 90%;
+    height: 0.4px;
+    background-color: var(--black);
+    margin: 10px auto;
+}
+
+.wrapper-go-detail-button {
+
+}
+
+.wrapper-go-detail-button div {
+    position: relative;
+    width: 135px;
+    height: 30px;
+    border-radius: 15px;
+    background-color: var(--baseColor);
+    margin: 5px auto;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.29);
+}
+
+.wrapper-go-detail-button h2 {
+    display: block;
+    position: relative;
+    font-size: 14px;
+    font-weight: 100;
     top: 50%;
     transform: translateY(-50%);
-    z-index: 3;
-    transition: .5s;
-    transform-origin: center center;
-    border-radius: 50%;
-    margin-left: 5px;
-}
-
-.appear-detailIcon {
-    position: relative;
-    width: 100%;
-    height: 100%;
-}
-
-.rotate-90deg {
-    transform-origin: center center;
-    transform: rotate(180deg);
-}
-
-.card-container-responsive .card .face.face2 .card-content p{
-    margin: 0;
-    padding: 0;
-}
-
-.card-container-responsive .card .face.face2 .card-content a{
-    margin: 15px 0 0 20px;
-    display:  inline-block;
-    text-decoration: none;
-    font-weight: 900;
-    color: var(--black);
-    padding: 5px;
-    border: 1px solid var(--black);
-}
-
-.card-container-responsive .card .face.face2 .card-content a:hover{
-    background: var(--black);
-    color: var(--white);
 }
 
 /* フッター */
