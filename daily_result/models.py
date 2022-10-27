@@ -2,6 +2,7 @@ import itertools
 import traceback
 import requests
 import pandas as pd
+from decimal import Decimal
 from django.db import models
 from bs4 import BeautifulSoup
 
@@ -77,11 +78,13 @@ class GetResult:
             buy = int(df['amount'].sum()*100)
             return_sum = int(df['return'].sum())
             benefit = return_sum - buy
+            benefit_rate = Decimal(str((Decimal(return_sum) / Decimal(buy)))) // Decimal('0.001') * Decimal('0.1')
 
             info = {
                 "buy": buy, 
                 "return_sum": return_sum, 
                 "benefit": benefit, 
+                "benefit_rate": benefit_rate, 
             }
 
             return info

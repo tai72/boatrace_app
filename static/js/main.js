@@ -137,3 +137,30 @@ $('.appear-detailIcon').on('click', function() {
     $('.card-container-responsive .card .face.face2').eq(index).toggleClass('appear-about-detail');
     $('.wrapper-appear-detailIcon').eq(index).toggleClass('rotate-90deg');
 });
+
+////////////////////
+// whatIsBoatrace //
+///////////////////
+
+const appearWhatIsBoatraceContent = anime.timeline({
+    targets: '.boatrace-content', 
+    easing: 'easeInOutSine', 
+    delay: anime.stagger(200)
+})
+.add({
+    opacity: 1, 
+    delay: anime.stagger(100), 
+    duration: 500, 
+});
+
+let appearWhatIsBoatraceContentSignal = false;
+$(document).scroll(function() {
+    var scroll = $(window).scrollTop();
+    var elmPos = $('.wrapper-boatrace-content').offset().top;
+    var windowHeight = $(window).height();
+
+    if (scroll+windowHeight >= elmPos+200 && appearWhatIsBoatraceContentSignal == false) {
+        appearWhatIsBoatraceContent.play();
+        appearWhatIsBoatraceContentSignal = true;
+    }
+});
