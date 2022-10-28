@@ -7,6 +7,7 @@ from django.db import models
 from bs4 import BeautifulSoup
 
 from . import gcs_ex
+from . import utils
 
 
 DICT_PLACE = {
@@ -274,8 +275,21 @@ class RaceResultSelect:
 
 class RaceResult:
     def __init__(self):
+        # bucket
         self.bucket_boat = gcs_ex.GCSBucket('boat_race_ai', 'boat_race_ai')
         self.bucket_keiba = gcs_ex.GCSBucket('keiba-ai', 'keiba-ai')
+
+        # db_setting（サーバー用）
+        # self.db_settings = self.bucket_boat.read_json(
+        #     'db_settings/boatrace_cloudsql.json'
+        # )
+        # self.db_engine = utils.load_cloud_sql(self.db_settings)
+
+        # db_setting（ローカル用）
+        self.db_settings = self.bucket_boat.read_json(
+            'db_settings/boatrace_local.json'
+        )
+        self.db_engine = utils.load_local_db(self.db_settings)
     
     def get_betting_results(self, race_date, place_id, race_no):
         """betting_resultsから各買い目の枠番、確率、期待値を取得"""
@@ -410,7 +424,7 @@ class RaceResult:
         return dct
     
     def get_race_result(self, race_date, place_id, race_no):
-        """レース結果の各買い目の着順をスクレイピング"""
+        """レース結果の各買い目の着順をスクレイピング、および予測時の確率、オッズを取得"""
 
         url = 'https://www.boatrace.jp/owpc/pc/race/raceresult?rno={2}&jcd={1}&hd={0}'.format(race_date, place_id, race_no)
 
@@ -458,6 +472,42 @@ class RaceResult:
                 prob = str(prob * 100 // 0.01 / 100) + '%'
                 prob_list.append(prob)
             container_dct[bet_type]["prob"] = prob_list
+        
+        # DBの「pre_odds」テーブルから、予測時のオッズを取得する.
+        bet_type_list = ['win', 'quinella', 'exacta', 'triple', 'trifecta']
+        for key in bet_type_list:
+            bracket_no = container_dct[key]['comb'][0]
+            bet_type = DICT_BET_NUM[key]
+            query = f"select * from pre_odds where race_date = {race_date} and place_id = '{place_id}' and race_no = {race_no} and bet_type = {bet_type} and bracket_no = '{bracket_no}';"
+            # DB接続
+            with self.db_engine.connect() as conn:
+                try:
+                    for _ in range(3):
+                        res = conn.execute(query)
+                        break
+                except Exception as e:
+                    print(e)
+                    pass
+            
+            # 抽出
+            pre_odds = 0
+            ex_val = 'err'
+            if res != None:
+                try:
+                    result = list(res)
+                    if len(result) != 0:
+                        pre_odds = result[0][5]
+                    
+                    # 反映
+                    ex_val = float(container_dct[key]['prob'][0].replace('%', '')) * float(pre_odds) / 100
+                    ex_val = round(Decimal(ex_val), 2)
+                    container_dct[key]['ex_val'] = ex_val
+                except:
+                    # 反映
+                    container_dct[key]['ex_val'] = ex_val
+                    print('\n\n')
+                    print(traceback.format_exc())
+                    print('\n\n')
         
         print('レース結果をスクレイピングしたやつ')
         print(container_dct)
