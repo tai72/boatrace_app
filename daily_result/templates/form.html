@@ -14,15 +14,23 @@
     <h1 class="inline-center main-header">Daily Result</h1>
     <div class="align-center">
         <p>
-            調べたい日付を8桁で入力してください。<br>
-            例：2022年5月7日 → 20220507
+            調べたい日付を選択してください。
         </p>
     </div>
     <form action="#" method="post" class="wrapper-form">
         {% csrf_token %}
-        <div class="wrapper-content">
-            <label for="race_date">Race date</label>
-            <input id="race_date" type="text" name="race_date" class="cool">
+        <div class="form-content">
+            <div class="wrapper-form-label disp-flex-row">
+                <img src="{% static 'assets/calendar.png' %}">
+                <div>
+                    <h3>date</h3>
+                </div>
+            </div>
+            <div class="wrapper-form-raceDate">
+                <select name="year" id="id_year" class="select"></select>
+                <select name="month" id="id_month" class="select"></select>
+                <select name="day" id="id_day" class="select"></select>
+            </div>
         </div>
         <button>SEARCH</button>
     </form>

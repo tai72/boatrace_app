@@ -11,15 +11,14 @@
 
 {% block contents %}
 
-<section class="section-form">
+<section class="section-form font-arial">
     <h1 class="inline-center main-header">確率</h1>
     <p>
-        調べたいレースの日付、場番号、レース番号を入力してください。<br>
-        日付：2022年5月7日 → 20220507<br>
+        調べたいレースの日付、場番号、レース番号を選択してください。
     </p>
     <form action="#" method="post" class="wrapper-form">
         {% csrf_token %}
-        <div class="wrapper-content">
+        <!-- <div class="wrapper-content">
             <label for="race_date">Race date</label>
             <input id="race_date" type="text" name="race_date" class="cool">
         </div>
@@ -30,7 +29,82 @@
         <div class="wrapper-content">
             <label for="race_no">Race no</label>
             <input id="race_no" type="text" name="race_no" class="cool">
+        </div> -->
+
+        <div class="form-content">
+            <div class="wrapper-form-label disp-flex-row">
+                <img src="{% static 'assets/calendar.png' %}">
+                <div>
+                    <h3>date</h3>
+                </div>
+            </div>
+            <div class="wrapper-form-raceDate">
+                <select name="year" id="id_year" class="select"></select>
+                <select name="month" id="id_month" class="select"></select>
+                <select name="day" id="id_day" class="select"></select>
+            </div>
         </div>
+        <div class="form-content">
+            <div class="wrapper-form-label disp-flex-row">
+                <img src="{% static 'assets/place.png' %}">
+                <div>
+                    <h3>place</h3>
+                </div>
+            </div>
+            <div class="wrapper-form-raceDate">
+                <select name="place_id" id="id_place_id" class="select">
+                    <option value="01">#01 桐生</option>
+                    <option value="02">#02 戸田</option>
+                    <option value="03">#03 江戸川</option>
+                    <option value="04">#04 平和島</option>
+                    <option value="05">#05 多摩川</option>
+                    <option value="06">#06 浜名湖</option>
+                    <option value="07">#07 蒲郡</option>
+                    <option value="08">#08 常滑</option>
+                    <option value="09">#09 津</option>
+                    <option value="10">#10 三国</option>
+                    <option value="11">#11 びわこ</option>
+                    <option value="12">#12 住之江</option>
+                    <option value="13">#13 尼崎</option>
+                    <option value="14">#14 鳴門</option>
+                    <option value="15">#15 丸亀</option>
+                    <option value="16">#16 児島</option>
+                    <option value="17">#17 宮島</option>
+                    <option value="18">#18 徳山</option>
+                    <option value="19">#19 下関</option>
+                    <option value="20">#20 若松</option>
+                    <option value="21">#21 芦屋</option>
+                    <option value="22">#22 福岡</option>
+                    <option value="23">#23 唐津</option>
+                    <option value="24">#24 大村</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-content">
+            <div class="wrapper-form-label disp-flex-row">
+                <img src="{% static 'assets/finish-flag.png' %}">
+                <div>
+                    <h3>race no</h3>
+                </div>
+            </div>
+            <div class="wrapper-form-raceDate">
+                <select name="race_no" id="id_race_no" class="select">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                </select>
+            </div>
+        </div>
+        
         <button>SEARCH</button>
     </form>
 </section>

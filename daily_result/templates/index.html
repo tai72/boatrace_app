@@ -15,12 +15,82 @@
 <!-- about -->
 
 <section class="about">
-    <div class="wrapper-aboutHeader align-center">
-        <h2>about</h2>
+    <div class="wrapper-header align-center">
+        <h2 class="header">About</h2>
+        <p>本サイトについて</p>
+    </div>
+    <div class="about-explain">
         <p>
             こちらでは、競艇の機械学習モデル「oyukiwa」の予測結果をご覧いただけます。<br>
             不具合・バグ等については温かい目で見守っていただけると幸いです。
         </p>
+    </div>
+</section>
+
+<!-- what is boatrace -->
+
+<section class="whatIsBoatrace">
+    <div class="wrapper-header align-center">
+        <h2 class="header">What is Boatrace</h2>
+        <p>ボートレースとは？</p>
+    </div>
+    <div class="boatrace-explain align-center">
+        <p>
+            競艇とは、プロの選手がモーターボートに乗って着順を競い合うレースであり、公営ギャンブルの一つです。
+        </p>
+        <p>
+            さらに、公営競技の中で最も当てやすいと言われているのが「競艇」です。
+        </p>
+        <p>
+            なぜなら、競艇は１レース6艇のみで行われるため、他の公営競技に比べ組み合わせが少ないからです。
+        </p>
+    </div>
+    <div class="wrapper-boatrace-content disp-flex-row">
+        <div class="boatrace-content">
+            <div class="boatrace-content-header disp-flex-row">
+                <img src="{% static 'assets/racer.png' %}">
+                <p>競技人数</p>
+            </div>
+            <div class="boatrace-content-header-val align-center">
+                <p><span>6</span>人</p>
+            </div>
+        </div>
+        <div class="boatrace-content">
+            <div class="boatrace-content-header disp-flex-row">
+                <img src="{% static 'assets/distance.png' %}">
+                <p>距離</p>
+            </div>
+            <div class="boatrace-content-header-val align-center">
+                <p><span>1800</span>m</p>
+            </div>
+        </div>
+        <div class="boatrace-content">
+            <div class="boatrace-content-header disp-flex-row">
+                <img src="{% static 'assets/speedometer.png' %}">
+                <p>最高速度</p>
+            </div>
+            <div class="boatrace-content-header-val align-center">
+                <p><span>70</span>km/h</p>
+            </div>
+        </div>
+        <div class="boatrace-content">
+            <div class="boatrace-content-header disp-flex-row">
+                <img src="{% static 'assets/arena.png' %}">
+                <p>会場数</p>
+            </div>
+            <div class="boatrace-content-header-val align-center">
+                <p><span>24</span>会場</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- service -->
+
+<section class="service font-arial">
+    <div class="wrapper-aboutHeader align-center">
+        <h2 class="header">Service</h2>
+        <p>できること</p>
     </div>
     <div class="card-container">
         <div class="card">
@@ -73,63 +143,78 @@
         </div>
     </div>
 
-    <!-- レスポンシブ時のabout -->
+    <!-- レスポンシブ時のservice -->
 
-    <div class="card-container-responsive">
-        <div class="card">
-            <div class="face face1">
-                <div class="card-content align-center">
-                    <img src="{% static 'assets/results.png' %}">
-                    <h3>１日の成績</h3>
-                </div>
-                <div class="wrapper-appear-detailIcon">
-                    <img src="{% static 'assets/arrow.png' %}" class="appear-detailIcon">
-                </div>
-            </div>
-            <div class="face face2">
-                <div class="card-content">
-                    <p>
-                        予測に基づいた買い目による、１日の収支結果を確認できます。
-                    </p>
-                    <a href="{% url 'daily_result:daily_result_form' %}">移動する</a>
+    <div class="card-container-responsive align-center">
+        <div class="card-responsive">
+            <div class="wrapper-card-header disp-flex-col">
+                <div>
+                    <div>
+                        <h2>Daily Result</h2>
+                    </div>
+                    <div>
+                        <p>１日の成績</p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="card">
-            <div class="face face1">
-                <div class="card-content align-center">
-                    <img src="{% static 'assets/probability.png' %}">
-                    <h3>確率</h3>
-                </div>
-                <div class="wrapper-appear-detailIcon">
-                    <img src="{% static 'assets/arrow.png' %}" class="appear-detailIcon">
-                </div>
-            </div>
-            <div class="face face2">
-                <div class="card-content">
-                    <p>
-                        １レースごとの、各買い目に対するモデルの的中確率を確認できます。
-                    </p>
-                    <a href="{% url 'daily_result:prob_form' %}">移動する</a>
+            <div class="wrapper-card-content">
+                <img src="{% static 'assets/results.png' %}">
+                <p>
+                    予測に基づいた買い目による、１日の収支結果を確認できます。
+                </p>
+                <div class="card-line"></div>
+                <div class="wrapper-go-detail-button">
+                    <div>
+                        <h2><a href="{% url 'daily_result:daily_result_form' %}">移動する</a></h2>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="card">
-            <div class="face face1">
-                <div class="card-content align-center">
-                    <img src="{% static 'assets/tickets.png' %}">
-                    <h3>予測結果</h3>
-                </div>
-                <div class="wrapper-appear-detailIcon">
-                    <img src="{% static 'assets/arrow.png' %}" class="appear-detailIcon">
+        <div class="card-responsive">
+            <div class="wrapper-card-header disp-flex-col">
+                <div>
+                    <div>
+                        <h2>Probability</h2>
+                    </div>
+                    <div>
+                        <p>確率</p>
+                    </div>
                 </div>
             </div>
-            <div class="face face2">
-                <div class="card-content">
-                    <p>
-                        １レースごとの、モデルの算出した期待値に基づく買い目や、実際のレース結果を確認できます。
-                    </p>
-                    <a href="{% url 'daily_result:race_result_select' %}">移動する</a>
+            <div class="wrapper-card-content">
+                <img src="{% static 'assets/probability.png' %}">
+                <p>
+                    １レースごとの、各買い目に対するモデルの的中確率を確認できます。
+                </p>
+                <div class="card-line"></div>
+                <div class="wrapper-go-detail-button">
+                    <div>
+                        <h2><a href="{% url 'daily_result:prob_form' %}">移動する</a></h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-responsive">
+            <div class="wrapper-card-header disp-flex-col">
+                <div>
+                    <div>
+                        <h2>Prediction</h2>
+                    </div>
+                    <div>
+                        <p>予測結果</p>
+                    </div>
+                </div>
+            </div>
+            <div class="wrapper-card-content">
+                <img src="{% static 'assets/tickets.png' %}">
+                <p>
+                    １レースごとの、モデルの算出した期待値に基づく買い目や、実際のレース結果を確認できます。
+                </p>
+                <div class="card-line"></div>
+                <div class="wrapper-go-detail-button">
+                    <div>
+                        <h2><a href="{% url 'daily_result:race_result_select' %}">移動する</a></h2>
+                    </div>
                 </div>
             </div>
         </div>

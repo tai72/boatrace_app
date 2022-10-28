@@ -4,15 +4,77 @@
 
 {% block title %}Daily Result{% endblock title %}
 
+{% block head %}
+<link type="text/css" rel="stylesheet" href="{% static 'css/daily_result.css' %}">
+{% endblock head %}
+
 {% block contents %}
-<div class="container-contents-outer">
+<section class="container-contents-outer" id="section-daily-result">
     <div class="container-contents-inner align-center">
         <h1 class="main-header">Daily Result</h1>
     </div>
-    <div class="container-result align-center">
-        <h3>購入金額 : {{ buy }}</h3>
-        <h3>配当金 : {{ return_sum }}</h3>
-        <h3>収支 : {{ benefit }}</h3>
-    </div>
-</div>
+    <section class="section-dailyResult">
+        <div class="dailyResult">
+            <div class="wrapper-canvas">
+                <canvas id="canvas" width="250px" height="300px"></canvas>
+            </div>
+            <div class="wrapper-text">
+                <div class="wrapper-result">
+                    <div class="resultText">
+                        <p>収支</p>
+                    </div>
+                    <div class="resultValue">
+                        <h2>{{ benefit }}<span>円</span></h2>
+                    </div>
+                </div>
+                <div class="wrapper-result">
+                    <div class="resultText">
+                        <p>回収率</p>
+                    </div>
+                    <div class="resultValue">
+                        <h2>{{ benefit_rate }}<span>%</span></h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>
+
+<script>
+    (function() {
+        var buySum = '{{ buy }}';
+        var dividend = '{{ return_sum }}';
+        var benefit = '{{ benefit }}';
+        let heights = Array();
+
+        if (benefit >= 0) {
+            heights = [250 * (buySum / dividend), 250];
+            console.log(heights);
+        } else {
+            heights = [250, 250 * (dividend / buySum)];
+            console.log(heights);
+        };
+
+        var elm = document.getElementById('canvas');
+        var ctx = elm.getContext('2d');
+
+        const barColor = ['#808080', '2f4f4f'];
+        const barText = ['購入金額', '配当金'];
+        const barTextVal = [buySum, dividend];
+        const barWidth = 80;
+        const barSpace = 30;
+        for (let i=0; i<heights.length; i++) {
+            let x = (i * barWidth) + i*barSpace + 30;
+            let y = heights[i];
+
+            ctx.fillStyle = barColor[i];
+            ctx.textAlign = 'center';
+            ctx.font = '20px Arial';
+            ctx.fillRect(x, 300, barWidth, -y);
+            ctx.fillText(barTextVal[i], x + 40, 300 - y);
+            ctx.fillText(barText[i], x + 40, 300 - y - 20);
+        }
+    })();
+</script>
+
 {% endblock contents %}

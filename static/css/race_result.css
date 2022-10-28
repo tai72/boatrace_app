@@ -1,5 +1,5 @@
 html {
-    background-color: #fcd575;
+    background-color: #fffffc;
 }
 
 /* 場、レースNo */
@@ -252,6 +252,7 @@ td {
 
 .incomeAndOutgo {
     margin-top: 50px;
+    margin-bottom: 50px;
 }
 
 .wrapper-incomeAndOutgo-title {
@@ -260,6 +261,7 @@ td {
 
 .wrapper-incomeAndOutgo-content {
     margin: 0 auto;
+    padding-bottom: 100px;
     width: fit-content;
 }
 

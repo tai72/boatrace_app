@@ -1,1 +1,120 @@
+/* 共通 */
 
+.disp-flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.disp-flex-col {
+    display: flex;
+    flex-direction: column;
+}
+
+/* フォーム */
+
+.section-form {
+    position: relative;
+    top: 100px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.wrapper-form {
+    margin-top: 50px;
+    width: fit-content;
+}
+
+.form-content {
+    left: 0;
+    margin-bottom: 30px;
+}
+
+.wrapper-form-label {
+    position: relative;
+    margin-bottom: 10px;
+    left: 5px;
+    align-items: center;
+}
+
+.wrapper-form-label img {
+    width: 24px;
+    height: 24px;
+}
+
+.wrapper-form-label div {
+    text-align: center;
+    vertical-align: bottom;
+    margin-left: 5px;
+}
+
+.wrapper-form-label div h3 {
+    display: inline-block;
+    font-size: 24px;
+    font-weight: 100;
+}
+
+.wrapper-form-raceDate select {
+    margin-left: 10px;
+    width: 100px;
+    height: 20px;
+    font-size: 18px;
+    border: none;
+}
+
+/* ボタン */
+
+button {
+    position: relative;
+    font-size: 15px;
+    margin-top: 75px;
+    height: 40px;
+    width: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 30px;
+    border-radius: 20px;
+    background-color: #2B2B2B;
+    color: #fffffc;
+    font-family: 'Quicksand', sans-serif;
+    border: #2B2B2B;
+    box-shadow: 3px 3px 5px rgb(29, 22, 1);
+    transition: .5s;
+}
+
+button:hover {
+    /* opacity: 0.75; */
+    
+    background-color: #fcd575;
+    color: #2B2B2B;
+}
+
+@media screen and (max-width: 768px) {
+    body {
+        width: calc(var(--vw, 1vw) * 100)!important;
+        height: calc(var(--vh, 1vh) * 100)!important;
+    }
+
+    .section-form {
+        top: 30px;
+    }
+
+    .section-form p {
+        width: 250px;
+    }
+
+    .wrapper-form-raceDate select {
+        width: 75px;
+        font-size: 16px;
+    }
+
+    #id_place_id {
+        width: 100px;
+    }
+
+    button {
+        background-color: #fcd575;
+        color: #2B2B2B;
+    }
+}

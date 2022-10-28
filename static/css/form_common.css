@@ -20,61 +20,45 @@ body {
 }
 
 .wrapper-form {
-    /* background-color: blue; */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 400px;
+    margin-top: 50px;
+    width: fit-content;
 }
 
-@media screen and (max-width: 768px) {
-    .wrapper-form {
-        width: 300px;
-    }
+.form-content {
+    left: 0;
+    margin-bottom: 30px;
 }
 
-.wrapper-content {
-    /* background-color: blueviolet; */
-    width: 100%;
+.wrapper-form-label {
     position: relative;
-    margin: 20px 0;
-    border: 1px solid;
+    margin-bottom: 10px;
+    left: 5px;
+    align-items: center;
 }
 
-label {
-    /* background-color: aquamarine; */
-    position: absolute;
-    box-sizing: border-box;
-    width: 100%;
-    top: 0;
-    font-size: 30px;
-    margin: 10px;
-    padding: 0 10px;
-    -webkit-transition: top .2s ease-in-out, 
-                        font-size .2s ease-in-out;
-    transition: top .2s ease-in-out, 
-                font-size .2s ease-in-out;
+.wrapper-form-label img {
+    width: 24px;
+    height: 24px;
 }
 
-.active {
-    top: -25px;
-    font-size: 20px;
-    background-color: white;
-    width: auto;
+.wrapper-form-label div {
+    text-align: center;
+    vertical-align: bottom;
+    margin-left: 5px;
 }
 
-input[type=text] {
-    box-sizing: border-box;
-    width: 100%;
-    padding: 20px;
-    border: 1px solid white;
-    font-size: 20px;
-    /* background-color: teal; */
-    /* color: white; */
-} 
-  
-input[type=text]:focus {
-    outline: none;
+.wrapper-form-label div h3 {
+    display: inline-block;
+    font-size: 24px;
+    font-weight: 100;
+}
+
+.wrapper-form-raceDate select {
+    margin-left: 10px;
+    width: 100px;
+    height: 20px;
+    font-size: 18px;
+    border: none;
 }
 
 /* ボタン */
@@ -85,13 +69,46 @@ button {
     margin-top: 75px;
     height: 40px;
     width: 100px;
-    border-radius: 5px;
-    background-color: rgb(116, 114, 111);
-    color: rgb(239, 236, 232);
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 30px;
+    border-radius: 20px;
+    background-color: #2B2B2B;
+    color: #fffffc;
     font-family: 'Quicksand', sans-serif;
+    border: #2B2B2B;
+    box-shadow: 3px 3px 5px rgb(29, 22, 1);
+    transition: .5s;
 }
 
 button:hover {
-    opacity: 0.75;
-    box-shadow: 3px 3px 5px rgb(29, 22, 1);
+    /* opacity: 0.75; */
+    
+    background-color: #fcd575;
+    color: #2B2B2B;
+}
+
+@media screen and (max-width: 768px) {
+    body {
+        width: calc(var(--vw, 1vw) * 100)!important;
+        height: calc(var(--vh, 1vh) * 100)!important;
+    }
+
+    .section-form {
+        top: 30px;
+    }
+
+    .section-form p {
+        width: 250px;
+    }
+
+    .wrapper-form-raceDate select {
+        width: 75px;
+        font-size: 16px;
+    }
+
+    button {
+        background-color: #fcd575;
+        color: #2B2B2B;
+    }
 }
