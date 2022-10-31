@@ -1,12 +1,18 @@
 import json
 import matplotlib
+import logging
 from django.http.response import JsonResponse
 from django.shortcuts import render
 from django.views import generic
 from django.http import HttpResponse
+from django.urls import reverse_lazy
+from django.contrib import messages
 from datetime import datetime
 
 from . import models
+from .forms import InquiryForm
+
+logger = logging.getLogger(__name__)
 
 
 DICT_PLACE = {
@@ -161,3 +167,17 @@ class RaceResultView(generic.TemplateView):
         print(context)
 
         return self.render_to_response(context)
+
+class InquiryView(generic.FormView):
+    """お問合せ"""
+
+    template_name = "inquiry.html"
+    form_class = InquiryForm
+    success_url = reverse_lazy('daily_result:inquiry')  # 正しく送信された時にリダイレクトされるとこ
+
+    # フォームバリデーションに問題がなかったら実行されるメソッド（親クラスのメソッド）
+    def form_valid(self, form):
+        logger.info('Inquiry sent by {}'.format(form.cleaned_data['name']))
+        form.send_email()
+        messages.success(self.request, 'お問い合わせありがとうございました。')
+        return super().form_valid(form)

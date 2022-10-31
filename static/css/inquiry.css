@@ -1,0 +1,128 @@
+/* 共通 */
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --black: #2b2b2b;
+    --white: #fffffc;
+    --baseColor: #fcd575;
+    --subBaseColor: #0033ff;
+}
+
+.disp-flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.disp-flex-col {
+    display: flex;
+    flex-direction: column;
+}
+
+/* お問合せ */
+
+#inquiry {
+    position: relative;
+    width: calc(var(--vw, 1vw) * 100)!important;
+    height: calc(var(--vh, 1vh) * 100)!important;
+}
+
+.wrapper-header {
+    position: relative;
+    top: 30px;
+}
+
+.wrapper-header p {
+    display: inline-block;
+    margin-bottom: 60px;
+}
+
+.wrapper-form {
+    width: 400px;
+    margin: 0 auto;
+}
+
+.form-content {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    width: fit-content;
+    /* background: var(--black); */
+    margin-bottom: 5px;
+    color: var(--black);
+    padding: .2px 3px;
+    border-radius: 5px;
+    font-weight: 1000;
+}
+
+#id_name, #id_email, #id_title, #id_message {
+    width: 400px;
+    height: 25px;
+    font-size: 14px;
+}
+
+#id_message {
+    resize: none;
+    height: 300px;
+    border: .1px solid;
+}
+
+input:required, #id_message:required {
+    background-color: #ffcdd2;
+}
+
+input:valid, #id_message:valid {
+    background: transparent;
+}
+
+input:focus, #id_message:focus {
+    background-color: #DCEDC8;
+}
+
+button {
+    position: relative;
+    height: 38px;
+    width: 75px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 18px;
+    border-radius: 7.5px;
+    border: none;
+    transition: .1s ease-in-out;
+}
+
+button:hover {
+    background-color: var(--baseColor);
+}
+
+@media screen and (max-width: 768px) {
+    .wrapper-header {
+        top: 0;
+    }
+
+    .wrapper-form {
+        width: fit-content;
+    }
+
+    #id_name, #id_email, #id_title, #id_message {
+        width: calc(var(--vw, 1vw) * 75)!important;
+    }
+}
+
+/* メッセージ（お問合せ後など） */
+
+.wrapper-message {
+    position: relative;
+    width: fit-content;
+    margin-bottom: 20px;
+    background-color: var(--baseColor);
+    color: var(--white);
+    padding: 5px;
+    border-radius: 7px;
+    left: 50%;
+    transform: translateX(-50%);
+}

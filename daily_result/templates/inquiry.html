@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}お問合せ{% endblock title %}
+
+{% block head %}<link type="text/css" rel="stylesheet" href="{% static 'css/inquiry.css' %}">{% endblock head %}
+
+{% block contents %}
+
+    <section id="inquiry">
+        <div class="wrapper-header align-center">
+            <h1 class="inline-center main-header align-center">お問合せ</h1>
+            <p>
+                ご質問等ございましたらお問い合わせフォームにて受け付けております。<br>
+                必要事項をご記入の上「送信」ボタンよりお問い合わせください。
+            </p>
+        </div>
+
+        <!-- メッセージがある場合 -->
+
+        {% if messages %}
+            <div class="wrapper-message align-center">
+                {% for message in messages %}
+                <h3>{{ message }}</h3>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="wrapper-form">
+            <form id="inquiry-form" method="post">
+                {% csrf_token %}
+
+                {{ form.non_field_errors }}
+
+                {% for field in form %}
+                <div class="form-content">
+                    <div class="form-label">
+                        <p>{{ field.label_tag }}</p>
+                    </div>
+                    <div class="form-field">
+                        {{ field }}
+                        {{ field.errors }}
+                    </div>
+                </div>
+                {% endfor %}
+
+                <button type="submit">送信</button>
+            </form>
+        </div>
+    </section>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="{% static 'js/anime.min.js' %}"></script>
+    <!-- <script src="{% static 'js/main.js' %}"></script> -->
+    <!-- <script src="{% static 'js/race_result.js' %}"></script> -->
+
+{% endblock contents %}

@@ -15,7 +15,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-@&06ndw7ql4930wp^qduoqygj3_g)^b#x@seyp!tcn5@8t*^c_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -186,5 +186,16 @@ LOGGING = {
 
 # 静的ファイルのパス設定
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'static'), 
 )
+
+# メールの配信先をコンソールにする設定
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# メールサーバー設定
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'vision7227tata@gmail.com'
+EMAIL_HOST_PASSWORD = 'aexvpanoslwqaooi'
+EMAIL_USE_TLS = True
