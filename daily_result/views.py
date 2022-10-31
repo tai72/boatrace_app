@@ -179,5 +179,5 @@ class InquiryView(generic.FormView):
     def form_valid(self, form):
         logger.info('Inquiry sent by {}'.format(form.cleaned_data['name']))
         form.send_email()
-        messages.success(self.request, 'お問合せありがとうございました。')
+        messages.success(self.request, 'お問い合わせありがとうございました。')
         return super().form_valid(form)
