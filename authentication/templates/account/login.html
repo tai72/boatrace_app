@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}ログイン{% endblock title %}
+
+{% block head %}<link type="text/css" rel="stylesheet" href="{% static 'css/authentication.css' %}">{% endblock head %}
+
+{% block active_signup %}active{% endblock active_signup %}
+
+{% block contents %}
+<section id="login-section">
+    <div class="wrapper-header align-center">
+        <h1 class="main-header">ログイン</h1>
+        <p>アカウントをまだお持ちでなければ、こちらから<a href="{% url 'account_signup' %}">ユーザー登録</a>してください。</p>
+    </div>
+    <div class="wrapper-login-form">
+        <form method="post" action="{% url 'account_login' %}">
+            {% csrf_token %}
+
+            <div class="login-form-content">
+                <input type="email" name="login" placeholder="メールアドレス" autocomplete="email" required id="id_login">
+            </div>
+            <div class="login-form-content">
+                <input type="password" name="password" placeholder="パスワード" autocomplete="current-password" required id="id_password">
+            </div>
+            <div class="login-form-content">
+                <input type="checkbox" name="remember" id="id_remember">
+            </div>
+            <a href="{% url 'account_reset_password' %}">パスワードをお忘れですか？</a>
+            <button type="submit">ログイン</button>
+        </form>
+    </div>
+</section>
+{% endblock contents %}

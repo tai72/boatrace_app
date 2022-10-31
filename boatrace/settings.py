@@ -1,4 +1,5 @@
 import os
+from telnetlib import AUTHENTICATION
 import pymysql
 from pathlib import Path
 
@@ -15,7 +16,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-@&06ndw7ql4930wp^qduoqygj3_g)^b#x@seyp!tcn5@8t*^c_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -31,6 +32,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'daily_result.apps.DailyResultConfig',
+    'authentication.apps.AuthenticationConfig', 
+
+    'django.contrib.sites',     # django-allauthが内部で使えるようにするため
+    'allauth', 
+    'allauth.account', 
+    'allauth.socialaccount', 
 ]
 
 MIDDLEWARE = [
@@ -199,3 +206,35 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'vision7227tata@gmail.com'
 EMAIL_HOST_PASSWORD = 'aexvpanoslwqaooi'
 EMAIL_USE_TLS = True
+
+# カスタムユーザーモデルを参照するようにするため
+AUTH_USER_MODEL = 'authentication.CustomUser'
+
+# django-allauthで利用するdjango.contrib.sitesを使うためにサイト識別用IDを設定
+SITE_ID = 1
+
+AUTHENTICATION_BACKENDS = (
+    'allauth.account.auth_backends.AuthenticationBackend',     # 一般ユーザー用（メールアドレス認証）
+    'django.contrib.auth.backends.ModelBackend',               # 管理サイト用（ユーザー名認証）
+)
+
+# メールアドレス認証に変更する設定
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_USERNAME_REQUIRED = False
+
+# サインアップにメールアドレス確認設定をはさむよう設定
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_EMAIL_REQUIRED = True
+
+# ログイン / ログアウト後の遷移先を設定
+LOGIN_REDIRECT_URL = 'daily_result:index'
+ACCOUNT_LOGOUT_REDIRECT_URL = 'account_login'
+
+# ログアウトリンクのクリック一発でログアウトする設定
+ACCOUNT_LOGOUT_ON_GET = True
+
+# django-allauthが送信するメールの件名自動付与される接頭辞をブランクにする設定
+ACCOUNT_EMAIL_SUBJECT_PREFIX = ''
+
+# デフォルトのメール送信元を設定
+DEFAULT_FROM_EMAIL = 'vision7227tata@gmail.com'

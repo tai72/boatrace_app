@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}サインアップ{% endblock title %}
+
+{% block head %}<link type="text/css" rel="stylesheet" href="{% static 'css/authentication.css' %}">{% endblock head %}
+
+{% block active_signup %}active{% endblock active_signup %}
+
+{% block contents %}
+<section id="signup-section">
+    <div class="wrapper-header align-center">
+        <h1 class="main-header">ユーザー登録</h1>
+        <p>
+            すでにアカウントをお持ちであれば、こちらから<a href="{% url 'account_login' %}">ログイン</a>してください。
+        </p>
+    </div>
+    <div class="wrapper-signup-form">
+        <form method="post" action="{% url 'account_signup' %}">
+            {% csrf_token %}
+
+            <div class="signup-form-content">
+                <input type="email" name="email" placeholder="メールアドレス" autocomplete="email" required id="id_email">
+            </div>
+            <div class="signup-form-content">
+                <input type="password" name="password1" placeholder="パスワード" autocomplete="new-password" required id="id_password1">
+            </div>
+            <div class="signup-form-content">
+                <input type="password" name="password2" placeholder="パスワード" autocomplete="new-password" required id="id_password2">
+            </div>
+
+            {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}">
+            {% endif %}
+
+            <button type="submit">ユーザー登録</button>
+        </form>
+    </div>
+</section>
+{% endblock contents %}

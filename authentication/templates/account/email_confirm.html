@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}サインアップ確認{% endblock title %}
+
+{% block head %}<link type="text/css" rel="stylesheet" href="{% static 'css/authentication.css' %}">{% endblock head %}
+
+{% block active_signup %}active{% endblock active_signup %}
+
+{% block contents %}
+<section id="signup-section">
+
+    {% if confirmation %}
+
+    <div class="wrapper-header align-center">
+        <h1 class="main-header">ユーザー登録</h1>
+        <p>ユーザー登録を確定するには、以下のボタンを押してください。</p>
+    </div>
+    <div class="wrapper-signup-confirm-form">
+        <form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
+            {% csrf_token %}
+            <button type="submit">確定</button>
+        </form>
+    </div>
+
+    {% else %}
+
+    {% url 'account_email' as email_url %}
+
+    <div class="wrapper-header align-center">
+        <h1 class="main-header">ユーザー登録</h1>
+        <p>リンクの有効期限が過ぎています。<a href="{{ email_url }}">再申請</a>.</p>
+    </div>
+
+    {% endif %}
+</section>
+{% endblock contents %}

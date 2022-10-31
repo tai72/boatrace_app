@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}メール確認{% endblock title %}
+
+{% block head %}<link type="text/css" rel="stylesheet" href="{% static 'css/authentication.css' %}">{% endblock head %}
+
+{% block contents %}
+<section id="verify-section">
+    <div class="wrapper-header align-center">
+        <h1 class="main-header">メールアドレスを確認してください</h1>
+        <p>確認のメールを送信しました。</p>
+        <p>メールに記載されたリンクをクリックして、ユーザー登録を完了させてください。数分経っても確認のメールが届かない場合はご連絡ください。</p>
+    </div>
+</section>
+{% endblock contents %}

@@ -24,6 +24,14 @@
                     <li class="header-inner-li"><a class="text-white decorate-none nav-link" href="{% url 'daily_result:prob_form' %}">確率</a></li>
                     <li class="header-inner-li"><a class="text-white decorate-none nav-link" href="{% url 'daily_result:race_result_select' %}">予測結果</a></li>
                     <li class="header-inner-li"><a class="text-white decorate-none nav-link" href="{% url 'daily_result:inquiry' %}">お問い合わせ</a></li>
+
+                    {% if user.is_authenticated %}
+                    <li class="header-inner-li"><a class="text-white decorate-none nav-link" href="{% url 'account_logout' %}">ログアウト</a></li>
+                    {% else %}
+                    <li class="header-inner-li"><a class="text-white decorate-none nav-link {% block active_signup %}{% endblock active_signup %}" href="{% url 'account_signup' %}">サインアップ</a></li>
+                    <li class="header-inner-li"><a class="text-white decorate-none nav-link {% block active_login %}{% endblock active_login %}" href="{% url 'account_login' %}">ログイン</a></li>
+                    {% endif %}
+
                     <li class="header-inner-li"><a class="text-white decorate-none nav-link" href="{% url 'daily_result:index' %}">TOP</a></li>
                 </ul>
 
@@ -40,6 +48,13 @@
                         <li class="nav-menu-li"><a href="{% url 'daily_result:prob_form' %}">確率</a></li>
                         <li class="nav-menu-li"><a href="{% url 'daily_result:race_result_select' %}">予測結果</a></li>
                         <li class="nav-menu-li"><a href="{% url 'daily_result:inquiry' %}">お問い合わせ</a></li>
+
+                        {% if user.is_authenticated %}
+                        <li class="nav-menu-li"><a href="{% url 'account_logout' %}">ログアウト</a></li>
+                        {% else %}
+                        <li class="nav-menu-li"><a href="{% url 'account_signup' %}">サインアップ</a></li>
+                        <li class="nav-menu-li"><a href="{% url 'account_login' %}">ログイン</a></li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
