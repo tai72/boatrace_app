@@ -280,16 +280,16 @@ class RaceResult:
         self.bucket_keiba = gcs_ex.GCSBucket('keiba-ai', 'keiba-ai')
 
         # db_setting（サーバー用）
-        # self.db_settings = self.bucket_boat.read_json(
-        #     'db_settings/boatrace_cloudsql.json'
-        # )
-        # self.db_engine = utils.load_cloud_sql(self.db_settings)
+        self.db_settings = self.bucket_boat.read_json(
+            'db_settings/boatrace_cloudsql.json'
+        )
+        self.db_engine = utils.load_cloud_sql(self.db_settings)
 
         # db_setting（ローカル用）
-        self.db_settings = self.bucket_boat.read_json(
-            'db_settings/boatrace_local.json'
-        )
-        self.db_engine = utils.load_local_db(self.db_settings)
+        # self.db_settings = self.bucket_boat.read_json(
+        #     'db_settings/boatrace_local.json'
+        # )
+        # self.db_engine = utils.load_local_db(self.db_settings)
     
     def get_betting_results(self, race_date, place_id, race_no):
         """betting_resultsから各買い目の枠番、確率、期待値を取得"""

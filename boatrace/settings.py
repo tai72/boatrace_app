@@ -107,6 +107,16 @@ else:
             'PORT': '',
         }
     }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'boatrace',
+#         'USER': 'postgres',
+#         'PASSWORD': '@8319English',
+#         'HOST': '',
+#         'PORT': '',
+#     }
+# }
 
 
 # Password validation
