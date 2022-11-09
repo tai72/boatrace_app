@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}403エラー{% endblock title %}
+
+{% block head %}<link type="text/css" rel="stylesheet" href="{% static 'css/http_error_page.css' %}">{% endblock head %}
+
+{% block contents %}
+
+    <section id="403">
+        <div class="wrapper-header align-center">
+            <h1 class="inline-center main-header align-center">403エラー</h1>
+            <p>アクセス権限がありません。</p>
+        </div>
+    </section>
+
+    <!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="{% static 'js/anime.min.js' %}"></script> -->
+    <!-- <script src="{% static 'js/main.js' %}"></script> -->
+
+{% endblock contents %}
