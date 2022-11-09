@@ -1,5 +1,6 @@
+{: align="center"}
 ![OYU](https://user-images.githubusercontent.com/99964360/200830692-71918dac-bb66-4b13-a540-27ccde5593b5.png)
-
+{: align="center"}
 ### OYU Lab. - You can confirm the prediction of our AI model.
 ---
 
