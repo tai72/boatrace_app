@@ -1,25 +1,5 @@
-# レース結果作成
-### 概要
-書け
+![OYU](https://user-images.githubusercontent.com/99964360/200830692-71918dac-bb66-4b13-a540-27ccde5593b5.png)
 
-### How To Deploy
+OYU Lab. - 
 
-```
-gcloud pubsub topics create betting_result_topic
-```
-
-```
-gcloud functions deploy create_betting_result \
---trigger-topic betting_result_topic \
---runtime python39 \
---entry-point main \
---timeout 540 \
---region asia-northeast1
-```
-
-```
-gcloud beta scheduler jobs create pubsub betting_result_exec_every10min \
---schedule "*/10 9-23 * * *" \
---topic betting_result_topic \
---time-zone 'Asia/Tokyo'
-```
+[![Open in Visual Studio Code](https://img.shields.io/static/v1?logo=visualstudiocode&label=&message=Open%20in%20Visual%20Studio%20Code&labelColor=2c2c32&color=007acc&logoColor=007acc)](https://open.vscode.dev/tai72/boatrace_app)
