@@ -109,7 +109,8 @@ window.onload = function() {
 const appearAboutContent = anime.timeline({
     targets: '.card', 
     easing: 'easeInOutSine', 
-    delay: anime.stagger(200)
+    delay: anime.stagger(200), 
+    autoplay: false
 })
 .add({
     opacity: [0, 1], 
@@ -145,10 +146,11 @@ $('.appear-detailIcon').on('click', function() {
 const appearWhatIsBoatraceContent = anime.timeline({
     targets: '.boatrace-content', 
     easing: 'easeInOutSine', 
-    delay: anime.stagger(200)
+    delay: anime.stagger(200), 
+    autoplay: false
 })
 .add({
-    opacity: 1, 
+    opacity: [0, 1], 
     delay: anime.stagger(100), 
     duration: 500, 
 });

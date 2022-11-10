@@ -317,6 +317,7 @@ a:link, a:visited, a:hover, a:active {
 .wrapper-boatrace-content {
     margin-top: 50px;
     justify-content: center;
+    /* opacity: 0; */
 }
 
 .boatrace-content {

@@ -1,21 +1,43 @@
 import os
+import json
+from telnetlib import AUTHENTICATION
 import pymysql
 from pathlib import Path
 
 pymysql.install_as_MySQLdb()
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# read settinsg.json
+try:
+    config_path = os.path.join(BASE_DIR, 'settings.json')
+    config = json.load(open(config_path, "r", encoding="utf-8"))
+except FileNotFoundError as e:
+    print("[ERROR] Config file is not found.")
+    raise e
+except ValueError as e:
+    print("[ERROR] Json file is invalid.")
+    raise e
+
+db_user = config['DB_USER']
+db_password = config['DB_PASSWORD']
+email_outlook = config['EMAIL_OUTLOOK']
+email_host = config['EMAIL_HOST']
+email_host_pass = config['EMAIL_HOST_PASS']
+secret_key = config['SECRET_KEY']
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-@&06ndw7ql4930wp^qduoqygj3_g)^b#x@seyp!tcn5@8t*^c_'
+# SECRET_KEY = 'django-insecure-@&06ndw7ql4930wp^qduoqygj3_g)^b#x@seyp!tcn5@8t*^c_'
+SECRET_KEY = secret_key
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -31,6 +53,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'daily_result.apps.DailyResultConfig',
+    'authentication.apps.AuthenticationConfig', 
+
+    'django.contrib.sites',     # django-allauthが内部で使えるようにするため
+    'allauth', 
+    'allauth.account', 
+    'allauth.socialaccount', 
 ]
 
 MIDDLEWARE = [
@@ -67,6 +95,15 @@ WSGI_APPLICATION = 'boatrace.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# sqlite3での設定
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3', 
+        'NAME': os.path.join(BASE_DIR, 'db', 'db.sqlite3'), 
+    }
+}
+
+# postgresでの設定
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -79,28 +116,27 @@ WSGI_APPLICATION = 'boatrace.wsgi.application'
 # }
 
 # GCPでデプロイするために書き換え
-if os.environ.get('GAE_APPLICATION', None):
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'keiba',
-            'USER': 'yamashi7227.04020105.7227@outlook.jp',
-            'PASSWORD': 'minnadewowwow',
-            'HOST': '/cloudsql/keiba-ai-350521:asia-northeast1:keiba-ai-mysql',
-        }
-    }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'boatrace',
-            'USER': os.environ.get('DB_USER'),
-            'PASSWORD': os.environ.get('DB_PASSWORD'),
-            'HOST': '',
-            'PORT': '',
-        }
-    }
-
+# if os.environ.get('GAE_APPLICATION', None):
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.mysql',
+#             'NAME': '',
+#             'USER': os.environ.get('EMAIL_OUTLOOK'),
+#             'PASSWORD': '',
+#             'HOST': '',
+#         }
+#     }
+# else:
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#             'NAME': 'boatrace',
+#             'USER': os.environ.get('DB_USER'),
+#             'PASSWORD': os.environ.get('DB_PASSWORD'),
+#             'HOST': '',
+#             'PORT': '',
+#         }
+#     }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -196,6 +232,38 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # メールサーバー設定
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'vision7227tata@gmail.com'
-EMAIL_HOST_PASSWORD = 'aexvpanoslwqaooi'
+EMAIL_HOST_USER = email_host
+EMAIL_HOST_PASSWORD = email_host_pass
 EMAIL_USE_TLS = True
+
+# カスタムユーザーモデルを参照するようにするため
+AUTH_USER_MODEL = 'authentication.CustomUser'
+
+# django-allauthで利用するdjango.contrib.sitesを使うためにサイト識別用IDを設定
+SITE_ID = 1
+
+AUTHENTICATION_BACKENDS = (
+    'allauth.account.auth_backends.AuthenticationBackend',     # 一般ユーザー用（メールアドレス認証）
+    'django.contrib.auth.backends.ModelBackend',               # 管理サイト用（ユーザー名認証）
+)
+
+# メールアドレス認証に変更する設定
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_USERNAME_REQUIRED = False
+
+# サインアップにメールアドレス確認設定をはさむよう設定
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_EMAIL_REQUIRED = True
+
+# ログイン / ログアウト後の遷移先を設定
+LOGIN_REDIRECT_URL = 'daily_result:index'
+ACCOUNT_LOGOUT_REDIRECT_URL = 'account_login'
+
+# ログアウトリンクのクリック一発でログアウトする設定
+ACCOUNT_LOGOUT_ON_GET = True
+
+# django-allauthが送信するメールの件名自動付与される接頭辞をブランクにする設定
+ACCOUNT_EMAIL_SUBJECT_PREFIX = ''
+
+# デフォルトのメール送信元を設定
+DEFAULT_FROM_EMAIL = email_host

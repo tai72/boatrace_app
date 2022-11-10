@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}ログイン{% endblock title %}
+
+{% block head %}<link type="text/css" rel="stylesheet" href="{% static 'css/authentication.css' %}">{% endblock head %}
+
+{% block active_signup %}active{% endblock active_signup %}
+
+{% block contents %}
+<section id="login-section">
+    <div class="wrapper-header align-center">
+        <h1 class="main-header">ログイン</h1>
+        <p>アカウントをまだお持ちでなければ、こちらから<a href="{% url 'account_signup' %}"><span class="account-link">ユーザー登録</span></a>してください。</p>
+    </div>
+    <div class="wrapper-account-form">
+        <form method="post" action="{% url 'account_login' %}">
+            {% csrf_token %}
+
+            <div class="form-content">
+                <input type="email" name="login" autocomplete="email" required id="id_login"><span class="highlight"></span><span class="bar"></span>
+                <label>Email</label>
+            </div>
+            <div class="form-content">
+                <input type="password" name="password" autocomplete="current-password" required id="id_password"><span class="highlight"></span><span class="bar"></span>
+                <label>password</label>
+            </div>
+            <div class="radio-btn">
+                <div>
+                    <input type="checkbox" name="remember" id="id_remember">
+                    <label>ログイン状態を保持する</label>
+                </div>
+            </div>
+            <button type="submit">ログイン</button>
+            <div class="reset-pw">
+                <a href="{% url 'account_reset_password' %}">パスワードをお忘れですか？</a>
+            </div>
+        </form>
+    </div>
+</section>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="{% static 'js/authentication.js' %}"></script>
+{% endblock contents %}
