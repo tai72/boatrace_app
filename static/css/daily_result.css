@@ -72,3 +72,14 @@
         margin-top: 20px;
     }
 }
+
+/* 買い目ごとの成績 */
+
+#daily-result-each-comb {
+    margin-top: 70px;
+}
+
+.result-each-comb-content {
+    margin-top: 150px;
+    background-color: #696565;
+}
