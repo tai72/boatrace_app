@@ -81,5 +81,11 @@
 
 .result-each-comb-content {
     margin-top: 150px;
-    background-color: #696565;
+}
+
+.wrapper-pie-chart {
+    width: fit-content;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
 }

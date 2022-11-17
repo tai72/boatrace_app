@@ -48,7 +48,7 @@
     </div>
     <div class="result-each-comb-content">
         <div class="wrapper-pie-chart">
-            <canvas id="pie-chart" width="300px" height="300px"></canvas>
+            <canvas id="pie-chart" width="300px" height="200px"></canvas>
         </div>
     </div>
 </section>
@@ -96,26 +96,40 @@
         const elmPieChart = document.getElementById('pie-chart');
         const ctxPieChart = elmPieChart.getContext('2d');
 
-        var angleTriple = 360 * ( 50 / 100 );
-        var angleQuinella = 360 * ( 30 / 100 );
-        var angleTrifecta = 360 * ( 20 / 100 );
+        var angleTrifecta = 360 * ( '{{ dividend_ratio_each_comb.trifecta }}' / 100 );
+        var angleTriple = 360 * ( '{{ dividend_ratio_each_comb.triple }}' / 100 );
+        var angleExacta = 360 * ( '{{ dividend_ratio_each_comb.exacta }}' / 100 );
+        var angleQuinella = 360 * ( '{{ dividend_ratio_each_comb.quinella }}' / 100 );
+        var angleWin = 360 * ( '{{ dividend_ratio_each_comb.win }}' / 100 );
 
-        const pieColorArray = ['red', 'blue', 'yellow'];
-        const angleArray = [angleTriple, angleQuinella, angleTrifecta];
+        const pieColorArray = ['#284155', '#597594', '#e83745', '#f8cbc5', '#fbf59b'];
+        const angleArray = [angleTrifecta, angleTriple, angleExacta, angleQuinella, angleWin];
 
         let angleValStart = 0;
         let angleValEnd = 0;
+        const radius = 100;
         for (i=0; i<angleArray.length; i++) {
             angleValEnd += angleArray[i];
             let pieColor = pieColorArray[i];
 
             ctxPieChart.beginPath();
-            ctxPieChart.arc( 100, 100, 100, angleValStart * Math.PI / 180, angleValEnd * Math.PI / 180, false );
-            ctxPieChart.lineTo(100, 100);
+            ctxPieChart.arc( radius, radius, radius, angleValStart * Math.PI / 180, angleValEnd * Math.PI / 180, false );
+            ctxPieChart.lineTo(radius, radius);
             ctxPieChart.fillStyle = pieColor;
             ctxPieChart.fill();
 
             angleValStart += angleArray[i];
+        }
+        
+        const comb_list = ['trifecta', 'triple', 'exacta', 'quinella', 'win']
+        for (i=0; i<pieColorArray.length; i++) {
+            pieColor = pieColorArray[i];
+
+            ctxPieChart.fillStyle = pieColor;
+            ctxPieChart.fillRect(230, 10 + ( i * 25 ), 10, 10);
+            ctxPieChart.textAlign = 'start';
+            ctxPieChart.font = '16px Arial';
+            ctxPieChart.fillText(comb_list[i], 250, 19 + ( i * 25 ));
         }
     })();
 </script>

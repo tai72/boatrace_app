@@ -2,7 +2,7 @@ import itertools
 import traceback
 import requests
 import pandas as pd
-from decimal import Decimal
+from decimal import Decimal, ROUND_HALF_UP, ROUND_HALF_EVEN
 from django.db import models
 from bs4 import BeautifulSoup
 
@@ -92,6 +92,48 @@ class GetResult:
         except Exception as e:
             info = {"error": e}
             return info
+    
+    def get_dividend_ratio_each_comb(self, param):
+        """配当金においての、買い目に対する割合"""
+
+        # キー
+        year = param['year']
+        month = param['month']
+        day = param['day']
+
+        # race_date を作成
+        month = str(month)
+        if len(month) != 2:
+            month = '0' + month
+        day = str(day)
+        if len(day) != 2:
+            day = '0' + day
+        race_date = str(year) + str(month) + str(day)
+
+        bet_type_list = ['1', '4', '5', '6', '7']
+        dividend_each_comb = {}
+        try:
+            # 読み込み
+            df = self.bucket.read_csv(f'daily_betting_results/{race_date}/results_about_bet_type.csv')
+
+            # 買い目ごとの配当金を取得（実数）
+            for key in DICT_BET_NUM.keys():
+                bet_type = str(DICT_BET_NUM[key])
+                dividend = int(df.loc[df['bet_type'] == bet_type, 'return'].iloc[-1])
+                dividend_each_comb[key] = dividend
+            
+            # 買い目ごとの配当金の割合に変換
+            dividend_sum = Decimal(str(df.loc[df['bet_type'] == 'SUM', 'return'].iloc[-1]))
+            for key in dividend_each_comb.keys():
+                dividend = Decimal(str(dividend_each_comb[key]))
+                dividend_ratio = ((dividend / dividend_sum) * 100).quantize(Decimal('0.1'), rounding=ROUND_HALF_UP)
+                
+                # 上書き
+                dividend_each_comb[key] = dividend_ratio
+            
+            return dividend_each_comb
+        except:
+            print(traceback.format_exc())
 
 class Prob:
     def __init__(self):
@@ -426,6 +468,7 @@ class RaceResult:
     def get_race_result(self, race_date, place_id, race_no):
         """レース結果の各買い目の着順をスクレイピング、および予測時の確率、オッズを取得"""
 
+        place_id = '0' + place_id if len(str(place_id)) == 1 else place_id
         url = 'https://www.boatrace.jp/owpc/pc/race/raceresult?rno={2}&jcd={1}&hd={0}'.format(race_date, place_id, race_no)
 
         # パース
