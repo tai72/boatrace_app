@@ -80,12 +80,44 @@
 }
 
 .result-each-comb-content {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
     margin-top: 150px;
+    align-items: center;
+    justify-content: center;
 }
 
 .wrapper-pie-chart {
     width: fit-content;
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
+}
+
+.wrapper-buy-dividend-graph {
+    width: fit-content;
+    margin-left: 20px;
+}
+
+@media screen and (max-width: 768px) {
+    .wrapper-title {
+        position: relative;
+        top: 30px;
+    }
+
+    .main-header {
+        position: relative;
+        top: 0;
+        margin-top: 0;
+    }
+
+    .result-each-comb-content {
+        flex-direction: column;
+        width: calc(var(--vw, 1vw) * 95)!important;
+        align-content: center;
+    }
+
+    .wrapper-buy-dividend-graph {
+        margin-left: 0;
+        max-width: calc(var(--vw, 1vw) * 95)!important;
+        overflow: scroll;
+    }
 }

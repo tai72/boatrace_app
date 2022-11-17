@@ -110,7 +110,6 @@ class GetResult:
             day = '0' + day
         race_date = str(year) + str(month) + str(day)
 
-        bet_type_list = ['1', '4', '5', '6', '7']
         dividend_each_comb = {}
         try:
             # 読み込み
@@ -123,13 +122,23 @@ class GetResult:
                 dividend_each_comb[key] = dividend
             
             # 買い目ごとの配当金の割合に変換
-            dividend_sum = Decimal(str(df.loc[df['bet_type'] == 'SUM', 'return'].iloc[-1]))
+            buy_sum = Decimal(str(int(df.loc[df['bet_type'] == 'SUM', 'sum_buy'].iloc[-1])))
+            dividend_sum = Decimal(str(int(df.loc[df['bet_type'] == 'SUM', 'return'].iloc[-1])))
             for key in dividend_each_comb.keys():
+                # 割合
                 dividend = Decimal(str(dividend_each_comb[key]))
                 dividend_ratio = ((dividend / dividend_sum) * 100).quantize(Decimal('0.1'), rounding=ROUND_HALF_UP)
+
+                # 購入金額
+                buy = df.loc[df['bet_type'] == str(DICT_BET_NUM[key]), 'sum_buy'].iloc[-1]
+                buy = (Decimal(str(buy)) / buy_sum).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+                
+                # 配当金
+                dividend_val = df.loc[df['bet_type'] == str(DICT_BET_NUM[key]), 'return'].iloc[-1]
+                dividend_val = (Decimal(str(dividend_val)) / dividend_sum).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
                 
                 # 上書き
-                dividend_each_comb[key] = dividend_ratio
+                dividend_each_comb[key] = [dividend_ratio, buy, dividend_val]
             
             return dividend_each_comb
         except:
