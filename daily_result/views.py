@@ -8,6 +8,7 @@ from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.contrib import messages
 from datetime import datetime
+from pprint import pprint
 
 from . import models
 from .forms import InquiryForm
@@ -60,6 +61,9 @@ class DailyResultFormView(generic.TemplateView):
         # models.pyからオブジェクト作成
         result = models.GetResult()
         info = result.get_daily_betting_result(context)
+        info['dividend_ratio_each_comb'] = result.get_dividend_ratio_each_comb(context)
+
+        pprint(info)
 
         # エラーがなければ結果を表示、エラー（該当ファイルがないなど）があればエラーページを表示
         if info.get('error') == None:

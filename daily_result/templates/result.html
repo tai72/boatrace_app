@@ -10,8 +10,8 @@
 
 {% block contents %}
 <section class="container-contents-outer" id="section-daily-result">
-    <div class="container-contents-inner align-center">
-        <h1 class="main-header">Daily Result</h1>
+    <div class="container-contents-inner align-center wrapper-title">
+        <h1 class="main-header">１日の成績</h1>
     </div>
     <section class="section-dailyResult">
         <div class="dailyResult">
@@ -40,8 +40,27 @@
     </section>
 </section>
 
+<!-- 買い目ごとの配当金の割合 -->
+
+<section id="daily-result-each-comb">
+    <div class="align-center wrapper-title">
+        <h2>買い目ごとの成績</h2>
+    </div>
+    <div class="result-each-comb-content disp-flex-row">
+        <div class="wrapper-pie-chart">
+            <canvas id="pie-chart" width="380px" height="250px"></canvas>
+        </div>
+        <div class="wrapper-buy-dividend-graph">
+            <canvas id="buy-dividend-graph" width="450" height="300px"></canvas>
+        </div>
+    </div>
+</section>
+
 <script>
     (function() {
+
+        // ~~~ １日の成績 ~~~
+
         var buySum = '{{ buy }}';
         var dividend = '{{ return_sum }}';
         var benefit = '{{ benefit }}';
@@ -55,8 +74,8 @@
             console.log(heights);
         };
 
-        var elm = document.getElementById('canvas');
-        var ctx = elm.getContext('2d');
+        const elm = document.getElementById('canvas');
+        const ctx = elm.getContext('2d');
 
         const barColor = ['#808080', '2f4f4f'];
         const barText = ['購入金額', '配当金'];
@@ -73,6 +92,118 @@
             ctx.fillRect(x, 300, barWidth, -y);
             ctx.fillText(barTextVal[i], x + 40, 300 - y);
             ctx.fillText(barText[i], x + 40, 300 - y - 20);
+        }
+
+        // ~~~ 配当金の買い目ごとの割合 ~~~
+
+        const elmPieChart = document.getElementById('pie-chart');
+        const ctxPieChart = elmPieChart.getContext('2d');
+        const dividendRatioArray = [
+            '{{ dividend_ratio_each_comb.trifecta.0 }}', 
+            '{{ dividend_ratio_each_comb.triple.0 }}', 
+            '{{ dividend_ratio_each_comb.exacta.0 }}', 
+            '{{ dividend_ratio_each_comb.quinella.0 }}', 
+            '{{ dividend_ratio_each_comb.win.0 }}'
+        ]
+
+        var angleTrifecta = 360 * ( '{{ dividend_ratio_each_comb.trifecta.0 }}' / 100 );
+        var angleTriple = 360 * ( '{{ dividend_ratio_each_comb.triple.0 }}' / 100 );
+        var angleExacta = 360 * ( '{{ dividend_ratio_each_comb.exacta.0 }}' / 100 );
+        var angleQuinella = 360 * ( '{{ dividend_ratio_each_comb.quinella.0 }}' / 100 );
+        var angleWin = 360 * ( '{{ dividend_ratio_each_comb.win.0 }}' / 100 );
+
+        const pieColorArray = ['#284155', '#597594', '#e83745', '#b65139', '#4c826b'];
+        const angleArray = [angleTrifecta, angleTriple, angleExacta, angleQuinella, angleWin];
+
+        let angleValStart = 0;
+        let angleValEnd = 0;
+        const radius = 100;
+        for (i=0; i<angleArray.length; i++) {
+            angleValEnd += angleArray[i];
+            let pieColor = pieColorArray[i];
+
+            ctxPieChart.beginPath();
+            ctxPieChart.arc( radius, radius, radius, angleValStart * Math.PI / 180, angleValEnd * Math.PI / 180, false );
+            ctxPieChart.lineTo(radius, radius);
+            ctxPieChart.fillStyle = pieColor;
+            ctxPieChart.fill();
+
+            angleValStart += angleArray[i];
+        }
+        
+        const combList = ['trifecta', 'triple', 'exacta', 'quinella', 'win']
+        for (i=0; i<pieColorArray.length; i++) {
+            pieColor = pieColorArray[i];
+
+            ctxPieChart.fillStyle = pieColor;
+            ctxPieChart.fillRect(230, 10 + ( i * 25 ), 10, 10);
+            ctxPieChart.textAlign = 'start';
+            ctxPieChart.font = '16px Arial';
+            ctxPieChart.fillText(combList[i] + '(' + dividendRatioArray[i] + '%)', 250, 19 + ( i * 25 ));
+        }
+
+        ctxPieChart.fillStyle = 'black';
+        ctxPieChart.textAlign = 'center';
+        ctxPieChart.font = '16px Arial';
+        ctxPieChart.fillText('配当金の割合', 160, 240);
+
+        // ~~~ 買い目ごとの購入金額と配当金のグラフ
+
+        const elmBarGraphEachComb = document.getElementById('buy-dividend-graph');
+        const ctxBarGraphEachComb = elmBarGraphEachComb.getContext('2d');
+        const combListJa = ['3連単', '3連複', '2連単', '2連複', '単勝'];
+        const barHeightBuyArray = [
+            '{{ dividend_ratio_each_comb.trifecta.1 }}', 
+            '{{ dividend_ratio_each_comb.triple.1 }}', 
+            '{{ dividend_ratio_each_comb.exacta.1 }}', 
+            '{{ dividend_ratio_each_comb.quinella.1 }}', 
+            '{{ dividend_ratio_each_comb.win.1 }}'
+        ]
+        const barHeightDividendArray = [
+            '{{ dividend_ratio_each_comb.trifecta.2 }}', 
+            '{{ dividend_ratio_each_comb.triple.2 }}', 
+            '{{ dividend_ratio_each_comb.exacta.2 }}', 
+            '{{ dividend_ratio_each_comb.quinella.2 }}', 
+            '{{ dividend_ratio_each_comb.win.2 }}'
+        ]
+
+        // グラフの枠
+        ctxBarGraphEachComb.beginPath();
+        ctxBarGraphEachComb.moveTo(20, 20);
+        ctxBarGraphEachComb.lineTo(20, 250);
+        ctxBarGraphEachComb.lineTo(430, 250);
+        ctxBarGraphEachComb.stroke();
+
+        // 注釈
+        ctxBarGraphEachComb.fillStyle = '#9b7ab5';
+        ctxBarGraphEachComb.fillRect(350, 50, 10, 10);
+        ctxBarGraphEachComb.textAlign = 'start';
+        ctxBarGraphEachComb.font = '16px Arial';
+        ctxBarGraphEachComb.fillText('購入金額', 365, 60);
+
+        ctxBarGraphEachComb.fillStyle = '#f8b856';
+        ctxBarGraphEachComb.fillRect(350, 75, 10, 10);
+        ctxBarGraphEachComb.textAlign = 'start';
+        ctxBarGraphEachComb.font = '16px Arial';
+        ctxBarGraphEachComb.fillText('配当金', 365, 85);
+
+        // 描写
+        let stratX = 50;
+        for (i=0; i<combList.length; i++) {
+            let barHeightBuy = 500 * barHeightBuyArray[i];
+            let barHeightDividend = 500 * barHeightDividendArray[i];
+            ctxBarGraphEachComb.fillStyle = '#9b7ab5';
+            ctxBarGraphEachComb.fillRect(stratX, 250 - barHeightBuy, 5, barHeightBuy);
+            ctxBarGraphEachComb.fillStyle = '#f8b856';
+            ctxBarGraphEachComb.fillRect(stratX + 10, 250 - barHeightDividend, 5, barHeightDividend);
+
+            // 文字
+            ctxBarGraphEachComb.fillStyle = 'black';
+            ctxBarGraphEachComb.textAlign = 'center';
+            ctxBarGraphEachComb.font = '12px Arial';
+            ctxBarGraphEachComb.fillText(combListJa[i], stratX + 7.5, 250 + 15);
+
+            stratX += 60;
         }
     })();
 </script>
