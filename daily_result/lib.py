@@ -168,7 +168,7 @@ class DealBucketData:
     def get_prob(
         self, 
         post_data: dict
-    ):
+    ) -> dict:
         """ 「１レースの各買い目に対する予測確率」を取得 """
 
         # race_date, place_id, race_no
@@ -254,3 +254,25 @@ class DealBucketData:
         except Exception as e:
             print(traceback.format_exc())
         return prob_dct
+    
+    def read_todays_race_count(
+        self
+    ) -> list:
+        """ 本日の各場のレース数を keiba-ai バケットから取得する """
+
+        # csv読み込み
+        race_count_list = []
+        try:
+            df = self.bucket.read_csv('meta_data/todays_race_count_each_place.csv', encoding='utf-8')
+            print(df)
+            for idx in df.index:
+                race_count_list.append({
+                    "place_name": str(df.loc[idx, "place_name"]), 
+                    "place_id": DICT_PLACE[str(df.loc[idx, "place_name"])], 
+                    "race_count": str(df.loc[idx, "race_count"]), 
+                })
+        except:
+            print('failed to get "todays_race_count_each_place.csv" from GCS.')
+            print(traceback.format_exc())
+        
+        return race_count_list

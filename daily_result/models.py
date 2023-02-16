@@ -110,30 +110,6 @@ class Prob:
             print(traceback.format_exc())
         return prob_dct
 
-class RaceResultSelect:
-    def __init__(self):
-        self.bucket_boat = gcs_ex.GCSBucket('boat_race_ai', 'boat_race_ai')
-        self.bucket_keiba = gcs_ex.GCSBucket('keiba-ai', 'keiba-ai')
-    
-    def read_todays_race_count(self):
-        """本日の各場のレース数をkeiba-aiバケットから取得する."""
-
-        # csv読み込み
-        race_count_list = []
-        try:
-            df = self.bucket_keiba.read_csv('meta_data/todays_race_count_each_place.csv', encoding='utf-8')
-            for idx in df.index:
-                race_count_list.append({
-                    "place_name": str(df.loc[idx, "place_name"]), 
-                    "place_id": DICT_PLACE[str(df.loc[idx, "place_name"])], 
-                    "race_count": str(df.loc[idx, "race_count"]), 
-                })
-        except:
-            print('failed to get "todays_race_count_each_place.csv" from GCS.')
-            print(traceback.format_exc())
-        
-        return race_count_list
-
 class RaceResult:
     def __init__(self):
         # bucket

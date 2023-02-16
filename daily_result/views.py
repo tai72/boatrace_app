@@ -99,33 +99,25 @@ class ProbFormView(generic.TemplateView):
         return render(request, 'prob.html', context)
 
 class ProbView(generic.TemplateView):
-    """確率出力"""
+    """ 確率出力 """
     template_name = "prob.html"
 
 class RaceResultSelectView(generic.TemplateView):
     """見たいレース結果を選択するページ"""
+
     template_name = "race_result_select.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['data'] = [1, 2, 3]
 
-        # 本日のレース数
-        result = models.RaceResultSelect()
-        # context["todays_race_count"] = json.dumps(result.read_todays_race_count())
-        context["todays_race_count"] = result.read_todays_race_count()
+        # GCSからデータ取得
+        bucket_dealer_boat = DealBucketData('boat_race_ai', 'boat_race_ai')
+        bucket_dealer_keiba = DealBucketData('keiba-ai', 'keiba-ai')
+        context["todays_race_count"] = bucket_dealer_keiba.read_todays_race_count()
         context["place_count"] = len(context["todays_race_count"])
         context["now_date"] = datetime.now().strftime('%Y%m%d')
 
         return context
-
-    def post(self, request):
-        data = {
-            'data1': [1, 2, 3], 
-        }
-
-        # return JsonResponse(data)
-        return render(request, 'race_result_select.html', data)
     
 class RaceResultView(generic.TemplateView):
     """レース結果の詳細を表示"""
