@@ -49,7 +49,7 @@ class IndexView(generic.TemplateView):
     template_name = "index.html"
 
 class DailyResultFormView(generic.TemplateView):
-    """GCSから一日の収支結果を取得し表示するためのフォーム."""
+    """ GCSから一日の収支結果を取得し表示するためのフォーム """
 
     template_name = "form.html"
 
@@ -75,15 +75,16 @@ class DailyResultFormView(generic.TemplateView):
             return render(request, 'error_page.html', context)
 
 class DailyResultView(generic.TemplateView):
-    """フォーム情報を受け取り、表示する"""
+    """ フォーム情報を受け取り、表示する """
     template_name = "result.html"
 
 class ProbFormView(generic.TemplateView):
-    """予測確率を表示"""
+    """ 「１レースの各買い目に対する予測確率」を表示するための入力フォーム """
+
     template_name = "prob_form.html"
 
     def post(self, request):
-        context = {
+        post_data = {
             'year': request.POST['year'], 
             'month': request.POST['month'], 
             'day': request.POST['day'], 
@@ -91,11 +92,11 @@ class ProbFormView(generic.TemplateView):
             'race_no': request.POST['race_no'], 
         }
 
-        # models.py の　Probget_prob()から各買い目の確率を取得.
-        prob = models.Prob()
-        info = prob.get_prob(context)
+        # GCSからデータ取得
+        bucket_dealer = DealBucketData('boat_race_ai', 'boat_race_ai')
+        context = bucket_dealer.get_prob(post_data)
 
-        return render(request, 'prob.html', info)
+        return render(request, 'prob.html', context)
 
 class ProbView(generic.TemplateView):
     """確率出力"""

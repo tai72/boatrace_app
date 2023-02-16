@@ -1,5 +1,8 @@
 import traceback
+import itertools
+import requests
 from decimal import Decimal, ROUND_HALF_UP, ROUND_HALF_EVEN
+from bs4 import BeautifulSoup
 
 from . import gcs_ex
 
@@ -51,6 +54,14 @@ DICT_BET_NUM = {
 class DealBucketData:
     def __init__(self, project_id: str, bucket: str):
         self.bucket = gcs_ex.GCSBucket(project_id, bucket)
+        self.replace_dct = {
+            1: 'a',
+            2: 'b',
+            3: 'c',
+            4: 'd',
+            5: 'e',
+            6: 'f',
+        }
     
     def make_race_date(
         self, 
@@ -72,6 +83,17 @@ class DealBucketData:
 
         return race_date
     
+    def make_place_id(
+        self, 
+        post_data: dict
+    ) -> str:
+        """ place_id を2桁の文字列にして返す """
+
+        place_id = post_data['place_id']
+        if len(str(place_id)) != 2:
+            place_id = '0' + place_id
+        return str(place_id)
+
     def get_daily_betting_result(
         self, 
         post_data: dict
@@ -142,3 +164,93 @@ class DealBucketData:
             return dividend_each_comb
         except:
             print(traceback.format_exc())
+    
+    def get_prob(
+        self, 
+        post_data: dict
+    ):
+        """ 「１レースの各買い目に対する予測確率」を取得 """
+
+        # race_date, place_id, race_no
+        race_date = self.make_race_date(post_data)
+        place_id = self.make_place_id(post_data)
+        race_no = post_data['race_no']
+
+        # データ取得
+        filepath = f'prediction_result/{race_date}/{place_id}_{race_no}_prediction_result.csv'
+        prob_dct = {}
+        try:
+            df = self.bucket.read_csv(filepath)
+
+            # 各ベットタイプの確率を取得
+            for bet_type in df['bet_type'].unique():
+                # 単勝
+                if bet_type == 1:
+                    for bracket_no in range(1, 7):
+                        prob = df.loc[df['bracket_no'] == str(bracket_no), 'probability'].iloc[-1]
+                        prob = float(int(prob*100000)/1000)    # %表記
+                        # 変換
+                        for key, val in zip(self.replace_dct.keys(), self.replace_dct.values()):
+                            bracket_no = str(bracket_no).replace(str(key), val)
+                        prob_dct[str(bracket_no)] = prob
+                        
+                # 2連複
+                if bet_type == 4:
+                    for bracket_no in df.loc[df['bet_type'] == bet_type, 'bracket_no']:
+                        prob = df.loc[(df['bet_type'] == bet_type) & (df['bracket_no'] == bracket_no), 'probability'].iloc[-1]
+                        prob = float(int(prob*100000)/1000)    # %表記
+                        # 変換
+                        for key, val in zip(self.replace_dct.keys(), self.replace_dct.values()):
+                            bracket_no = str(bracket_no).replace(str(key), val).replace('-', '')
+                        bracket_no += '_'
+                        prob_dct[str(bracket_no)] = prob
+                
+                # 2連単
+                if bet_type == 5:
+                    for bracket_no in df.loc[df['bet_type'] == bet_type, 'bracket_no']:
+                        prob = df.loc[(df['bet_type'] == bet_type) & (df['bracket_no'] == bracket_no), 'probability'].iloc[-1]
+                        prob = float(int(prob*100000)/1000)    # %表記
+                        # 変換
+                        for key, val in zip(self.replace_dct.keys(), self.replace_dct.values()):
+                            bracket_no = str(bracket_no).replace(str(key), val).replace('-', '')
+                        prob_dct[str(bracket_no)] = prob
+                        
+                # 3連複
+                if bet_type == 6:
+                    for bracket_no in df.loc[df['bet_type'] == bet_type, 'bracket_no']:
+                        prob = df.loc[(df['bet_type'] == bet_type) & (df['bracket_no'] == bracket_no), 'probability'].iloc[-1]
+                        prob = float(int(prob*100000)/1000)    # %表記
+                        # 変換
+                        for key, val in zip(self.replace_dct.keys(), self.replace_dct.values()):
+                            bracket_no = str(bracket_no).replace(str(key), val).replace('-', '')
+                        bracket_no += '_'
+                        prob_dct[str(bracket_no)] = prob
+
+                # 3連単
+                if bet_type == 7:
+                    comb = list(itertools.permutations([1, 2, 3, 4, 5, 6], 3))
+                    for elem in comb:
+                        txt = '{0}-{1}-{2}'.format(elem[0], elem[1], elem[2])
+                        prob = df.loc[df['bracket_no'] == txt, 'probability'].iloc[-1]
+                        prob = float(int(prob*100000)/1000)    # %表記
+                        txt = txt.replace('-', '')
+                        for key, val in zip(self.replace_dct.keys(), self.replace_dct.values()):
+                            txt = txt.replace(str(key), val)
+                        prob_dct[txt] = prob
+            prob_dct['error'] = ''
+        except Exception as e:
+            prob_dct['error'] = e
+        
+        # 選手名取得
+        try:
+            url = f'https://www.boatrace.jp/owpc/pc/race/racelist?rno={race_no}&jcd={place_id}&hd={race_date}'
+            html = requests.get(url).content
+            soup = BeautifulSoup(html, 'html.parser')
+
+            player_tbody = soup.find_all('tbody', {'class': 'is-fs12'})
+            for i in range(len(player_tbody)):
+                name = player_tbody[i].find_all('div', {'class': 'is-fs18'})[0].find('a').get_text()
+                prob_dct['player_{}'.format(i+1)] = name
+        except Exception as e:
+            print(traceback.format_exc())
+        return prob_dct
