@@ -1,43 +1,26 @@
 import os
 import json
-from telnetlib import AUTHENTICATION
-import pymysql
+import environ
 from pathlib import Path
-
-pymysql.install_as_MySQLdb()
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# read settinsg.json
-try:
-    config_path = os.path.join(BASE_DIR, 'settings.json')
-    config = json.load(open(config_path, "r", encoding="utf-8"))
-except FileNotFoundError as e:
-    print("[ERROR] Config file is not found.")
-    raise e
-except ValueError as e:
-    print("[ERROR] Json file is invalid.")
-    raise e
-
-db_user = config['DB_USER']
-db_password = config['DB_PASSWORD']
-email_outlook = config['EMAIL_OUTLOOK']
-email_host = config['EMAIL_HOST']
-email_host_pass = config['EMAIL_HOST_PASS']
-secret_key = config['SECRET_KEY']
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
+# Read .env file
+env = environ.Env()
+env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = 'django-insecure-@&06ndw7ql4930wp^qduoqygj3_g)^b#x@seyp!tcn5@8t*^c_'
-SECRET_KEY = secret_key
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if os.getenv('GAE_APPLICATION', None):
+    # 本番環境
+    DEBUG = False
+else:
+    # 開発環境
+    DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -96,45 +79,39 @@ WSGI_APPLICATION = 'boatrace.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 # sqlite3での設定
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3', 
-        'NAME': os.path.join(BASE_DIR, 'db', 'db.sqlite3'), 
+if os.environ.get('GAE_APPLICATION', None):
+    # 本番環境（GCP）
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql', 
+            'NAME': env('DB_NAME'), 
+            'USER': env('DB_USER'), 
+            'PASSWORD': env('DB_PASSWORD'), 
+            'HOST': '/cloudsql/{}'.format(env('INSTANCE_CONNECTION_NAME')), 
+        }
     }
-}
-
-# postgresでの設定
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'boatrace',
-#         'USER': os.environ.get('DB_USER'),
-#         'PASSWORD': os.environ.get('DB_PASSWORD'),
-#         'HOST': '',
-#         'PORT': '',
-#     }
-# }
-
-# GCPでデプロイするために書き換え
-# if os.environ.get('GAE_APPLICATION', None):
-#     DATABASES = {
-#         'default': {
-#             'ENGINE': 'django.db.backends.mysql',
-#             'NAME': '',
-#             'USER': os.environ.get('EMAIL_OUTLOOK'),
-#             'PASSWORD': '',
-#             'HOST': '',
-#         }
-#     }
+else:
+    # 開発環境（PostgreSQL）
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2', 
+            'NAME': env('DB_NAME_DEV'), 
+            'USER': env('DB_USER_DEV'), 
+            'PASSWORD': env('DB_PASSWORD_DEV'), 
+            'HOST': '', 
+            'PORT': '', 
+        }
+    }
 # else:
+#     # 開発環境（Cloud SQL）
 #     DATABASES = {
 #         'default': {
-#             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#             'NAME': 'boatrace',
-#             'USER': os.environ.get('DB_USER'),
-#             'PASSWORD': os.environ.get('DB_PASSWORD'),
-#             'HOST': '',
-#             'PORT': '',
+#             'ENGINE': 'django.db.backends.mysql', 
+#             'NAME': env('DB_USER'), 
+#             'USER': db_user, 
+#             'PASSWORD': env('DB_PASSWORD'), 
+#             'HOST': '127.0.0.1', 
+#             'PORT': '3306', 
 #         }
 #     }
 
@@ -232,8 +209,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # メールサーバー設定
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = email_host
-EMAIL_HOST_PASSWORD = email_host_pass
+EMAIL_HOST_USER = env('EMAIL_HOST')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASS')
 EMAIL_USE_TLS = True
 
 # カスタムユーザーモデルを参照するようにするため
@@ -266,4 +243,4 @@ ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_EMAIL_SUBJECT_PREFIX = ''
 
 # デフォルトのメール送信元を設定
-DEFAULT_FROM_EMAIL = email_host
+DEFAULT_FROM_EMAIL = env('EMAIL_HOST')
