@@ -12,6 +12,7 @@ from pprint import pprint
 
 from . import models
 from .forms import InquiryForm
+from .lib import DealBucketData
 
 logger = logging.getLogger(__name__)
 
@@ -48,28 +49,30 @@ class IndexView(generic.TemplateView):
     template_name = "index.html"
 
 class DailyResultFormView(generic.TemplateView):
-    """GCPから一日の収支結果を取得し表示するためのフォーム."""
+    """GCSから一日の収支結果を取得し表示するためのフォーム."""
+
     template_name = "form.html"
 
     def post(self, request):
-        context = {
+        # Get posted data.
+        post_data = {
             'year': request.POST['year'], 
             'month': request.POST['month'], 
             'day': request.POST['day'], 
         }
 
-        # models.pyからオブジェクト作成
-        result = models.GetResult()
-        info = result.get_daily_betting_result(context)
-        info['dividend_ratio_each_comb'] = result.get_dividend_ratio_each_comb(context)
+        # GCSからデータ取得
+        bucket_dealer = DealBucketData('boat_race_ai', 'boat_race_ai')
+        context = bucket_dealer.get_daily_betting_result(post_data)
+        context['dividend_ratio_each_comb'] = bucket_dealer.get_dividend_ratio_each_comb(post_data)
 
-        pprint(info)
+        pprint(context)
 
         # エラーがなければ結果を表示、エラー（該当ファイルがないなど）があればエラーページを表示
-        if info.get('error') == None:
-            return render(request, 'result.html', info)
+        if context.get('error') == None:
+            return render(request, 'result.html', context)
         else:
-            return render(request, 'error_page.html', info)
+            return render(request, 'error_page.html', context)
 
 class DailyResultView(generic.TemplateView):
     """フォーム情報を受け取り、表示する"""
