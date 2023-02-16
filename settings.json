@@ -1,8 +1,0 @@
-{
-    "DB_USER":"postgres",
-    "DB_PASSWORD":"@8319English",
-    "EMAIL_OUTLOOK":"yamashi7227.04020105.7227@outlook.jp",
-    "EMAIL_HOST":"vision7227tata@gmail.com",
-    "EMAIL_HOST_PASS":"aexvpanoslwqaooi",
-    "SECRET_KEY":"django-insecure-@&06ndw7ql4930wp^qduoqygj3_g)^b#x@seyp!tcn5@8t*^c_"
-}
