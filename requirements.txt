@@ -33,6 +33,7 @@ oauthlib==3.2.2
 packaging==21.3
 pandas==1.5.1
 Pillow==9.2.0
+pipreqs==0.4.11
 protobuf==4.21.9
 psycopg2-binary==2.9.5
 pyasn1==0.4.8
@@ -54,3 +55,4 @@ sqlparse==0.4.2
 tenacity==8.1.0
 uritemplate==4.1.1
 urllib3==1.26.12
+yarg==0.1.9

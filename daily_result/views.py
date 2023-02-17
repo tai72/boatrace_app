@@ -12,6 +12,7 @@ from pprint import pprint
 
 from . import models
 from .forms import InquiryForm
+from .lib import DealBucketData
 
 logger = logging.getLogger(__name__)
 
@@ -48,39 +49,42 @@ class IndexView(generic.TemplateView):
     template_name = "index.html"
 
 class DailyResultFormView(generic.TemplateView):
-    """GCPから一日の収支結果を取得し表示するためのフォーム."""
+    """ GCSから一日の収支結果を取得し表示するためのフォーム """
+
     template_name = "form.html"
 
     def post(self, request):
-        context = {
+        # Get posted data.
+        post_data = {
             'year': request.POST['year'], 
             'month': request.POST['month'], 
             'day': request.POST['day'], 
         }
 
-        # models.pyからオブジェクト作成
-        result = models.GetResult()
-        info = result.get_daily_betting_result(context)
-        info['dividend_ratio_each_comb'] = result.get_dividend_ratio_each_comb(context)
+        # GCSからデータ取得
+        bucket_dealer = DealBucketData('boat_race_ai', 'boat_race_ai')
+        context = bucket_dealer.get_daily_betting_result(post_data)
+        context['dividend_ratio_each_comb'] = bucket_dealer.get_dividend_ratio_each_comb(post_data)
 
-        pprint(info)
+        pprint(context)
 
         # エラーがなければ結果を表示、エラー（該当ファイルがないなど）があればエラーページを表示
-        if info.get('error') == None:
-            return render(request, 'result.html', info)
+        if context.get('error') == None:
+            return render(request, 'result.html', context)
         else:
-            return render(request, 'error_page.html', info)
+            return render(request, 'error_page.html', context)
 
 class DailyResultView(generic.TemplateView):
-    """フォーム情報を受け取り、表示する"""
+    """ フォーム情報を受け取り、表示する """
     template_name = "result.html"
 
 class ProbFormView(generic.TemplateView):
-    """予測確率を表示"""
+    """ 「１レースの各買い目に対する予測確率」を表示するための入力フォーム """
+
     template_name = "prob_form.html"
 
     def post(self, request):
-        context = {
+        post_data = {
             'year': request.POST['year'], 
             'month': request.POST['month'], 
             'day': request.POST['day'], 
@@ -88,62 +92,54 @@ class ProbFormView(generic.TemplateView):
             'race_no': request.POST['race_no'], 
         }
 
-        # models.py の　Probget_prob()から各買い目の確率を取得.
-        prob = models.Prob()
-        info = prob.get_prob(context)
+        # GCSからデータ取得
+        bucket_dealer = DealBucketData('boat_race_ai', 'boat_race_ai')
+        context = bucket_dealer.get_prob(post_data)
 
-        return render(request, 'prob.html', info)
+        return render(request, 'prob.html', context)
 
 class ProbView(generic.TemplateView):
-    """確率出力"""
+    """ 確率出力 """
     template_name = "prob.html"
 
 class RaceResultSelectView(generic.TemplateView):
-    """見たいレース結果を選択するページ"""
+    """ 見たいレース結果を選択するページ """
+
     template_name = "race_result_select.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['data'] = [1, 2, 3]
 
-        # 本日のレース数
-        result = models.RaceResultSelect()
-        # context["todays_race_count"] = json.dumps(result.read_todays_race_count())
-        context["todays_race_count"] = result.read_todays_race_count()
+        # GCSからデータ取得
+        bucket_dealer_boat = DealBucketData('boat_race_ai', 'boat_race_ai')
+        bucket_dealer_keiba = DealBucketData('keiba-ai', 'keiba-ai')
+        context["todays_race_count"] = bucket_dealer_keiba.read_todays_race_count()
         context["place_count"] = len(context["todays_race_count"])
         context["now_date"] = datetime.now().strftime('%Y%m%d')
 
         return context
-
-    def post(self, request):
-        data = {
-            'data1': [1, 2, 3], 
-        }
-
-        # return JsonResponse(data)
-        return render(request, 'race_result_select.html', data)
     
 class RaceResultView(generic.TemplateView):
-    """レース結果の詳細を表示"""
+    """ レース結果の詳細を表示 """
 
     template_name = "race_result.html"
 
     def get(self, request, **kwargs):
 
-        # urlから値取得
+        # クエリパラメータ
         race_date = kwargs['race_date']
         place_id = kwargs['place_id']
         race_no = kwargs['race_no']
 
-        # betting_results取得（モデルの予測結果）
-        result = models.RaceResult()
-        dct = result.get_betting_results(race_date, place_id, race_no)
+        # GCS（betting_results）からデータ取得
+        bucket_dealer = DealBucketData('boat_race_ai', 'boat_race_ai')
+        dct = bucket_dealer.get_betting_results(race_date, place_id, race_no)
 
         # contextに格納
         context = dct.copy()    # {trifecta: [{'first': '1', 'second': '2', ...}, {...}, ...]}}
 
         # レース結果のスクレイピング結果（実際のレース結果）
-        context['race_result'] = result.get_race_result(race_date, place_id, race_no)    # {'trifecta': ['1-2-3'], 'triple': ['1-2-3'], 'exacta': ['1-2'], ...}
+        context['race_result'] = bucket_dealer.get_race_result(race_date, place_id, race_no)    # {'trifecta': ['1-2-3'], 'triple': ['1-2-3'], 'exacta': ['1-2'], ...}
 
         # レース結果のアイコン表示用
         if len(context['race_result']['trifecta']) != 0:
@@ -154,10 +150,6 @@ class RaceResultView(generic.TemplateView):
             context['bracketFirst'] = '{}.png'.format(bracket_first)
             context['bracketSecond'] = '{}.png'.format(bracket_second)
             context['bracketThird'] = '{}.png'.format(bracket_thrid)
-
-            # context['first_img_path'] = "{% static 'assets/bracket_{bracket_no}.png' %}".format(bracket_no=bracket_first)
-            # context['second_img_path'] = "{% static 'assets/bracket_{bracket_no}.png' %}".format(bracket_no=bracket_second)
-            # context['third_img_path'] = "{% static 'assets/bracket_{bracket_no}.png' %}".format(bracket_no=bracket_thrid)
 
         # レース情報
         context['place_name'] = DICT_PLACE[place_id]
