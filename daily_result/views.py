@@ -103,7 +103,7 @@ class ProbView(generic.TemplateView):
     template_name = "prob.html"
 
 class RaceResultSelectView(generic.TemplateView):
-    """見たいレース結果を選択するページ"""
+    """ 見たいレース結果を選択するページ """
 
     template_name = "race_result_select.html"
 
@@ -120,26 +120,26 @@ class RaceResultSelectView(generic.TemplateView):
         return context
     
 class RaceResultView(generic.TemplateView):
-    """レース結果の詳細を表示"""
+    """ レース結果の詳細を表示 """
 
     template_name = "race_result.html"
 
     def get(self, request, **kwargs):
 
-        # urlから値取得
+        # クエリパラメータ
         race_date = kwargs['race_date']
         place_id = kwargs['place_id']
         race_no = kwargs['race_no']
 
-        # betting_results取得（モデルの予測結果）
-        result = models.RaceResult()
-        dct = result.get_betting_results(race_date, place_id, race_no)
+        # GCS（betting_results）からデータ取得
+        bucket_dealer = DealBucketData('boat_race_ai', 'boat_race_ai')
+        dct = bucket_dealer.get_betting_results(race_date, place_id, race_no)
 
         # contextに格納
         context = dct.copy()    # {trifecta: [{'first': '1', 'second': '2', ...}, {...}, ...]}}
 
         # レース結果のスクレイピング結果（実際のレース結果）
-        context['race_result'] = result.get_race_result(race_date, place_id, race_no)    # {'trifecta': ['1-2-3'], 'triple': ['1-2-3'], 'exacta': ['1-2'], ...}
+        context['race_result'] = bucket_dealer.get_race_result(race_date, place_id, race_no)    # {'trifecta': ['1-2-3'], 'triple': ['1-2-3'], 'exacta': ['1-2'], ...}
 
         # レース結果のアイコン表示用
         if len(context['race_result']['trifecta']) != 0:
@@ -150,10 +150,6 @@ class RaceResultView(generic.TemplateView):
             context['bracketFirst'] = '{}.png'.format(bracket_first)
             context['bracketSecond'] = '{}.png'.format(bracket_second)
             context['bracketThird'] = '{}.png'.format(bracket_thrid)
-
-            # context['first_img_path'] = "{% static 'assets/bracket_{bracket_no}.png' %}".format(bracket_no=bracket_first)
-            # context['second_img_path'] = "{% static 'assets/bracket_{bracket_no}.png' %}".format(bracket_no=bracket_second)
-            # context['third_img_path'] = "{% static 'assets/bracket_{bracket_no}.png' %}".format(bracket_no=bracket_thrid)
 
         # レース情報
         context['place_name'] = DICT_PLACE[place_id]
