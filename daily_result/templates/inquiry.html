@@ -34,15 +34,11 @@
                 {{ form.non_field_errors }}
 
                 {% for field in form %}
-                <div class="form-content">
-                    <div class="form-label">
-                        <p>{{ field.label_tag }}</p>
-                    </div>
-                    <div class="form-field">
-                        {{ field }}
+                    <div class="form-content">
+                        {{ field }}<span class="highlight"></span><span class="bar"></span>
+                        {{ field.label_tag }}
                         {{ field.errors }}
                     </div>
-                </div>
                 {% endfor %}
 
                 <button type="submit">送信</button>
@@ -52,7 +48,6 @@
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="{% static 'js/anime.min.js' %}"></script>
-    <!-- <script src="{% static 'js/main.js' %}"></script> -->
-    <!-- <script src="{% static 'js/race_result.js' %}"></script> -->
+    <script src="{% static 'js/authentication.js' %}"></script>
 
 {% endblock contents %}
