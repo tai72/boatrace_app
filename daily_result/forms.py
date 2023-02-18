@@ -22,7 +22,7 @@ class InquiryForm(forms.Form):
         message = self.cleaned_data['message']
 
         # メール送信情報
-        subject = f'お問合せ {title}'
+        subject = f'お問い合わせ {title}'
         message = (
             '送信者: {}\n'.format(name) + 
             'メールアドレス: {}\n'.format(email) + 

@@ -2,6 +2,7 @@ import os
 import json
 import environ
 from pathlib import Path
+print('s')
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
