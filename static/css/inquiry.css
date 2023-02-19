@@ -27,7 +27,6 @@
 #inquiry {
     position: relative;
     width: calc(var(--vw, 1vw) * 100)!important;
-    height: calc(var(--vh, 1vh) * 100)!important;
 }
 
 .wrapper-header {
@@ -41,62 +40,128 @@
 }
 
 .wrapper-form {
-    width: 400px;
-    margin: 0 auto;
+    width: 600px;
+    margin: 2rem auto 5rem auto;
+    padding: 3rem 1rem 2rem 1rem;
+    background: #fafafa;
+    border: 1px solid #ebebeb;
+    box-shadow: rgba(0,0,0,0.14902) 0px 1px 1px 0px,rgba(0,0,0,0.09804) 0px 1px 2px 0px;
 }
 
 .form-content {
-    margin-bottom: 20px;
+    position: relative;
+    margin: 30px;
 }
 
-.form-label {
-    width: fit-content;
-    /* background: var(--black); */
-    margin-bottom: 5px;
-    color: var(--black);
-    padding: .2px 3px;
-    border-radius: 5px;
-    font-weight: 1000;
+.form-content input {
+    font-size: 18px;
+    padding: 10px 0;
+    -webkit-appearance: none;
+    display: block;
+    background: #fafafa;
+    color: #636363;
+    width: 100%;
+    border: none;
+    border-radius: 0;
+    border-bottom: 1px solid #757575;
 }
 
-#id_name, #id_email, #id_title, #id_message {
-    width: 400px;
-    height: 25px;
-    font-size: 14px;
+.form-content input:focus {
+    outline: none;
 }
 
-#id_message {
-    resize: none;
-    height: 300px;
-    border: .1px solid;
+.form-content label {
+    color: #999; 
+    font-size: 18px;
+    font-weight: normal;
+    position: absolute;
+    pointer-events: none;
+    left: 5px;
+    top: 10px;
+    transition: all 0.2s ease;
 }
 
-input:required, #id_message:required {
-    background-color: #ffcdd2;
+.form-content input:focus ~ label, input.used ~ label {
+    top: -20px;
+    transform: scale(.75); left: -2px;
+    /* font-size: 14px; */
+    color: #4a89dc;
 }
 
-input:valid, #id_message:valid {
-    background: transparent;
+.bar {
+    position: relative;
+    display: block;
+    width: 100%;
 }
 
-input:focus, #id_message:focus {
-    background-color: #DCEDC8;
+.bar:before, .bar:after {
+    content: '';
+    height: 2px; 
+    width: 0;
+    bottom: 1px; 
+    position: absolute;
+    background: #4a89dc; 
+    transition: all 0.2s ease;
+}
+
+.bar:before {
+    left: 50%;
+}
+
+.bar::after {
+    right: 50%;
+}
+
+.form-content input:focus ~ .bar:before, .form-content input:focus ~ .bar:after { width: 50%; }
+
+.highlight {
+    position: absolute;
+    height: 60%; 
+    width: 100px; 
+    top: 25%; 
+    left: 0;
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+input:focus ~ .highlight {
+    animation: inputHighlighter 0.3s ease;
+}
+
+textarea {
+    resize: vertical;
+    width: 100%;
+    font-size: 18px;
+}
+
+@keyframes inputHighlighter {
+    from { background: #4a89dc; }
+    to  { width: 0; background: transparent; }
 }
 
 button {
     position: relative;
-    height: 38px;
-    width: 75px;
+    display: inline-block;
+    width: calc(100% - 60px);
+    height: fit-content;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 18px;
-    border-radius: 7.5px;
-    border: none;
-    transition: .1s ease-in-out;
+    margin-bottom: 3rem;
+    padding: 1rem;
+    font-size: 16px;
+    background: var(--baseColor);
+    transition: all .2s ease-in-out;
+    border: 1px solid var(--baseColor);
+    box-shadow: rgba(0,0,0,0.14902) 0px 1px 1px 0px,rgba(0,0,0,0.09804) 0px 1px 2px 0px;
 }
 
 button:hover {
-    background-color: var(--baseColor);
+    opacity: .8;
+    cursor: pointer;
+}
+
+label[for="id_message"] {
+    display: none;
 }
 
 @media screen and (max-width: 768px) {
@@ -105,11 +170,10 @@ button:hover {
     }
 
     .wrapper-form {
-        width: fit-content;
-    }
-
-    #id_name, #id_email, #id_title, #id_message {
-        width: calc(var(--vw, 1vw) * 75)!important;
+        width: calc(var(--vw, 1vw) * 95)!important;
+        max-width: 600px;
+        padding: 0;
+        font-size: 16px;
     }
 }
 

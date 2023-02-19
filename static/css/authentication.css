@@ -212,10 +212,7 @@ button {
 
 button:hover {
     opacity: .7;
-}
-
-.reset-pw {
-    
+    cursor: pointer;
 }
 
 .account-link {

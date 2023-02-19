@@ -10,8 +10,6 @@ class InquiryForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
-        self.fields['name'].widget.attrs['placeholder'] = '例）大船　ぼと子'
     
     def send_email(self):
         """メール送信処理"""
@@ -24,7 +22,7 @@ class InquiryForm(forms.Form):
         message = self.cleaned_data['message']
 
         # メール送信情報
-        subject = f'お問合せ {title}'
+        subject = f'お問い合わせ {title}'
         message = (
             '送信者: {}\n'.format(name) + 
             'メールアドレス: {}\n'.format(email) + 
