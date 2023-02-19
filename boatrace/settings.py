@@ -78,29 +78,28 @@ WSGI_APPLICATION = 'boatrace.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# sqlite3での設定
 if os.environ.get('GAE_APPLICATION', None):
     # 本番環境（CloudSQL）
-    # DATABASES = {
-    #     'default': {
-    #         'ENGINE': 'django.db.backends.mysql', 
-    #         'NAME': env('DB_NAME'), 
-    #         'USER': env('DB_USER'), 
-    #         'PASSWORD': env('DB_PASSWORD'), 
-    #         'HOST': '/cloudsql/{}'.format(env('INSTANCE_CONNECTION_NAME')), 
-    #     }
-    # }
-    # 本番環境（PostgreSQL）
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2', 
-            'NAME': env('DB_NAME_DEV'), 
-            'USER': env('DB_USER_DEV'), 
-            'PASSWORD': env('DB_PASSWORD_DEV'), 
-            'HOST': '', 
-            'PORT': '', 
+            'ENGINE': 'django.db.backends.mysql', 
+            'NAME': env('DB_NAME'), 
+            'USER': env('DB_USER'), 
+            'PASSWORD': env('DB_PASSWORD'), 
+            'HOST': '/cloudsql/{}'.format(env('INSTANCE_CONNECTION_NAME')), 
         }
     }
+    # 本番環境（PostgreSQL）
+    # DATABASES = {
+    #     'default': {
+    #         'ENGINE': 'django.db.backends.postgresql_psycopg2', 
+    #         'NAME': env('DB_NAME_DEV'), 
+    #         'USER': env('DB_USER_DEV'), 
+    #         'PASSWORD': env('DB_PASSWORD_DEV'), 
+    #         'HOST': '', 
+    #         'PORT': '', 
+    #     }
+    # }
 else:
     # 開発環境（PostgreSQL）
     DATABASES = {
