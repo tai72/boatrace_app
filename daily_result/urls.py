@@ -13,4 +13,5 @@ urlpatterns = [
     path('race-result-select/', views.RaceResultSelectView.as_view(), name="race_result_select"), 
     path('race-result/<str:race_date>/<str:place_id>/<str:race_no>/', views.RaceResultView.as_view(), name="race_result"), 
     path('inquiry/', views.InquiryView.as_view(), name="inquiry"), 
+    path('current-situation', views.CurrentSituationView.as_view(), name="current_situation"), 
 ]
