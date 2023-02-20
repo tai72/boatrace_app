@@ -21,7 +21,7 @@ body {
     --white: #fffffc;
     --baseColor: #fcd575;
     --subBaseColor: #0033ff;
-    --firstViewTransitionDuration: 200s;
+    --firstViewTransitionDuration: 50s;
 }
 
 html {
