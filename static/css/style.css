@@ -21,6 +21,7 @@ body {
     --white: #fffffc;
     --baseColor: #fcd575;
     --subBaseColor: #0033ff;
+    --firstViewTransitionDuration: 200s;
 }
 
 html {
@@ -255,6 +256,7 @@ a:link, a:visited, a:hover, a:active {
     top: calc(var(--vh, 1vh) * 30);
     left: calc(var(--vw, 1vw) * 50);
     transform: translate(-50%, -50%);
+    z-index: 1;
 }
 
 #container-top-img {
@@ -263,18 +265,50 @@ a:link, a:visited, a:hover, a:active {
     top: 0;
 }
 
-#container-top-img img {
+.wrapper-first-view {
     width: calc(var(--vw, 1vw) * 100);
     height: calc((var(--vh, 1vh) * 100));
+    overflow: hidden;
+}
+
+.wrapper-first-view img {
+    width: 100vw;
+    height: 100%;
+    left: 0;
+}
+
+@keyframes loop {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+@keyframes loop2 {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-200%);
+    }
 }
 
 @media screen and (max-width: 768px) {
-    #container-top-img img {
-        height: calc(var(--vh, 1vh) * 100);
+    .wrapper-first-view img {
+        width: calc((var(--vh, 1vh) * 140));
     }
 
     .topPage-header {
         font-size: 32px;
+    }
+
+    .wrapper-first-view img:first-child {
+        animation: 'loop' var(--firstViewTransitionDuration) calc(var(--firstViewTransitionDuration) * (-0.5)) linear infinite;
+    }
+    
+    .wrapper-first-view img:last-child {
+        animation: loop2 var(--firstViewTransitionDuration) linear infinite;
     }
 }
 
