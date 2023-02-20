@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Current Situation{% endblock title %}
+
+{% block head %}
+<link type="text/css" rel="stylesheet" href="{% static 'css/current_situation.css' %}">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js" integrity="sha512-vBmx0N/uQOXznm/Nbkp7h0P1RfLSj0HQrFSzV8m7rOGyj30fYAOKHYvCNez+yM8IrfnW0TCodDEjRqf6fodf/Q==" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@next/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@1.0.0"></script>
+{% endblock head %}
+
+{% block contents %}
+<section id="current-situation">
+    <div class="wrapper-header align-center">
+        <h1 class="inline-center main-header align-center">速報</h1>
+        <p>
+            さまざまなリアルタイム情報をご確認いただけます。
+        </p>
+    </div>
+    <section id="balance-of-payments">
+        <div class="wrapper-subHeader align-center">
+            <h3>Balance of payments</h3>
+            <p>現在の収支</p>
+        </div>
+        <div class="balance-contents align-center disp-flex-row">
+            <div class="labels disp-flex-col">
+                <p>購入金額</p>
+                <p>配当金合計</p>
+                <p>収支</p>
+            </div>
+            <div class="values disp-flex-col">
+                <p>{{ balance.buy_sum }}円</p>
+                <p>{{ balance.return_sum }}円</p>
+                <p>{{ balance.benefit }}円</p>
+            </div>
+        </div>
+        <div class="wrapper-canvas">
+            <canvas id="charts"></canvas>
+        </div>
+    </section>
+</section>
+
+<script>
+    {% autoescape off %}
+    var buySum = {{ balance.buy_sum }};
+    var updateTimeArray = {{ balance.update_time_list }};
+    var buySumArray = {{ balance.buy_sum_list }};
+    var benefitArray = {{ balance.benefit_list }};
+    var benefitMin = Math.min(...benefitArray);
+    {% endautoescape %}
+
+    var ctx = document.getElementById('charts');
+    var myChart = new Chart(ctx, {
+        type: 'line', 
+        data: {
+            labels: updateTimeArray, 
+            datasets: [
+                {
+                    label: '購入金額', 
+                    data: buySumArray, 
+                    borderColor: '#f88', 
+                }, 
+                {
+                    label: '収支', 
+                    data: benefitArray, 
+                    borderColor: '#484', 
+                }, 
+            ], 
+        }, 
+        options: {
+            scales: {
+                // x軸の設定
+                xAxes: [{
+                    // 軸ラベル表示
+                    scaleLabel: {
+                        display: true, 
+                        labelString: '時間', 
+                    }, 
+                    type: 'time', 
+                    time: {
+                        parser: 'HH:mm', 
+                        unit: 'hour', 
+                        stepSize: 1, 
+                        displayFormats: {
+                            'hour': 'HH:mm'
+                        }
+                    }, 
+                    // x軸の範囲
+                    ticks: {
+                        min: '08:00', 
+                        max: '23:00'
+                    }
+                }], 
+                // y軸の設定
+                yAxes: [{
+                    scaleLabel: {
+                        display: true, 
+                        labelString: '金額'
+                    }, 
+                    ticks: {
+                        min: benefitMin - 5000, 
+                        max: buySum + 5000
+                    }
+                }]
+            }
+        }, 
+    });
+</script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.1/chart.min.js"></script>
+
+{% endblock contents %}
