@@ -4,7 +4,7 @@ import requests
 import os
 from decimal import Decimal, ROUND_HALF_UP, ROUND_HALF_EVEN
 from bs4 import BeautifulSoup
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from . import gcs_ex
 from . import utils
@@ -559,12 +559,17 @@ class DealBucketData:
         blobs = [blob for blob in self.bucket.list_objects(f'betting_results/{race_date}')]
         blobs = sorted(blobs, key=lambda x: x.updated)
 
+        # blobの更新時間をリストに格納
+        update_time_list = [(blob.updated + timedelta(hours=9)).strftime('%H:%M') for blob in blobs]
+
         # 古い順にファイルのパスを取得
         paths = [blob.name for blob in blobs]
 
         # 収支など計算
         buy_sum = 0
         return_sum = 0
+        buy_sum_list = []
+        benefit_list = []
         for path in paths:
             # Reading blob.
             df = self.bucket.read_csv(path)
@@ -572,11 +577,18 @@ class DealBucketData:
             # Calc.
             buy_sum += df['amount'].sum() * 100
             return_sum += df['return'].sum()
+
+            # For graph.
+            buy_sum_list.append(buy_sum)
+            benefit_list.append(return_sum - buy_sum)
         
         dct_current_balance = {
             'buy_sum': int(buy_sum), 
             'return_sum': int(return_sum), 
             'benefit': int(return_sum - buy_sum), 
+            'update_time_list': update_time_list, 
+            'buy_sum_list': buy_sum_list, 
+            'benefit_list': benefit_list, 
         }
         
         return dct_current_balance

@@ -4,6 +4,8 @@ from django.views import generic
 from django.urls import reverse_lazy
 from django.contrib import messages
 from datetime import datetime
+from django.conf import settings
+from django.http import JsonResponse
 from pprint import pprint
 
 from . import models
@@ -177,13 +179,23 @@ class InquiryView(generic.FormView):
 class CurrentSituationView(generic.TemplateView):
     template_name = "current_situation.html"
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
 
+    #     # GCS（betting_results）からデータ取得
+    #     bucket_dealer = DealBucketData('boat_race_ai', 'boat_race_ai')
+    #     context['balance'] = bucket_dealer.get_current_balance()
+        
+    #     pprint(context)
+
+    #     return context
+    
+    def get(self, request, **kwargs):
         # GCS（betting_results）からデータ取得
         bucket_dealer = DealBucketData('boat_race_ai', 'boat_race_ai')
+        context = {}
         context['balance'] = bucket_dealer.get_current_balance()
-        
+
         pprint(context)
 
-        return context
+        return render(request, 'current_situation.html', context)

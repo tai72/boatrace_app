@@ -48,3 +48,10 @@
 .balance-contents .labels p::after {
     content: ':';
 }
+
+.wrapper-canvas {
+    width: 90vw;
+    max-width: 1200px;
+    height: 60%;
+    margin: 30px auto;
+}

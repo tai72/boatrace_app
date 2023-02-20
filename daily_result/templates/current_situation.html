@@ -4,7 +4,12 @@
 
 {% block title %}Current Situation{% endblock title %}
 
-{% block head %}<link type="text/css" rel="stylesheet" href="{% static 'css/current_situation.css' %}">{% endblock head %}
+{% block head %}
+<link type="text/css" rel="stylesheet" href="{% static 'css/current_situation.css' %}">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js" integrity="sha512-vBmx0N/uQOXznm/Nbkp7h0P1RfLSj0HQrFSzV8m7rOGyj30fYAOKHYvCNez+yM8IrfnW0TCodDEjRqf6fodf/Q==" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@next/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@1.0.0"></script>
+{% endblock head %}
 
 {% block contents %}
 <section id="current-situation">
@@ -31,13 +36,80 @@
                 <p>{{ balance.benefit }}円</p>
             </div>
         </div>
+        <div class="wrapper-canvas">
+            <canvas id="charts"></canvas>
+        </div>
     </section>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-    <script src="{% static 'js/anime.min.js' %}"></script>
-    <!-- <script src="{% static 'js/main.js' %}"></script> -->
-    <script src="{% static 'js/race_result.js' %}"></script>
 </section>
 
-    
+<script>
+    {% autoescape off %}
+    var buySum = {{ balance.buy_sum }};
+    var updateTimeArray = {{ balance.update_time_list }};
+    var buySumArray = {{ balance.buy_sum_list }};
+    var benefitArray = {{ balance.benefit_list }};
+    var benefitMin = Math.min(...benefitArray);
+    {% endautoescape %}
+
+    var ctx = document.getElementById('charts');
+    var myChart = new Chart(ctx, {
+        type: 'line', 
+        data: {
+            labels: updateTimeArray, 
+            datasets: [
+                {
+                    label: '購入金額', 
+                    data: buySumArray, 
+                    borderColor: '#f88', 
+                }, 
+                {
+                    label: '収支', 
+                    data: benefitArray, 
+                    borderColor: '#484', 
+                }, 
+            ], 
+        }, 
+        options: {
+            scales: {
+                // x軸の設定
+                xAxes: [{
+                    // 軸ラベル表示
+                    scaleLabel: {
+                        display: true, 
+                        labelString: '時間', 
+                    }, 
+                    type: 'time', 
+                    time: {
+                        parser: 'HH:mm', 
+                        unit: 'hour', 
+                        stepSize: 1, 
+                        displayFormats: {
+                            'hour': 'HH:mm'
+                        }
+                    }, 
+                    // x軸の範囲
+                    ticks: {
+                        min: '08:00', 
+                        max: '23:00'
+                    }
+                }], 
+                // y軸の設定
+                yAxes: [{
+                    scaleLabel: {
+                        display: true, 
+                        labelString: '収支'
+                    }, 
+                    ticks: {
+                        min: benefitMin - 5000, 
+                        max: buySum + 5000
+                    }
+                }]
+            }
+        }, 
+    });
+</script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.1/chart.min.js"></script>
 
 {% endblock contents %}
