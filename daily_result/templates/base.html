@@ -9,6 +9,7 @@
         
         <link type="text/css" rel="stylesheet" href="{% static 'css/style.css' %}">
         <link type="text/css" rel="stylesheet" href="{% static 'css/race_result_select.css' %}">
+        <link type="text/css" rel="stylesheet" href="{% static 'css/style_common.css' %}">
 
         <!-- pyscript -->
         <!-- <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
@@ -23,6 +24,7 @@
                     <li class="header-inner-li"><a class="text-white decorate-none nav-link" href="{% url 'daily_result:daily_result_form' %}">１日の成績</a></li>
                     <li class="header-inner-li"><a class="text-white decorate-none nav-link" href="{% url 'daily_result:prob_form' %}">確率</a></li>
                     <li class="header-inner-li"><a class="text-white decorate-none nav-link" href="{% url 'daily_result:race_result_select' %}">予測結果</a></li>
+                    <li class="header-inner-li"><a class="text-white decorate-none nav-link" href="{% url 'daily_result:current_situation' %}">速報</a></li>
                     <li class="header-inner-li"><a class="text-white decorate-none nav-link" href="{% url 'daily_result:inquiry' %}">お問い合わせ</a></li>
 
                     {% if user.is_authenticated %}

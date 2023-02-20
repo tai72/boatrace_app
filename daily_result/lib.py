@@ -4,6 +4,7 @@ import requests
 import os
 from decimal import Decimal, ROUND_HALF_UP, ROUND_HALF_EVEN
 from bs4 import BeautifulSoup
+from datetime import datetime
 
 from . import gcs_ex
 from . import utils
@@ -540,3 +541,42 @@ class DealBucketData:
         print('\n------------------------------------------')
         
         return container_dct
+    
+    def get_current_balance(
+        self
+    ) -> dict:
+        """ リアルタイムな収支情報を計算する """
+
+        # 今日の日付を取得
+        dt_now = {
+            'year': datetime.now().year, 
+            'month': datetime.now().month, 
+            'day': datetime.now().day, 
+        }
+        race_date = self.make_race_date(dt_now)
+
+        # 「betting_results/<今日の日付>/」配下のblob取得 → 古い順にソート
+        blobs = [blob for blob in self.bucket.list_objects(f'betting_results/{race_date}')]
+        blobs = sorted(blobs, key=lambda x: x.updated)
+
+        # 古い順にファイルのパスを取得
+        paths = [blob.name for blob in blobs]
+
+        # 収支など計算
+        buy_sum = 0
+        return_sum = 0
+        for path in paths:
+            # Reading blob.
+            df = self.bucket.read_csv(path)
+            
+            # Calc.
+            buy_sum += df['amount'].sum() * 100
+            return_sum += df['return'].sum()
+        
+        dct_current_balance = {
+            'buy_sum': int(buy_sum), 
+            'return_sum': int(return_sum), 
+            'benefit': int(return_sum - buy_sum), 
+        }
+        
+        return dct_current_balance

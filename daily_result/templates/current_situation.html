@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Current Situation{% endblock title %}
+
+{% block head %}<link type="text/css" rel="stylesheet" href="{% static 'css/current_situation.css' %}">{% endblock head %}
+
+{% block contents %}
+<section id="current-situation">
+    <div class="wrapper-header align-center">
+        <h1 class="inline-center main-header align-center">速報</h1>
+        <p>
+            さまざまなリアルタイム情報をご確認いただけます。
+        </p>
+    </div>
+    <section id="balance-of-payments">
+        <div class="wrapper-subHeader align-center">
+            <h3>Balance of payments</h3>
+            <p>現在の収支</p>
+        </div>
+        <div class="balance-contents align-center disp-flex-row">
+            <div class="labels disp-flex-col">
+                <p>購入金額</p>
+                <p>配当金合計</p>
+                <p>収支</p>
+            </div>
+            <div class="values disp-flex-col">
+                <p>{{ balance.buy_sum }}円</p>
+                <p>{{ balance.return_sum }}円</p>
+                <p>{{ balance.benefit }}円</p>
+            </div>
+        </div>
+    </section>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="{% static 'js/anime.min.js' %}"></script>
+    <!-- <script src="{% static 'js/main.js' %}"></script> -->
+    <script src="{% static 'js/race_result.js' %}"></script>
+</section>
+
+    
+
+{% endblock contents %}
