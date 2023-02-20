@@ -31,6 +31,7 @@ $(document).ready(function() {
         $('.card-container').addClass('disp-none');
     } else {
         $('.card-container-responsive').addClass('disp-none');
+        $('#second-first-view').addClass('disp-none');
     }
 });
 
@@ -41,9 +42,11 @@ $(window).on('resize orientationchange', function() {
     if (x <= breakPoint) {
         $('.card-container').addClass('disp-none');
         $('.card-container-responsive').removeClass('disp-none');
+        $('#second-first-view').removeClass('disp-none');
     } else {
         $('.card-container').removeClass('disp-none');
         $('.card-container-responsive').addClass('disp-none');
+        $('#second-first-view').addClass('disp-none');
     }
 });
 
