@@ -4,6 +4,8 @@
 ---
 
 [![Open in Visual Studio Code](https://img.shields.io/static/v1?logo=visualstudiocode&label=&message=Open%20in%20Visual%20Studio%20Code&labelColor=2c2c32&color=007acc&logoColor=007acc)](https://open.vscode.dev/tai72/boatrace_app)
+![color:ff69b4](https://img.shields.io/badge/python-3.9-informational.svg?longCache=true)
+![color:ff69b4](https://img.shields.io/badge/Django-v4.1.5-informational.svg?longCache=true)
 
 # 概要
 
