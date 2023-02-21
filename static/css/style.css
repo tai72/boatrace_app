@@ -445,6 +445,7 @@ a:link, a:visited, a:hover, a:active {
     position: relative;
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
     top: 180px;
 }
 

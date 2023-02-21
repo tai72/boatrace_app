@@ -144,6 +144,22 @@
                 </div>
             </div>
         </div>
+        <div class="card">
+            <div class="face face1">
+                <div class="card-content align-center">
+                    <img src="{% static 'assets/timeline.png' %}">
+                    <h3>速報</h3>
+                </div>
+            </div>
+            <div class="face face2">
+                <div class="card-content">
+                    <p>
+                        当日の収支グラフやレース結果など、様々な情報を確認できます。
+                    </p>
+                    <a href="{% url 'daily_result:current_situation' %}">移動する</a>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- レスポンシブ時のservice -->
@@ -217,6 +233,30 @@
                 <div class="wrapper-go-detail-button">
                     <div>
                         <h2><a href="{% url 'daily_result:race_result_select' %}">移動する</a></h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-responsive">
+            <div class="wrapper-card-header disp-flex-col">
+                <div>
+                    <div>
+                        <h2>Timeline</h2>
+                    </div>
+                    <div>
+                        <p>速報</p>
+                    </div>
+                </div>
+            </div>
+            <div class="wrapper-card-content">
+                <img src="{% static 'assets/timeline.png' %}">
+                <p>
+                    当日の収支グラフやレース結果など、様々な情報を確認できます。
+                </p>
+                <div class="card-line"></div>
+                <div class="wrapper-go-detail-button">
+                    <div>
+                        <h2><a href="{% url 'daily_result:current_situation' %}">移動する</a></h2>
                     </div>
                 </div>
             </div>
