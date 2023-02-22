@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Daily Result{% endblock title %}
+
+{% block head %}
+<link type="text/css" rel="stylesheet" href="{% static 'css/error_page.css' %}">
+{% endblock head %}
+
+{% block contents %}
+
+<section>
+    <div class="wrapper-header align-center">
+        <h1 class="inline-center main-header align-center">エラー</h1>
+        <p>対象のレースがまだ終了していません。</p>
+        <div class="wrapper-link">
+            <a class="link-err" href="{% url 'daily_result:race_result_select' %}">＜＜＜ レース一覧へ戻る</a>
+        </div>
+    </div>
+</section>
+
+{% endblock contents %}

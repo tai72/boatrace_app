@@ -136,6 +136,10 @@ class RaceResultView(generic.TemplateView):
         # contextに格納
         context = dct.copy()    # {trifecta: [{'first': '1', 'second': '2', ...}, {...}, ...]}}
 
+        # レースが終了していない場合
+        if context['is_finished'] == False:
+            return render(request, 'not_finish_race.html', context)
+
         # レース結果のスクレイピング結果（実際のレース結果）
         context['race_result'] = bucket_dealer.get_race_result(race_date, place_id, race_no)    # {'trifecta': ['1-2-3'], 'triple': ['1-2-3'], 'exacta': ['1-2'], ...}
 
@@ -158,7 +162,7 @@ class RaceResultView(generic.TemplateView):
         context['race_no'] = race_no
 
         print('views')
-        print(context)
+        pprint(context)
 
         return self.render_to_response(context)
 
