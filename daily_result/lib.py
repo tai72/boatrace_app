@@ -5,6 +5,7 @@ import os
 from decimal import Decimal, ROUND_HALF_UP, ROUND_HALF_EVEN
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
+from sqlalchemy import text
 
 from . import gcs_ex
 from . import utils
@@ -309,6 +310,9 @@ class DealBucketData:
     ) -> dict:
         """ betting_result バケットから各買い目の枠番、確率、期待値を取得 """
 
+        print('\n\n------------------------------------------\n')
+        print('【INFO】get_betting_results() starts.\n')
+
         filepath = f'betting_results/{race_date}/{place_id}_{race_no}_betting_result.csv'
 
         dct = {}
@@ -433,10 +437,8 @@ class DealBucketData:
         except:
             dct['is_finished'] = False
         
-        print('------------------------------------------\n')
-        print('betting_results')
         print(dct)
-        print('\n------------------------------------------')
+        print('\n------------------------------------------\n\n')
 
         return dct
     
@@ -448,56 +450,68 @@ class DealBucketData:
     ) -> dict:
         """ レース結果の各買い目の着順をスクレイピング、および予測時の確率、オッズを取得 """
 
-        # データベースエンジン
-        db_engine = self.get_db_engine(os.getenv('GAE_APPLICATION', None))
+        print('\n\n------------------------------------------\n')
+        print('【INFO】get_race_result() starts.\n')
 
-        # filepath
+        # データベースエンジン
+        db_engine = self.get_db_engine(os.getenv('GAE_APPLICATION', False))
+
+        # レース結果URL
         place_id = '0' + place_id if len(str(place_id)) == 1 else place_id
         url = f'https://www.boatrace.jp/owpc/pc/race/raceresult?rno={race_no}&jcd={place_id}&hd={race_date}'
 
-        # parse
-        soup = BeautifulSoup(requests.get(url).content, 'html.parser')
-        table = soup.find_all('table', {'class': 'is-w495'})
-        tbody = table[2].find_all('tbody')
+        # スクレイピング
+        try:
+            # parse
+            soup = BeautifulSoup(requests.get(url).content, 'html.parser')
+            table = soup.find_all('table', {'class': 'is-w495'})
+            tbody = table[2].find_all('tbody')
 
-        # 取得
-        container_dct = {}
-        for i in range(len(tbody)):
-            dct = {}
-            lst = []
-            bet_type = tbody[i].find_all('tr')[0].find('td').get_text()
+            # 取得
+            container_dct = {}
+            for i in range(len(tbody)):
+                dct = {}
+                lst = []
+                bet_type = tbody[i].find_all('tr')[0].find('td').get_text()
 
-            # 配当金
-            payout_list = []
-            payout = tbody[i].find_all('span', {'class': 'is-payout1'})
-            for k in range(len(payout)):
-                if payout[k].get_text() != '\xa0':
-                    payout_list.append(payout[k].get_text())
-            dct["payout"] = payout_list
-            
-            wrapper_row = tbody[i].find_all('div', {'class': 'numberSet1_row'})
-            for j in range(len(wrapper_row)):
-                wrapper_number = wrapper_row[j].find_all('span', {'class': 'numberSet1_number'})
-                txt = '-'.join([wrapper_number[k].get_text() for k in range(len(wrapper_number))])
-                lst.append(txt)
-            dct["comb"] = lst
-            container_dct[DICT_BET_TYPE.get(bet_type)] = dct
+                # 配当金
+                payout_list = []
+                payout = tbody[i].find_all('span', {'class': 'is-payout1'})
+                for k in range(len(payout)):
+                    if payout[k].get_text() != '\xa0':
+                        payout_list.append(payout[k].get_text())
+                dct["payout"] = payout_list
+                
+                wrapper_row = tbody[i].find_all('div', {'class': 'numberSet1_row'})
+                for j in range(len(wrapper_row)):
+                    wrapper_number = wrapper_row[j].find_all('span', {'class': 'numberSet1_number'})
+                    txt = '-'.join([wrapper_number[k].get_text() for k in range(len(wrapper_number))])
+                    lst.append(txt)
+                dct["comb"] = lst
+                container_dct[DICT_BET_TYPE.get(bet_type)] = dct
+        except Exception as e:
+            print('【ERROR】Failed to scrape race result page.')
+            print(e)
 
         # GCS（boatrace）から、レース結果に対する予測結果を取得する。
-        filepath = f'prediction_result/{race_date}/{place_id}_{race_no}_prediction_result.csv'
-        df = self.bucket.read_csv(filepath)
+        try:
+            filepath = f'prediction_result/{race_date}/{place_id}_{race_no}_prediction_result.csv'
+            df = self.bucket.read_csv(filepath)
 
-        for bet_type in container_dct.keys():
-            if bet_type not in DICT_BET_NUM.keys():
-                continue
-            
-            bet_type_num = DICT_BET_NUM[bet_type]
-            prob_list = []
-            for i in range(len(container_dct[bet_type]['comb'])):
-                prob = df.loc[(df["bet_type"] == bet_type_num) & (df["bracket_no"] == container_dct[bet_type]["comb"][i]), 'probability'].iloc[-1]
-                prob = str(prob * 100 // 0.01 / 100) + '%'
-                prob_list.append(prob)
-            container_dct[bet_type]["prob"] = prob_list
+            for bet_type in container_dct.keys():
+                if bet_type not in DICT_BET_NUM.keys():
+                    continue
+                
+                bet_type_num = DICT_BET_NUM[bet_type]
+                prob_list = []
+                for i in range(len(container_dct[bet_type]['comb'])):
+                    prob = df.loc[(df["bet_type"] == bet_type_num) & (df["bracket_no"] == container_dct[bet_type]["comb"][i]), 'probability'].iloc[-1]
+                    prob = str(prob * 100 // 0.01 / 100) + '%'
+                    prob_list.append(prob)
+                container_dct[bet_type]["prob"] = prob_list
+        except Exception as e:
+            print('【ERROR】Failed to get race_result from GCS.')
+            print(e)
         
         # DBの「pre_odds」テーブルから、予測時のオッズを取得する.
         bet_type_list = ['win', 'quinella', 'exacta', 'triple', 'trifecta']
@@ -506,13 +520,16 @@ class DealBucketData:
             bet_type = DICT_BET_NUM[key]
             query = f"select * from pre_odds where race_date = {race_date} and place_id = '{place_id}' and race_no = {race_no} and bet_type = {bet_type} and bracket_no = '{bracket_no}';"
             # DB接続
+            res = None
             with db_engine.connect() as conn:
                 try:
                     for _ in range(3):
-                        res = conn.execute(query)
+                        res = conn.execute(text(query))
                         break
                 except Exception as e:
+                    print('【ERROR】Failed to connect to DB.')
                     print(e)
+                    print(traceback.format_exc())
                     pass
             
             # 抽出
@@ -532,13 +549,13 @@ class DealBucketData:
                     # 反映
                     container_dct[key]['ex_val'] = ex_val
                     print('\n\n')
+                    print('【ERROR】Failed to extract data from response.')
                     print(traceback.format_exc())
                     print('\n\n')
 
-        print('------------------------------------------\n')
         print('レース結果をスクレイピングしたやつ')
         print(container_dct)
-        print('\n------------------------------------------')
+        print('\n------------------------------------------\n\n')
         
         return container_dct
     
