@@ -40,6 +40,130 @@
             <canvas id="charts"></canvas>
         </div>
     </section>
+
+    <section id="timeline">
+        <div class="wrapper-subHeader align-center">
+            <h3>Timeline</h3>
+            <p>投票結果</p>
+        </div>
+        <div class="wrapper-timeline disp-flex-row">
+
+            <!-- 場所の情報 -->
+
+            <div class="wrapper-place-info disp-flex-col">
+                <div class="wrapper-place-circle disp-flex-col">
+                    <div class="wrapper-place-text align-center">
+                        <p class="place-name">桐生</p>
+                        <p class="place-id">01#</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 投票結果およびレース結果 -->
+
+            <div class="wrapper-vote-and-result disp-flex-row">
+                <div class="wrapper-vote-and-result-each-race">
+                    <div class="wrapper-race-no disp-flex-col align-center">
+                        <h3 class="race-no">1R</h3>
+                    </div>
+                    <div class="wrapper-vote disp-flex-col">
+                        <div class="comb">
+                            <p class="comb-name">2連単</p>
+                            <p class="comb-content">1-2 47.3×1.0 4.51%</p>
+                            <p class="comb-content">1-2 47.3×1.0 4.51%</p>
+                            <p class="comb-content">1-2 47.3×1.0 4.51%</p>
+                        </div>
+                        <div class="comb">
+                            <p class="comb-name">3連単</p>
+                            <p class="comb-content">1-2-3 47.3×1.0 4.51%</p>
+                            <p class="comb-content">1-2-3 47.3×1.0 4.51%</p>
+                        </div>
+                    </div>
+                    <div class="wrapper-result disp-flex-col">
+                        <ul class="result-contents">
+                            <li class="result-content disp-flex-row">
+                                <img class="result-icon" src="{% static 'assets/ranking.png' %}">
+                                <p>1-2-3</p>
+                            </li>
+                            <li class="result-content disp-flex-row">
+                                <img class="result-icon" src="{% static 'assets/tickets.png' %}">
+                                <p>6200</p>
+                            </li>
+                            <li class="result-content disp-flex-row">
+                                <img class="result-icon" src="{% static 'assets/dividend.png' %}">
+                                <p>7800</p>
+                            </li>
+                            <li class="result-content disp-flex-row">
+                                <img class="result-icon" src="{% static 'assets/scale.png' %}">
+                                <p>+1600</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% for place_id, bettings_each_race_no in bettings_and_results.bettings.items %}
+        <div class="wrapper-timeline disp-flex-row">
+
+            <!-- 場所の情報 -->
+
+            <div class="wrapper-place-info disp-flex-col">
+                <div class="wrapper-place-circle disp-flex-col">
+                    <div class="wrapper-place-text align-center">
+                        <p class="place-name">{{ bettings_each_race_no.place_name }}</p>
+                        <p class="place-id">{{ place_id }}#</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 投票結果およびレース結果 -->
+
+            <div class="wrapper-vote-and-result disp-flex-row">
+                {% for race_no, combs in bettings_each_race_no.items %}
+                <div class="wrapper-vote-and-result-each-race">
+                    <div class="wrapper-race-no disp-flex-col align-center">
+                        <h3 class="race-no">{{ race_no }}R</h3>
+                    </div>
+                    <div class="wrapper-vote disp-flex-col">
+                        <div class="comb">
+                            <p class="comb-name">2連単</p>
+                            <p class="comb-content">1-2 47.3×1.0 4.51%</p>
+                            <p class="comb-content">1-2 47.3×1.0 4.51%</p>
+                            <p class="comb-content">1-2 47.3×1.0 4.51%</p>
+                        </div>
+                        <div class="comb">
+                            <p class="comb-name">3連単</p>
+                            <p class="comb-content">1-2-3 47.3×1.0 4.51%</p>
+                            <p class="comb-content">1-2-3 47.3×1.0 4.51%</p>
+                        </div>
+                    </div>
+                    <div class="wrapper-result disp-flex-col">
+                        <ul class="result-contents">
+                            <li class="result-content disp-flex-row">
+                                <img class="result-icon" src="{% static 'assets/ranking.png' %}">
+                                <p>1-2-3</p>
+                            </li>
+                            <li class="result-content disp-flex-row">
+                                <img class="result-icon" src="{% static 'assets/tickets.png' %}">
+                                <p>6200</p>
+                            </li>
+                            <li class="result-content disp-flex-row">
+                                <img class="result-icon" src="{% static 'assets/dividend.png' %}">
+                                <p>7800</p>
+                            </li>
+                            <li class="result-content disp-flex-row">
+                                <img class="result-icon" src="{% static 'assets/scale.png' %}">
+                                <p>+1600</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </section>
 </section>
 
 <script>

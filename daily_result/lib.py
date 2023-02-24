@@ -37,6 +37,33 @@ DICT_PLACE = {
     '大村': '24'
 }
 
+DICT_PLACE_NO = {
+    '01': '桐生', 
+    '02': '戸田', 
+    '03': '江戸川', 
+    '04': '平和島', 
+    '05': '多摩川', 
+    '06': '浜名湖', 
+    '07': '蒲郡', 
+    '08': '常滑', 
+    '09': '津', 
+    '10': '三国', 
+    '11': 'びわこ', 
+    '12': '住之江', 
+    '13': '尼崎', 
+    '14': '鳴門', 
+    '15': '丸亀', 
+    '16': '児島', 
+    '17': '宮島', 
+    '18': '徳島', 
+    '19': '下関', 
+    '20': '若松', 
+    '21': '芦屋', 
+    '22': '福岡', 
+    '23': '唐津', 
+    '24': '大村', 
+}
+
 DICT_BET_TYPE = {
     '3連単': 'trifecta', 
     '3連複': 'triple', 
@@ -52,6 +79,14 @@ DICT_BET_NUM = {
     'exacta': 5, 
     'triple': 6, 
     'trifecta': 7
+}
+
+DICT_BET_NAME = {
+    'win': '単勝', 
+    'quinella': '2連複', 
+    'exacta': '2連単', 
+    'triple': '3連複', 
+    'trifecta': '3連単', 
 }
 
 
@@ -609,3 +644,26 @@ class DealBucketData:
         }
         
         return dct_current_balance
+
+    def get_todays_bettings_and_results(
+        self
+    ) -> dict:
+        """ GCS（keiba-ai）から現在の投票結果やレース結果などの情報を取得 """
+
+        # 読み取り
+        todays_bettings_and_results = self.bucket.read_json('meta_data/todays_bettings_and_results.json')
+
+        # 場名を追加、買い目の名称を日本語に
+        for place_id in todays_bettings_and_results['bettings'].keys():
+            todays_bettings_and_results['bettings'][place_id]['place_name'] = DICT_PLACE_NO[str(place_id)]
+
+            for race_no in todays_bettings_and_results['bettings'][place_id].keys():
+                if race_no != 'place_name':
+                    for comb in DICT_BET_NAME.keys():
+                        try:
+                            todays_bettings_and_results['bettings'][place_id][race_no][DICT_BET_NAME[comb]] = todays_bettings_and_results['bettings'][place_id][race_no].pop(comb)
+                        except:
+                            print('miss')
+                            print(todays_bettings_and_results['bettings'][place_id][race_no][comb])
+
+        return todays_bettings_and_results
