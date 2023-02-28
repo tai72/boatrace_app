@@ -193,6 +193,10 @@ class CurrentSituationView(generic.TemplateView):
         bucket_dealer_keiba = DealBucketData('keiba-ai', 'keiba-ai')
         context['bettings_and_results'] = bucket_dealer_keiba.get_todays_bettings_and_results()
 
+        # テンプレート側でフィルターをかけるためのリストを定義
+        context['race_no_list'] = [str(_) for _ in range(1, 13)]
+        context['result_contents'] = ['buy_sum', 'return_sum', 'benefit']
+
         pprint(context)
 
         return render(request, 'current_situation.html', context)

@@ -12,6 +12,9 @@
 {% endblock head %}
 
 {% block contents %}
+
+<!-- Balance of Payments -->
+
 <section id="current-situation">
     <div class="wrapper-header align-center">
         <h1 class="inline-center main-header align-center">速報</h1>
@@ -41,6 +44,8 @@
         </div>
     </section>
 
+    <!-- TimeLine -->
+
     <section id="timeline">
         <div class="wrapper-subHeader align-center">
             <h3>Timeline</h3>
@@ -66,42 +71,46 @@
             <div class="wrapper-vote-and-result-scroll">
                 <div class="wrapper-vote-and-result disp-flex-row">
                     {% for race_no, comb_dct in bettings_each_race_no.items %}
-                    <div class="wrapper-vote-and-result-each-race">
-                        <div class="wrapper-race-no disp-flex-col align-center">
-                            <h3 class="race-no">{{ race_no }}R</h3>
-                        </div>
-                        <div class="wrapper-vote disp-flex-col">
-                            
-                            {% for comb_name, vote_list in comb_dct.items %}
-                            <div class="comb">
-                                <p class="comb-name">{{ comb_name }}</p>
-                                {% for vote in vote_list %}
-                                    <p class="comb-content">{{ vote.0 }} {{ vote.1 }}</p>
+                        {% if race_no in race_no_list %}
+                        <div class="wrapper-vote-and-result-each-race">
+                            <div class="wrapper-race-no disp-flex-col align-center">
+                                <h3 class="race-no">{{ race_no }}R</h3>
+                            </div>
+                            <div class="wrapper-vote disp-flex-col">
+                                
+                                {% for comb_name, vote_list in comb_dct.items %}
+                                    {% if comb_name not in result_contents %}
+                                    <div class="comb">
+                                        <p class="comb-name">{{ comb_name }}</p>
+                                        {% for vote in vote_list %}
+                                            <p class="comb-content">{{ vote.0 }} {{ vote.1 }}</p>
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
                                 {% endfor %}
                             </div>
-                            {% endfor %}
+                            <div class="wrapper-result disp-flex-col">
+                                <ul class="result-contents">
+                                    <li class="result-content disp-flex-row">
+                                        <img class="result-icon" src="{% static 'assets/ranking.png' %}">
+                                        <p>1-2-3</p>
+                                    </li>
+                                    <li class="result-content disp-flex-row">
+                                        <img class="result-icon" src="{% static 'assets/tickets.png' %}">
+                                        <p>{{ comb_dct.buy_sum }}</p>
+                                    </li>
+                                    <li class="result-content disp-flex-row">
+                                        <img class="result-icon" src="{% static 'assets/dividend.png' %}">
+                                        <p>{{ comb_dct.return_sum }}</p>
+                                    </li>
+                                    <li class="result-content disp-flex-row">
+                                        <img class="result-icon" src="{% static 'assets/scale.png' %}">
+                                        <p>{{ comb_dct.benefit }}</p>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
-                        <div class="wrapper-result disp-flex-col">
-                            <ul class="result-contents">
-                                <li class="result-content disp-flex-row">
-                                    <img class="result-icon" src="{% static 'assets/ranking.png' %}">
-                                    <p>1-2-3</p>
-                                </li>
-                                <li class="result-content disp-flex-row">
-                                    <img class="result-icon" src="{% static 'assets/tickets.png' %}">
-                                    <p>6200</p>
-                                </li>
-                                <li class="result-content disp-flex-row">
-                                    <img class="result-icon" src="{% static 'assets/dividend.png' %}">
-                                    <p>7800</p>
-                                </li>
-                                <li class="result-content disp-flex-row">
-                                    <img class="result-icon" src="{% static 'assets/scale.png' %}">
-                                    <p>+1600</p>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                        {% endif %}
                     {% endfor %}
                 </div>
             </div>
