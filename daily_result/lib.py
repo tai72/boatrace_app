@@ -665,5 +665,11 @@ class DealBucketData:
                         except:
                             print('miss')
                             print(todays_bettings_and_results['bettings'][place_id][race_no][comb])
+        
+        # race_no でソートする
+        for place_id in todays_bettings_and_results['bettings'].keys():
+            for race_no in range(1, 13):
+                if todays_bettings_and_results['bettings'][place_id].get(str(race_no)) != None:
+                    todays_bettings_and_results['bettings'][place_id][str(race_no)] = todays_bettings_and_results['bettings'][place_id].pop(str(race_no))
 
         return todays_bettings_and_results
